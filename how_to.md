@@ -35,5 +35,12 @@ pub enum Error {
 | --- | --- |
 |aaa  | bbbb |
 
+## Git
+[Guida](https://forum.obsidian.md/t/the-easiest-way-to-setup-obsidian-git-to-backup-notes/51429) 
+Per commit ->    CTRL + P
+			   cerca "backup"
+
+---
+
 ## Possibili Callouts 
 ![[Pasted image 20240213173038.png]]
