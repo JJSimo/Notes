@@ -53,7 +53,7 @@ pub enum Error {
 Settings > Community Plugins > Browse
 Then enable the plugin
 Restart the application when you changed something
-![[Pasted image 20240214112450.png]]
+![[Pasted image 20240214120606.png]]
 ### Colored Text
 #### Colors
 ![[Pasted image 20240214113010.png]]   
