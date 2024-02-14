@@ -10,6 +10,13 @@ devi creare una NatNetwork =>       - File > Tools > Network Manager
 
 ----
 ## Tools
+### General
+#### Locate
+useful to find where a file/program is located
+`locate file.txt`
+
+----
+### Information Gathering
 #### Netdiscover
 tools for scanning the entire net to find hosts ip (using arp)
 `sudo netdiscover -r 10.0.2.0/24`           -r = scan a given range instead of     
@@ -50,8 +57,25 @@ Altre possibili estensioni —> pdf, rar, zip, docx … (+ ne metti e + è lunga
 - Se clicchi con il tasto dx su un file e apri nel browser ti mostrerà la pagina
 ![[Pasted image 20240214123126.png]]
 
+#### dirb
+finds hidden file/subdirectories website
+`dirb http://10.0.2.152`
+> [!INFO] 
+> For each subdomains it finds =>  check inside that subdomains if there are others  
+> =>
+> is **<span style="color:#ff0000">recursive</span>** => can <span style="color:#ff0000">be slow</span>
 
----- 
+#### ffuf
+finds hidden file/subdirectories website
+`sudo apt install ffuf`
+`ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ_VARIABLE -u http://10.0.2.152/FUZZ_VARIABLE`
+for each word inside the wordlist => try to find if it exists the webiste + word
+> [!INFO] 
+> by default it's not recursive
+> =>
+> Check only one deep layer => <span style="color:#00b050">faster</span>
+
+-----
 ### Enumerating SMB
 #### Metasploit
 If you don't know a lot of a protocol =>  search for it inside metasploit to see the modul
@@ -66,7 +90,7 @@ If you don't know a lot of a protocol =>  search for it inside metasploit to see
 tries to connect anonimmously to smb file sharing
 `smbclient -L \\\\\\\\10.0.2.152\\\\`                 (-L list)
 
-> [!INFO] Se da questo errore
+> [!WARNING] Se da questo errore
 > `protocol negotiation failed: NT_STATUS_IO_TIMEOUT`
 > ⇒  modifica il file `/etc/samba/smb.conf` 
 > Aggiungendo sotto “global”:
@@ -79,3 +103,19 @@ Try to connect to ADMIN$:
 `smbclient -L \\\\\\\\10.0.2.152\\\\ADMIN$`
 leave password empty
 
+---
+
+### Hash
+#### Hash-identifier
+check if the string that you have is an hash and what type
+`hash-identifier`
+`paste hash`
+
+#### hashcat
+useful for cracking hash using wordlist         [[cheet#Locate]]
+`locate wordlist.txt`
+`hashcat -m 0 file_contains_hash.txt /path/wordlist.txt`
+`-m 0` -->  use module 0 => crack md5
+
+> [!WARNING] 
+> hashcat is heavy on GPU => it's bettere to avoid it inside a VM
