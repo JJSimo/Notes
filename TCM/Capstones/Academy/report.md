@@ -105,3 +105,13 @@ we'll use [[cheet#linpeas|linpeas]] to search any potential privilege escalation
 	- Here we are!
 	- <span style="color:#00b050">We have root access</span>
 	- ![[Pasted image 20240214174016.png]]
+
+
+> [!INFO] 
+>This worked because the backup.sh script is executed by root each minute
+
+
+
+
+
+
