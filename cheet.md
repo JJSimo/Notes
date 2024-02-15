@@ -39,12 +39,13 @@ tools for scanning ports to identify open ports
 
 -----
 
-### Enumerating HTTP e HTTPS
-#### Nikto
+### Enumerating 
+#### Enumerating HTTP and HTTPS
+##### Nikto
 scanning website vulnerabilities
 `nikto -h http://10.0.2.152`      -h = host
 
-#### Dirbuster
+##### Dirbuster
 finds hidden file/subdirectories website
 `dirbuster`
 ![[Pasted image 20240214122906.png]]
@@ -61,7 +62,7 @@ Altre possibili estensioni —> pdf, rar, zip, docx … (+ ne metti e + è lunga
 - Se clicchi con il tasto dx su un file e apri nel browser ti mostrerà la pagina
 ![[Pasted image 20240214123126.png]]
 
-#### dirb
+##### dirb
 finds hidden file/subdirectories website
 `dirb http://10.0.2.152`
 > [!INFO] 
@@ -69,7 +70,7 @@ finds hidden file/subdirectories website
 > =>
 > is **<span style="color:#ff0000">recursive</span>** => can <span style="color:#ff0000">be slow</span>
 
-#### ffuf
+##### ffuf
 finds hidden file/subdirectories website
 `sudo apt install ffuf`
 `ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ_VARIABLE -u http://10.0.2.152/FUZZ_VARIABLE`
@@ -80,8 +81,8 @@ for each word inside the wordlist => try to find if it exists the webiste + word
 > Check only one deep layer => <span style="color:#00b050">faster</span>
 
 -----
-### Enumerating SMB
-#### Metasploit
+#### Enumerating SMB
+##### Metasploit
 If you don't know a lot of a protocol =>  search for it inside metasploit to see the modul
 `search smb`
 `use 0`
@@ -90,7 +91,7 @@ If you don't know a lot of a protocol =>  search for it inside metasploit to see
 `set RHOSTS ...`
 `run`
 
-#### Smbclient
+##### Smbclient
 tries to connect anonimmously to smb file sharing
 `smbclient -L \\\\\\\\10.0.2.152\\\\`                 (-L list)
 
@@ -108,7 +109,11 @@ Try to connect to ADMIN$:
 leave password empty
 
 ---
+#### Enumerating DNS
+##### dnsrecon
+ss
 
+----
 ### Hash
 #### Hash-identifier
 check if the string that you have is an hash and what type
