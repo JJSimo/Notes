@@ -9,6 +9,12 @@ devi creare una NatNetwork =>       - File > Tools > Network Manager
 						     - Create
 
 ----
+## Linux
+
+`sudo -l`
+ tells you which command you can execute as root without inserting the root password
+
+-------
 ## Tools
 ### General
 #### Locate
@@ -121,8 +127,16 @@ useful for cracking hash using wordlist         [[cheet#Locate]]
 > hashcat is heavy on GPU => it's bettere to avoid it inside a VM
 
 ----
-## Privilege Escalation
-### linpeas
+### Crack
+#### fcrackzip
+cracks password protected zip files with brute force or dictionary based attacks
+`fcrackzip -v -u -D -p /wordlist.txt zipName.zip`
+`-v` -->  verbose
+`-u` -->  unzip
+`-D` --> Dictionary attack
+`-p` -->  zip that we want to crack
+### Privilege Escalation
+#### linpeas
 automated tool to check if there are some potential priv escal inside the target
 [linpeas github](https://github.com/carlospolop/PEASS-ng/releases/tag/20240211-db8c669a)
 - Saved it locally inside a folder (+)
@@ -134,3 +148,9 @@ automated tool to check if there are some potential priv escal inside the target
 	- `chmod +x linpeas.sh`
 	- `./linpeas.sh`
 	
+
+----
+## Sites
+### GTFOBins 
+curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
+[GTFOBins](https://gtfobins.github.io/)
