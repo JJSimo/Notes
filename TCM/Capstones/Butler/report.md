@@ -51,3 +51,55 @@ systeminfo  -->  to get info about the machine (example <span style="color:#00b0
 
 We'll use [[cheet#winpeas|winpeas]] -->  same as [[cheet#linpeas|linpeas]], but for windows
 Follow the steps
+
+inside the winpeas output we can find something intresting:
+![[Pasted image 20240215160050.png]]
+<span style="color:#00b050">What it means:</span>
+- There is process called WiseBootAssistant
+- Run as administrator
+- the process runs the .exe inside the path in the image
+- the path has:
+	- <span style="color:#00b050">no quotes</span> -->  so is not inside " "
+	- <span style="color:#00b050">space detected</span> -->  as you can see inside some of the subdir there are some 
+	                    spaces
+<span style="color:#00b050">Why is this useful:</span>
+every time windows tries to execute this process:
+- Every time windows finds a space in the path => it tries 1 of all to add .exe
+     Es con Wise Care 365 -->  quando arriva a Wise 
+                          =>
+                          prima prova con Wise.exe
+                          fa così per tutto il path -->  finchè non esegue il .exe
+> [!INFO] 
+> How to fix this problem:
+> put the path inside " "
+
+<span style="color:#00b050">What we can do:</span>
+- We can create a reverse_shell and call it Wise
+- Put it inside the Wise Folder
+- => 
+     in this way windows:
+     - before will enter inside the Wise Care 365
+     - will execute our shell
+
+### Create Reverse Shell
+Follow these [[cheet#Create and rename a shell|steps]]
+then:
+- create a web server from the attacker to upload the reverse shell
+- dowload the reverse shell from the victim with `certutil`
+![[Pasted image 20240215162609.png]]
+then:
+`move Wise.exe "C:\Program Files (x86)\Wise\"`
+
+Now we can't just execute the .exe:
+bc -->  in this way it will execute as normal user
+=>
+<span style="color:#00b050">we need to stop and restart the Service the we found with winpeas:</span>
+`sc stop WiseBootAssistant`      stop the service
+`sc query WiseBootAssistant`    check if the service is down
+`sc start WiseBootAssistant`    run the service
+
+inside our netcat listener:
+![[Pasted image 20240215163850.png]]
+
+<span style="color:#00b050">We have a root shell</span>
+
