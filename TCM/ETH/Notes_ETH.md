@@ -2,11 +2,11 @@
 - [TCM](https://academy.tcm-sec.com/)
 - [TCM Drive](https://www.notion.so/Ethical-Hacking-d4cc19377a5d413ab305ac4695638e8e)
 
-<span style="color:#00b050">aaaaaaaa</span>
+-------
+## ETH Notion
+[[Ethical Hacking d4cc19377a5d413ab305ac4695638e8e.pdf|Notion]]
 
-
-### Enumerating
-#### SSH
+#### Enumerating SSH
 - If you find ssh open => try to bruteforce the login
 	2 reasons:
 	1) Look for weak passwords
@@ -18,19 +18,32 @@
 	  if you find this website:
 	  =>  - you can upload a file using FTP
 	     - execute it by accessing via browser
-	     -
 
 
+## Cheet
+[[cheet|cheet]]
 
-
-
-
-
-
-
-
-
-
-
-
+-------
 # Capstones
+[[Notes/TCM/Capstones/Blue/report|Blue Report]]
+[[Notes/TCM/Capstones/Academy/report|Academy Report]]
+[[Notes/TCM/Capstones/dev/report|Dev Report]]
+[[Notes/TCM/Capstones/Butler/report|Butler Report]]
+[[Notes/TCM/Capstones/Blackpearl/report|Back pearl Report]]
+
+# Active Directory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
