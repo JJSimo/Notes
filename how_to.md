@@ -38,7 +38,7 @@ pub enum Error {
 ### Change Heading Color
 - Right click on the project folder > Show in System Explorel
 - Create "snippets" folder
-- Create file .css (es Simo-Colred Headings.css)
+- Create file .css (es Simo-Colored Headings.css)
 ```css
 .cm-header-1 {color: #00aaf6; }
 .cm-header-2 {color: #00aaf6; }
@@ -53,7 +53,7 @@ pub enum Error {
 Settings > Community Plugins > Browse
 Then enable the plugin
 Restart the application when you changed something
-![[Pasted image 20240214120606.png]]
+![[Pasted image 20240216135015.png]]
 ### Colored Text
 #### Colors
 ![[Pasted image 20240214113010.png]]   

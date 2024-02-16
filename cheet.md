@@ -1,7 +1,7 @@
 #### Virtual Box
 Set VM internet:
 - **Bridge** -->  conn a internet   (selezioni il ponte in base a se sei conn al wifi o ethern)
-- Nat -->  conn a internet + conn tra diverse vm
+- **Nat** -->  conn a internet + conn tra diverse vm
             (click also Advanced > Promiscous mode: Allow All)
 
 Per Nat:
