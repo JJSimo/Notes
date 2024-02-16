@@ -37,6 +37,13 @@ tools for scanning ports to identify open ports
 `-A` —> show me all that you found
 `-Pn` --> treat all hosts as online -- skip host discovery
 
+##### dnsrecon
+tools for gathering DNS information
+`dnsrecon -r 127.0.0.1/24 -n 10.0.2.154 -d blabla`
+`-r `--> range (here we are scanning local host)
+`-n` --> NS (victim ip that exposes dns)
+`-d `--> domain (can write whatever you want but it's MANDATORY)
+
 -----
 
 ### Enumerating 
