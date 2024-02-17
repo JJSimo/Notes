@@ -142,6 +142,13 @@ type of objects:
 ![[Pasted image 20240217114741.png]]
 
 
+-----
 ## AD LAB
+### Build up
+- Download from here:
+	- [Windows 10 enterprise 64](https://www.microsoft.com/en-us/evalcenter/download-windows-10-enterprise)
+	- [Windows Server 22 64](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
 
-![[Pasted image 20240217122304.png]]
+- Open Virtual Box 
+#### Windows Server Setup
+
