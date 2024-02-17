@@ -149,6 +149,172 @@ type of objects:
 	- [Windows 10 enterprise 64](https://www.microsoft.com/en-us/evalcenter/download-windows-10-enterprise)
 	- [Windows Server 22 64](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
 
-- Open Virtual Box 
 #### Windows Server Setup
+Open [[cheet#VM Ware|VM Ware]]
+Create a New VM:
+- Select Install OS later > Windows Server 2022 > split disk in multi files > 60gb
+- Finish 
+- Then:
+	- set at least 8gb RAM
+	- set the ISO to the Server iso that you downloaded
+	- run the vm
+	- Select Custom Installation
+	- Create a partition
+	- ![[Pasted image 20240217152003.png]]
+	- Set a password -->  `P@$$w0rd!`
+
+Now:
+install the vm tools --> [[Notes_ETH#Install VM Tools (guest addition)]]
+
+##### Rename PC
+then:
+- click windows button > search name > click on View your pc Name > Rename this pc
+- call it <span style="color:#00b050">HYDRA-DC</span>
+- reboot
+
+Now we need to make this machine our -->  <span style="color:#00b050">AD Domain Controller </span>
+=>
+##### Create our AD Domain Controller
+On the Server Manager Dashboard: (the default page that is open)
+- Click on Manage > Add Role and Features
+- Next > Role based or feature > Next > Select Active Directory Domain Services >
+     Add Features >
+- Next > Next > Click restart the destination automatically if required > yes > Install
+=>
+We are installing our Domain Controller
+
+<span style="color:#00b050">When it finishes the installation:</span>
+- click on Promote this server to a domain controller
+- Add a new Forest, called MARVEL.local   (I'm just following the tutorial)
+- click Next > retype the same password as the admin `P@$$w0rd!`
+- click Next until you can click on Install
+- when it finishes click Close and wait for reboot
+
+After the reboot:
+<span style="color:#00b050">we'll enter inside our domain "marvel"!</span>
+![[Pasted image 20240217154740.png]]
+
+##### Create a Certificate Service
+Last thing after the reboot:
+we need to do again the same steps for adding -->  the Certificate Service
+We need this to -->  <span style="color:#00b050">verify the identity of the Domain Controller</span>
+=>
+- Click on Manage > Add Role and Features
+- Next > Role based or feature > Next > Select Active Directory Certificate Services > Add Features >
+- Next > Next > Next >Click restart the destination automatically if required > yes > Install
+
+<span style="color:#00b050">When it finishes the installation:</span>
+- click on Configure Active Directory Certificate Services on the dest server
+- Next > Select Certificate Authority > Next Until Validity > Select 99  years
+- Click Next until you can click Configure
+- When it finishes -->  Close > Close > Reboot
+- Login and then Shutdown the VM
+
+#### Windows Machines
+- Create a new VM > Select the windows ISO > Select Windows 10 enterprise
+- Click Next > Select as Virtual Machine Name "THEPUNISHER" > Next > 60 gb
+- Finish
+
+Customize the VM:
+- Remove the floopy disk
+- Select memory to 5 gb
+- Run
+
+Now:
+recreate a second machine indentical to this one
+Select as Virtual Machine Name "SPIDERMAN"
+
+In both we need to do the same steps:
+- Run them
+- Select Custom Installation
+- Create a partition as in the Domain Controller Machine
+- when you arrive here:
+- ![[Pasted image 20240217162901.png]]
+- Click on domain join instead 
+- call SPIDERMAN -->  peterpark
+- call THEPUNISHER -->  frankcastle
+- set password -->  `Password1`
+- set all the answers to `bob`
+- deselect all
+- skip cortana
+- <span style="color:#00b050">the machine will enter inside windows</span>
+- install the [[Notes_ETH#Install VM Tools (guest addition)|VMWare Tools]] and restart
+- change the [[Notes_ETH#Rename PC|pc name]] and reboot
+- Shutdown both
+
+:)
+
+##### Install VM Tools (guest addition)
+Inside the VM go to the upper bar:
+- Virtual Machine > Install VMWare Tools
+- It should open the autorun inside the VM for installing the tools
+- if not open the file explorel inside the VM and search for VMWare Tools and run the setup64
+
+
+
+#### Setting Up Users, Groups, and Policies
+Now we are going to set -->  Users, Groups and Policies
+Why:
+- to exploit them after in the course 
+- see some of the wrong things that the people set with AD
+=>
+##### Add Users
+Run the Domain Controller
+From the Server Manager:
+- click on Tools > Active Directory Users and Computers
+- click on MARVEL.local > right click on it > New > Organizational Unit
+- Name it `Groups`
+- Move these selected groups to the folder that we have created (type yes)
+- ![[Pasted image 20240217172153.png]]
+- Move even these to the same folder
+- ![[Pasted image 20240217172306.png]]
+
+<span style="color:#00b050">Now we are going to create new root and normal users:</span>
+- right click on Administrator > Copy
+- create user Tony Stark with user logon name = tstark > Next > put `Password1` > 
+     set Password never expires > Next > Finish
+- do the same => create usr SQL(first name) Sevice(second name), logon name = SQLService >
+      put `MYpassword123#` > set Password never expires > Next > Finish
+- double click on SQL Service > set the description as `The password is MYpassword123#`
+> [!warning] 
+> this is something that some people do
+> They think that is secure to put the password inside the description... but it is not
+
+- right click on white space under the user > New > User
+- create users for our machine THEPUNISHER and SPIDERMAN 
+     =>
+  - first user Frank Castle logon name = fcastle and put `Password1`  > set only password never expires > Next > Finish
+  - same things with Peter Park logon name = ppark and put `Password2` > and =
+ - quit
+
+From the Server Manager:
+- click on File and Storage Services > Shares > New Share > Next > Next >
+- Share name = hackme > Next > Next > Create
+
+##### Set up the Service Account
+open cmd ad admin
+`setspn -a HYDRA-DC/SQLService.MARVEL.local:60111 MARVEL\SQLService`
+
+##### Set up a Group Policy 
+click win button > search for Group Policy Management 
+Right click on MARVEL.local > Create a GPO ...
+![[Pasted image 20240217174005.png]]
+- Named in Disable Windows Defender
+- right click on Disable Windows Defender > Edit >
+- ![[Pasted image 20240217174259.png]]
+- Navigate to Windows Components > search for Microsoft Defender Antivirus
+- On the right panel double click on -->  Turn off Microsoft Defender Antivirus
+- select Enable > Apply > Ok
+- Return to the Disable Windows Defender > right click > Enforced 
+     =>  every time a user/pc join this domain, it will apply this policy
+
+##### Set a static IP
+- open a cmd and type `ipconfig` 
+- copy the IP and the default gateway
+- go here
+- ![[Pasted image 20240217174814.png]]
+- click on properties > Internet Protocol Version 4 > set the ip and default gateway to values found inside cmd
+
+
+<span style="color:#00b050">shutdown the Domain Controller </span> 
 

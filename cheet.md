@@ -9,7 +9,17 @@ devi creare una NatNetwork =>       - File > Tools > Network Manager
 						     - seleziona Nat Networks
 						     - Create
 
-----
+#### VM Ware 
+How to install on ubuntu:
+- go [here](https://www.vmware.com/products/workstation-player.html)
+- download the .bundle file
+- type `sudo bash VMware-Player.bundle`
+- finish
+
+##### Install VMWare Tools in ubuntu
+follow [[Notes_ETH#Install VM Tools (guest addition)|these steps]]
+
+-------
 ## Linux
 
 `sudo -l`
