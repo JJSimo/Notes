@@ -144,3 +144,4 @@ type of objects:
 
 ## AD LAB
 
+![[Pasted image 20240217122304.png]]
