@@ -159,8 +159,7 @@ Create a New VM:
 	- set the ISO to the Server iso that you downloaded
 	- run the vm
 	- Select Custom Installation
-	- Create a partition
-	- ![[Pasted image 20240217152003.png]]
+	- Create a partition![[Pasted image 20240217152003.png]]
 	- Set a password -->  `P@$$w0rd!`
 
 Now:
@@ -212,7 +211,7 @@ We need this to -->  <span style="color:#00b050">verify the identity of the Doma
 
 #### Windows Machines
 - Create a new VM > Select the windows ISO > Select Windows 10 enterprise
-- Click Next > Select as Virtual Machine Name "THEPUNISHER" > Next > 60 gb
+- Click Next > Select as Virtual Machine Name "<span style="color:#00b050">THEPUNISHER</span>" > Next > 60 gb
 - Finish
 
 Customize the VM:
@@ -222,17 +221,16 @@ Customize the VM:
 
 Now:
 recreate a second machine indentical to this one
-Select as Virtual Machine Name "SPIDERMAN"
+Select as Virtual Machine Name "<span style="color:#00b050">SPIDERMAN</span>"
 
 In both we need to do the same steps:
 - Run them
 - Select Custom Installation
 - Create a partition as in the Domain Controller Machine
-- when you arrive here:
-- ![[Pasted image 20240217162901.png]]
+- when you arrive here:![[Pasted image 20240217162901.png]]
 - Click on domain join instead 
-- call SPIDERMAN -->  peterpark
-- call THEPUNISHER -->  frankcastle
+- call SPIDERMAN -->  <span style="color:#00b050">peterpark</span>
+- call THEPUNISHER -->  <span style="color:#00b050">frankcastle</span>
 - set password -->  `Password1`
 - set all the answers to `bob`
 - deselect all
@@ -264,10 +262,8 @@ From the Server Manager:
 - click on Tools > Active Directory Users and Computers
 - click on MARVEL.local > right click on it > New > Organizational Unit
 - Name it `Groups`
-- Move these selected groups to the folder that we have created (type yes)
-- ![[Pasted image 20240217172153.png]]
-- Move even these to the same folder
-- ![[Pasted image 20240217172306.png]]
+- Move these selected groups to the folder that we have created (type yes)![[Pasted image 20240217172153.png]]
+- Move even these to the same folder ![[Pasted image 20240217172306.png]]
 
 <span style="color:#00b050">Now we are going to create new root and normal users:</span>
 - right click on Administrator > Copy
@@ -296,9 +292,10 @@ open cmd ad admin
 `setspn -a HYDRA-DC/SQLService.MARVEL.local:60111 MARVEL\SQLService`
 
 ##### Set up a Group Policy 
-click win button > search for Group Policy Management 
-Right click on MARVEL.local > Create a GPO ...
-![[Pasted image 20240217174005.png]]
+<span style="color:#00b050">Now we are going to disable Microsoft windows defender:</span> (to make  easier the course)
+- click win button > search for Group Policy Management 
+- Right click on MARVEL.local > Create a GPO ...![[Pasted image 20240217174005.png]]
+
 - Named in Disable Windows Defender
 - right click on Disable Windows Defender > Edit >
 - ![[Pasted image 20240217174259.png]]
@@ -311,10 +308,71 @@ Right click on MARVEL.local > Create a GPO ...
 ##### Set a static IP
 - open a cmd and type `ipconfig` 
 - copy the IP and the default gateway
-- go here
-- ![[Pasted image 20240217174814.png]]
-- click on properties > Internet Protocol Version 4 > set the ip and default gateway to values found inside cmd
+- go here ![[Pasted image 20240218112436.png]]![[Pasted image 20240217174814.png]] 
+- click on Properties > Internet Protocol Version 4 > set the ip and default gateway to values found inside cmd (`ip = 172.16.214.128`)
 
 
 <span style="color:#00b050">shutdown the Domain Controller </span> 
 
+
+
+#### Joining our machines to the Domain
+Now we can:
+- reduce the RAM of Domain Controller
+- login inside all the 3 machines
+
+For the 2 windows machines:
+- go here![[Pasted image 20240218112424.png]]
+
+- Right Click on Ethernet > Properties > Internet Protocol Version 4 
+- Set the DNS server address as our Domain Controller IP  (`172.16.214.128`)
+
+<span style="color:#00b050">Now we want to join our domain:</span>
+- click win button > search domain > click on Access work or school > Connect
+- click Join this device to a local Active Directory domain
+- enter the domain name --> `MARVEL.local`
+- insert the admin credentials -->  `administrator - P@$$w0rd!`
+- User account and Account type both administrator type
+- Restart
+- do the same for the other windows machine
+
+<span style="color:#00b050">Check if the windows machines are connected to our domain:</span>
+- login inside Domain Controller
+- from the Server Manager Dashboard:
+	- click on Tools > Active Directory Users and Computers > MARVEL.local > Computers
+	- Check that you can see the 2 win machines![[Pasted image 20240218115809.png]]
+
+<span style="color:#00b050">let's go back to THEPUNISHER</span>
+- login as MARVEL\administrator  (type `P@$$w0rd!`)
+- we want to add some local administrator accounts:
+	- click win button > search Edit local users and groups 
+	- now we'll enable the local Administrator account:  (bad practice that people do)
+		- right click Administrator > Set Password > `Password1!` > Ok
+		- double click into Administrator > uncheck Account is disabled > Ok
+		  
+     - click on Groups > Administrator > Add > type fcastle > Check Names > Ok > Apply
+	 - close all these tabs
+- now we enable the Network:
+	- click on the file explorer
+	- Network > click Ok on the error that you'll see > double click on this![[Pasted image 20240218120958.png]]
+	- click on Turn on network discovery and file sharing
+	- <span style="color:#00b050">Now we can see our Domain Controller!</span>
+
+<span style="color:#00b050">let's do all the same steps into SPIDERMAN:</span>
+- but we'll add 2 users this time:
+	- all the same steps
+	- click on Groups > Administrator > Add > type pparker > Check Names > Ok > Apply
+	- click on Groups > Administrator > Add > type fcastle > Check Names > Ok > Apply
+	- continue with the same steps
+
+  - now logout as this administrator account (win button > Administrator > Sign out)
+  - <span style="color:#00b050">sign in as local administrator:</span>
+	  - `.\peterparker`
+	  - `Password1`
+  - click on file explorer > This PC > Computer > Map network drive![[Pasted image 20240218121654.png]]
+	- write as folder -->  `\\HYDRA-DC\hackme`
+	- enable Connect using different  > Finish
+	- enter the administrator credential -->  `administrator - P@$$w0rd!`
+	- <span style="color:#00b050">Now we have a share drive into our machine!</span>![[Pasted image 20240218121954.png]]
+
+**WE HAVE FINISHED THE AD LAB SETUP :)**
