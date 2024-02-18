@@ -376,3 +376,24 @@ For the 2 windows machines:
 	- <span style="color:#00b050">Now we have a share drive into our machine!</span>![[Pasted image 20240218121954.png]]
 
 **WE HAVE FINISHED THE AD LAB SETUP :)**
+
+
+### Intro AD Attacks
+Scenario that we are going to simulate:
+- we have a client
+- we are performing a pentest
+- as a company we send a laptop to the client
+	- inside the laptop there is a VPN connection
+	- if the VPN connection is enabled:
+		- => the pentest team can connect to the VPN
+		- => we can run the attacks remotely 
+		- 
+> [!info] 
+> This is the typical scenario for a pentester
+> =>
+> you don't need anymore to go phisicaly to the client company
+
+=>
+	the idea is that -->  - the client laptop has been compromised
+					 - we are going to run different attacks
+
