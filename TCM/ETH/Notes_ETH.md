@@ -369,7 +369,7 @@ For the 2 windows machines:
   - <span style="color:#00b050">sign in as local administrator:</span>
 	  - `.\peterparker`
 	  - `Password1`
-  - click on file explorer > This PC > Computer > Map network drive![[Pasted image 20240218121654.png]]
+  - click on file explorer > This PC > Computer > Map network drive (4 in the img is a mistake)![[Pasted image 20240218121654.png]]
 	- write as folder -->  `\\HYDRA-DC\hackme`
 	- enable Connect using different  > Finish
 	- enter the administrator credential -->  `administrator - P@$$w0rd!`
