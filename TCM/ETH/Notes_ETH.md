@@ -444,4 +444,19 @@ save the hash inside a file called hash.txt =>  `echo fcastle::MARVEL:... > hash
 ![[Pasted image 20240225112104.png]]
 <span style="color:#00b050">password found :)</span>
 
+##### LLMNR Mitigation
+Best defence:
+- disable LLMNR and NBT-NS
 
+If you need this protocol => best practice:
+- require Network Access Control
+- use really strong strong password
+
+#### SMB Relay Attack
+Instead of cracking hashes obtained with Responder:
+we can -->      - relay those hashes with SMB
+            - gain access to a machine
+
+<span style="background:#fff88f">requirements for this attack:</span>
+- SMB signing -->  must be disabled 
+- relayed user credentials -->  must be admin on machine (for any real value)
