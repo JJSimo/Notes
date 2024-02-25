@@ -26,7 +26,8 @@ follow [[Notes_ETH#Install VM Tools (guest addition)|these steps]]
  tells you which command you can execute as root without inserting the root password
 
 `locate file.txt`
-useful to find where a file/program is located
+useful to find where a file/program is located   (to update the file type -->  `sudo updatedb`)
+
 
 -------
 ## Tools
@@ -143,6 +144,11 @@ useful for cracking hash using wordlist         [[cheet#Locate]]
 `hashcat -m 0 file_contains_hash.txt /path/wordlist.txt`
 `-m 0` -->  use module 0 => crack md5
 
+if you need to use a module that you don't know:
+`hashcast --help | grep protocol`
+and look for module number for the protocol that you need
+
+
 > [!WARNING] 
 > hashcat is heavy on GPU => it's bettere to avoid it inside a VM
 
@@ -155,6 +161,10 @@ cracks password protected zip files with brute force or dictionary based attacks
 `-u` -->  unzip
 `-D` --> Dictionary attack
 `-p` -->  zip that we want to crack
+
+
+
+-----
 ### Privilege Escalation
 #### linpeas
 automated tool to check if there are some potential priv escal inside the target
@@ -221,7 +231,26 @@ Set [[cheet#FoxyProxy]]
 
 to listen for the reverse shell -->  `nc -nvlp 7777`
 
------
+------
+### Active Directory
+#### Responder
+LLMNR/NBT-NS/mDNS Poisoner
+`sudo python3 Responder.py -I vmnet8 -dwPv`
+`-I` -->   interface
+`-d` -->  enable answers for DHCP broadcast requests (this option injects a WPAD server in the)
+                                              DHCP response
+`-w` -->  start a WPAD rogue proxy server (that allows a browser to automatically discover proxy)
+`-P` -->  force NTLM authentication for the proxy
+`-v` -->  verbose
+
+after having found the the hash you can use -->  [[cheet#hashcat|hashcat]] (to decrypt the password)
+
+> [!warning] 
+> Need to be on the same network as the victim
+> if it doesn't work try without `-P`
+> if it fails try to kill apache server (`sudo /etc/init.d/apache2 stop`)
+
+--------
 ## Sites
 ### GTFOBins 
 curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems

