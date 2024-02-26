@@ -562,3 +562,41 @@ if you reboot THEPUNISHER:
 ![[Pasted image 20240226122019.png]]
 
 
+#### Passback Attacks
+Multi-Function Peripherals (MFPs) -->  are devices that must be considered during an internal 
+                                 pentesting
+What can a printer brings:
+- Credential Disclosure
+- File System Access
+- Memory Access
+
+Here you can read about it --> [How to Hack Through a Pass-Back Attack: MFP Hacking Guide](https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack)
+
+### Initial Internal attack strategy
+what are the things that you want to do in an internal pentest:
+- using Responder or mitm6 
+> [!info] Best time to run Responder:
+> - in the morning before users login 
+> - after lunch 
+>   =>
+>   the best time is -->  when there is a lot of traffic
+
+- run scans (as nessus scan) -->  to generate traffic
+- if scans take too long and we don't find any respond =>  start looking for websites in scope
+												 (using `http_version`)
+- look for default credential on web logins:
+	- Printers
+	- Jenkins
+	- etc
+
+
+
+
+### Post-Compromise Enumeration
+What happen after we have compromised a domain:
+we go back to do -->  <span style="color:#00b050">enumeration</span>
+
+once we have a valid account in a domain:
+we have the ability to get -->  a lot of information 
+
+####  Domain Enumeration with ldapdomaindump
