@@ -600,3 +600,22 @@ once we have a valid account in a domain:
 we have the ability to get -->  a lot of information 
 
 ####  Domain Enumeration with ldapdomaindump
+[[cheet#ldapdomaindump|ldapdomaindump]] 
+`mkdir marvel.local`
+`sudo ldapdomaindump ldaps://172.16.214.128 -u 'MARVEL\fcastle' -p Password1 -o marvel.local'
+
+we'll find all the information obtained inside the -->  marvel.local folder
+first thing we want to know:
+<span style="color:#00b050">which are our high value targets </span> => lets open the <span style="background:#fff88f">domain_users_by_group </span><span style="background:#fff88f">file</span> (inside marvel dir)
+![[Pasted image 20240301143955.png]]
+
+As you can remember:
+- during active directory setup in the [[Notes_ETH#Add Users]]
+- we created a user SQL and we write in the description -->  the password
+- as you can see from the image -->  with this tool <span style="color:#00b050">we found that password </span>
+
+we can also see:
+- all the accounts -->  inside the same file
+- all the hosts -->  inside the <span style="background:#fff88f">domain_users file </span>
+
+

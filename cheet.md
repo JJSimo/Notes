@@ -298,6 +298,17 @@ now we need an event occur in the network:
 for example -->      - reboot THEPUNISHER
                 - login inside THEPUNISHER as MARVEL\administrator 
 
+#### ldapdomaindump
+tools for active directory enumeration
+you need to have an account to gather some information
+`mkdir directory_for_saving_information`
+`sudo ldapdomaindump ldaps://172.16.214.128 -u 'MARVEL\fcastle' -p Password1 -o directory_for_saving_information`
+172.16.214.128 -->  domain controller IP
+-u -->  user
+-p -->  password
+-o -->  directory for saving the information
+
+
 --------
 ## Sites
 ### GTFOBins 
