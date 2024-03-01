@@ -353,6 +353,13 @@ now from the bloodhound interface:
 - in the right bar click on -->  upload data
 - select all files inside the bloodhound folder
 
+#### plumHound
+`cd /opt/PlumHound`
+`sudo python3 PlumHound.py -x tasks/default.tasks -p neo4j1`
+to use it -->  bloodhound is running
+`cd reports`
+open the index.html file
+
 -----
 ## Sites
 ### GTFOBins 
