@@ -308,8 +308,52 @@ you need to have an account to gather some information
 -p -->  password
 -o -->  directory for saving the information
 
+#### bloodhound
+before using this tool -->  you need to setup the neo4j console
+=>
+##### neo4j
+`sudo neo4j console`
+> [!warning] if neo4j fails
+> list the processes and kill the neo process
+> `ps aux | grep java`
+> `sudo kill process_number`
+
+![[Pasted image 20240301152033.png]]
+you can access the console -->  through http://localhost:7474
+for the first time:
+- you need to login (username neo4j - password neo4j)
+- change the password to -->  neo4j1
+
+
+
+
+
+
 
 --------
+
+=>
+now we can run bloodhound:
+`sudo bloodhound`
+- login with the neo4j credentials
+- click on clear database
+
+now we need to collect the data that we need to use inside bloodhound:
+- open a new terminal
+- `mkdir bloodhound`
+- `sudo bloodhound-python -d MARVEL.local -u fcastle -p Password1 -ns 172.16.214.128 -c all`
+`-d` --> domain
+`-u` --> username
+`-p` --> password
+`-ns` --> nameserver => Domain Controller IP
+`-c all` -->  we collect all
+
+=>
+now from the bloodhound interface:
+- in the right bar click on -->  upload data
+- select all files inside the bloodhound folder
+
+-----
 ## Sites
 ### GTFOBins 
 curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
