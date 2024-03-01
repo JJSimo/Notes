@@ -324,14 +324,6 @@ for the first time:
 - you need to login (username neo4j - password neo4j)
 - change the password to -->  neo4j1
 
-
-
-
-
-
-
---------
-
 =>
 now we can run bloodhound:
 `sudo bloodhound`
@@ -359,6 +351,15 @@ now from the bloodhound interface:
 to use it -->  bloodhound is running
 `cd reports`
 open the index.html file
+
+#### crackmapexec
+`crackmapexec smb 172.16.214.0/24 -u fcastle -d MARVEL.local -p Password1`
+we need to specify -->  a network 
+
+> [!info] 
+> we can do the same thing with a hash (instead of a password)
+> `crackmapexec smb 172.16.214.0/24 -u administrator -H hash --local-auth`
+
 
 -----
 ## Sites

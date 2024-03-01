@@ -628,3 +628,21 @@ follow these [[cheet#plumHound|steps]]
 
 
 ### Post-Compromise Attacks
+We'll see what can we do after having compromised an account
+Things we can do:
+- compromise other accounts
+- compromise the entire domain
+
+#### Pass Attacks
+if we dump a password:
+we can leverage that to -->    - pass around the network    (passare alla rete)
+                         - we can use it for lateral movement 
+
+##### crackmapexec
+turn on all the windows machines
+follow these [[cheet#crackmapexec|steps]]
+`crackmapexec smb 172.16.214.0/24 -u fcastle -d MARVEL.local -p Password1`
+=>
+![[Pasted image 20240301163145.png]]
+with our credentials:
+we found that our account has access to -->  THEPUNISHER and SPIDERMAN machines
