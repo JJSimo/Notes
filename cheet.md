@@ -237,6 +237,17 @@ by typing `background` -->  you can go back to metasploit
 `sessions` -->  you can see the active sessions
 `sessions 1` -->  to go back into the session 1
 
+#### Load an extension (es incognito)
+once you have a shell for example:
+`load incognito`
+`options`              (to see all the extension commands)
+
+> [!info] 
+>if you only type load and press tab:
+>=>
+>you can see all the extensions that you can use
+
+
 ------
 ### Active Directory
 #### Responder
