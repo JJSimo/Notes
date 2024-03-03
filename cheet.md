@@ -252,7 +252,8 @@ once you have a shell for example:
 ### Active Directory
 #### Responder
 LLMNR/NBT-NS/mDNS Poisoner
-`sudo python3 Responder.py -I vmnet8 -dwPv`
+(you must be in the folder where you have downloaded Responder)
+`sudo python3 Responder.py -I vmnet8 -dPv`
 `-I` -->   interface
 `-d` -->  enable answers for DHCP broadcast requests (this option injects a WPAD server in the)
                                               DHCP response

