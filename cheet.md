@@ -247,6 +247,28 @@ once you have a shell for example:
 >=>
 >you can see all the extensions that you can use
 
+----
+### Mimikatz
+tool used to:
+- view and steal credentials   
+- dump credentials stored in memory
+- generate kerberos tickets
+- leverage attacks
+
+attacks that you can perform -->  credential dumping, pass the hash, pass the ticket, silver ticket, 
+                             golden ticket, over-pass the hash
+
+to install it:
+- search on google -->  [mimikatz gitgub](https://github.com/gentilkiwi/mimikatz)
+- go to release
+- download the latest mimikatz_trunk.zip
+- extract it
+- run the x64/mimikatz.exe -->  inside a privileged cmd (`mimikatz.exe`)
+
+#### Sekurlsa
+[[Notes_ETH#sekurlsa|sekurlsa]]
+
+
 
 ------
 ### Active Directory

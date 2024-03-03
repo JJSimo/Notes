@@ -906,3 +906,50 @@ what this attack is:
   still relevant
   bc if these older files were never deleted =>  - these passwords still exist
                                          - they still could work in the environment
+
+#### Mimikatz
+login inside SPIDERMAN as normal user (pparker Password1)
+
+read these [[cheet#Mimikatz|lines]]
+
+first thing to do with this tool:
+- set privilege mode for debugging 
+  =>
+  if you only type `privilege::` -->  you can see all the modules that you can use
+- `privilege::debug`
+- <span style="color:#00b050">now we can run different attacks</span> 
+
+##### sekurlsa
+we'll use the module -->  sekurlsa (most used)
+`sekurlsa::`  -->  to see all the possibile options
+![[Pasted image 20240303185229.png]]
+
+###### logonPasswords
+`sekurlsa::logonPasswords`
+what we have found:
+- peterparker NTLM hash (that we can decrypt using hashcat)
+  ![[Pasted image 20240303190243.png]]
+<span style="background:#fff88f">but most important, we have found:</span>                             it's the first time that we found it
+- <span style="color:#00b050">MARVEL\administrator password in clear text</span>
+  ![[Pasted image 20240303190503.png]]
+
+why we can retrieve this password:
+- bc it's stored inside the -->  cred manager
+- we have the access to the hackme drive share
+- and we set up that you can connect -->  using different credentials
+
+#### Post-compromise Attack strategy
+#AD_Strategy 
+in this phase we have an account
+=>
+what do we do:
+- search for quick wins
+  =>
+	- [[Notes_ETH#Kerberoasting|Kerberoasting]]
+	- [[cheet#secretsdump|secretsdump]]
+	- [[Notes_ETH#Pass Attacks|pass the hash and pass the password]]
+- no quick wins => dig deep:
+	- enumerate ([[cheet#bloodhound|bloodhound]])
+	- where does your account have access?
+	- old vulnerabilities die hard
+
