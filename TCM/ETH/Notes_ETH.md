@@ -1287,3 +1287,20 @@ lessons learned:
 
 
 #### AD Case Study 3
+scenario:
+- there we LLMNR on 
+- but no local admin into all the machines
+- => they found a lot of accounts (but not admin)
+
+but:
+- one device had access to -->  file share
+  =>
+  they found a -->  Macbook Pro Setup Procedure
+- inside it they found in clear text -->  an "admin" account and a password
+- using crackmapexec -->  they found one machine where they could access inside it
+=>
+lesson:
+think outside the box
+
+# Post Exploitation
+
