@@ -17,7 +17,7 @@
 - If you find a file and port 80/443 open => try to connect ip/file
 	  if you find this website:
 	  =>  - you can upload a file using FTP
-	     - execute it by accessing via browser
+	       - execute it by accessing via browser
 
 
 ## Cheet
