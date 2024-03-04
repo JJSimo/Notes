@@ -306,6 +306,9 @@ after having found the the hash you can use -->  [[cheet#hashcat|hashcat]] (to d
 > if it doesn't work try without `-P`
 > if it fails try to kill apache server (`sudo /etc/init.d/apache2 stop`)
 
+#### Impacket
+[[Notes_ETH#Update/install Impacket]]
+
 #### ntlmrelayx.py
 Impacket’s ntlmrelayx.py performs NTLM Relay Attacks, creating an SMB and HTTP server and relaying credentials to various different protocols.
 `ntlmrelayx.py -tf targets.txt -sm2support` 
