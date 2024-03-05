@@ -1346,10 +1346,29 @@ what usually you can do:
 `exploit/windows/local/persistence`
 `exploit/windows/local/registry_persistence`
 
+
 >[!warning] This is dangerous
 >bc you are -->  opening a port on the victim
 >=>
 >everyone can access to it 
 >(usually there is no reason to do that)
 
+#### Schedule task
+Some precautions as before
+
+`run scheduleme`
+`run schtaskabuse`
+
+what is a schedule task:
+if you have a malware on a pc => this task will check like every 5 min 
+                             =>
+                             if the pc gets rebooted:
+                             - the task runs again
+                             - you'll get a shell again
+
+## Pivoting
+imagine that you have compromised a machine:
+- that machine allows you -->  access to 2 network interfaces
+- these 2 networks -->  share a new network
+                     that was originally unavailable to you
 
