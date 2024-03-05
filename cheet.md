@@ -60,7 +60,7 @@ tools for gathering DNS information
 ### Enumerating 
 #### Enumerating HTTP and HTTPS
 
-#### Assetfinder
+##### Assetfinder
 most recent and fast tool for searching subdomain
 it not only finds subdomain -->  but also domain related to the domain that you gave to it
 `assetfinder domain`
@@ -68,6 +68,28 @@ it not only finds subdomain -->  but also domain related to the domain that you 
 best approach:
 run the tool as default and then check only the subdomains
 
+##### Amas
+tools for finding subdomain
+`amas enum -d tesla.com`
+
+##### httprobe
+tools that takes a list of domains and probe for working http and https servers
+`cat folders/list_domains.txt | httprobe`
+`-c int` -->  set the concurrency level (default 20)
+`-p value` -->  add additional probe (proto:port)
+`-s` -->  skip the default probes (http:80 and https:443)
+`-t int` -->  timeout (milliseconds) (default 10000)
+`-v` -->  output errors to stderr
+
+<span style="background:#fff88f">if you want to list all the domains that replied without the https:// and :443 in the output:</span>
+`cat list_domains.txt | httprobe -s -p https:443 | sed 's/https\?:\/\///' | tr -d ':443' >> alive.txt`
+![[Pasted image 20240305184735.png]]
+
+>[!warning] After you run httprobe
+> always check for juicy subdomain:
+> `cat alive.txt | grep dev`
+> `cat alive.txt | grep test`
+> `cat alive.txt | grep admin`
 ##### Nikto
 scanning website vulnerabilities
 `nikto -h http://10.0.2.152`      -h = host

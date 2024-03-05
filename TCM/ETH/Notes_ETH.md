@@ -1518,3 +1518,47 @@ cat $url/recon/assets.txt | grep $1 >> $url/recon/final.txt
 rm $url/recon/assets.txt
 
 ```
+
+## Amass
+another tool for finding subdomain
+[[cheet#Amas]]
+
+## httprobe
+tools that checks if the domains are responding with some status or not
+[[cheet#httprobe]]
+`cat folders/list_domains.txt | httprobe`
+
+<span style="background:#fff88f">if you want to list all the domains that replied without the https:// and :443 in the output:</span>
+`cat list_domains.txt | httprobe -s -p https:443 | sed 's/https\?:\/\///' | tr -d ':443' >> alive.txt` 
+![[Pasted image 20240305184735.png]]
+=>
+update our script:
+```bash
+#!/bin/bash
+
+url=$1 
+
+if [ ! -d "$url" ];then 
+	mkdir $url
+fi
+
+if [ ! -d "$url/recon" ];then 
+	mkdir $url/recon
+fi
+
+echo "[*] Harvesting subdomains with assetfinder"
+assetfinder $url >> $url/recon/assets.txt #
+cat $url/recon/assets.txt | grep $1 >> $url/recon/final.txt 
+rm $url/recon/assets.txt
+
+echo "[*] Probing for alive subdomains"
+cat $url/recon/final.txt | sort -u | httprobe -s -p https:443 | sed's/https\?:\/\///' | tr -d ':443' >> $url/recon/alive.txt
+
+```
+
+>[!warning] After you run httprobe
+> always check for juicy subdomain:
+> `cat alive.txt | grep dev`
+> `cat alive.txt | grep test`
+> `cat alive.txt | grep admin`
+
