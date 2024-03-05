@@ -1479,4 +1479,12 @@ the goal is -->  <span style="color:#00b050">make it look like you were never th
 - eliminating yourself from log files
 - all the things above
 
+# Web Application Enumeration (revisited)
+we already seen:
+- [[cheet#Nikto]]
+- [[cheet#Dirbuster]]
+- [[cheet#dirb]]
+- [[cheet#BurpSuite]]
+
+
 
