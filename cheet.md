@@ -59,6 +59,15 @@ tools for gathering DNS information
 
 ### Enumerating 
 #### Enumerating HTTP and HTTPS
+
+#### Assetfinder
+most recent and fast tool for searching subdomain
+it not only finds subdomain -->  but also domain related to the domain that you gave to it
+`assetfinder domain`
+`assetfinder --subs-only domain`   only search subdomain
+best approach:
+run the tool as default and then check only the subdomains
+
 ##### Nikto
 scanning website vulnerabilities
 `nikto -h http://10.0.2.152`      -h = host
