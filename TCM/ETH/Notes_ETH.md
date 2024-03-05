@@ -1367,8 +1367,38 @@ if you have a malware on a pc => this task will check like every 5 min
                              - you'll get a shell again
 
 ## Pivoting
+<span style="background:#fff88f">pivoting:</span>
+ act of an attacker -->    - moving from 1 compromised system to 1 or more other systems 
+                     - within the same or other organizations
+ 
 imagine that you have compromised a machine:
 - that machine allows you -->  access to 2 network interfaces
 - these 2 networks -->  share a new network
                      that was originally unavailable to you
+
+what we can do:
+- set up a -->   <span style="color:#00b050">proxy</span> 
+- pivot through that 
+
+you can do with 2 tools:
+- proxychains
+- s
+
+<span style="background:#fff88f">scenario:</span>
+- we have compromised a machine
+- we have ssh access to it as root
+- doing an `ip a` -->  we find 2 IPs:
+                    - `10.10.155.5` -->  machine IP
+                    - `10.10.10.5` -->  the network that we don't have access
+
+if we try with a new tab to ping the network:
+=>
+we don't receive response -->  bc we don't have access to it
+=>
+<span style="background:#fff88f">what we need:</span>
+<span style="color:#00b050">establish a pivot</span>:
+- <span style="color:#00b050">from</span> the victim machine (`10.10.155.5`)
+- <span style="color:#00b050">to</span> the network (`10.10.10.5`)
+=>
+so that we can -->  <span style="color:#00b050">access to the network</span>
 
