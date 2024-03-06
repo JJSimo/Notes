@@ -90,6 +90,15 @@ tools that takes a list of domains and probe for working http and https servers
 > `cat alive.txt | grep dev`
 > `cat alive.txt | grep test`
 > `cat alive.txt | grep admin`
+
+##### GoWitness
+this tool takes screenshot of a website
+scenario -->  you have done subdomain hunting + check subdomains alive with httprobe
+=>
+GoWitness -->  automates the process of opening each subdomains (without having to do it                                                                                                                                manually)
+to do a single screenshot:
+`gowitness single https://tesla.com`    in your current directory you'll find a screenshot folder
+
 ##### Nikto
 scanning website vulnerabilities
 `nikto -h http://10.0.2.152`      -h = host

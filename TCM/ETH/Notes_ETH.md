@@ -1562,3 +1562,13 @@ cat $url/recon/final.txt | sort -u | httprobe -s -p https:443 | sed's/https\?:\/
 > `cat alive.txt | grep test`
 > `cat alive.txt | grep admin`
 
+## GoWitness
+[[cheet#GoWitness]]
+this tool takes screenshot of a website
+scenario -->  you have done subdomain hunting + check subdomains alive with httprobe
+=>
+GoWitness -->  automates the process of opening each subdomains (without having to do it                                                                                                                                manually)
+to do a single screenshot:
+`gowitness single https://tesla.com`    in your current directory you'll find a screenshot folder
+
+##  Automating the Enumeration Process 
