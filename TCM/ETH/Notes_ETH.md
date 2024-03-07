@@ -2030,3 +2030,27 @@ let's try to use [[Notes_ETH#Union|union]] -->  to find tables and maybe passwor
 
 
 ### XSS
+Cross Site Scripting (XSS) -->  let us execute JavaScript in a victim browser
+3 types:
+- <span style="color:#00b050">reflected</span>:
+  the <span style="color:#6666ff">script</span> that you're trying to inject -->  <span style="color:#6666ff">comes from the current HTTP req</span>
+  =>
+  - you send a request
+  - you receive a response
+  =>  the malicious script is included -->  in the response
+  
+  you can only target yourself unless:
+  - the <span style="color:#6666ff">payload</span> is inside -->  the <span style="color:#6666ff">URI</span>
+  - you <span style="color:#6666ff">entice</span> a user -->  to click on the link                        (enitce = attract)
+
+- <span style="color:#00b050">stored</span>:
+  more powerful
+	-  <span style="color:#6666ff">payload</span> is stored in something like a -->   <span style="color:#6666ff">DB</span>
+	- payload can be <span style="color:#6666ff">retrieved</span> <span style="color:#6666ff">later</span>
+    =>
+    it allows to <span style="color:#6666ff">attack</span><span style="color:#6666ff"> other users</span>
+    
+- <span style="color:#00b050">DOM-based:</span>
+	- <span style="color:#6666ff">client</span> side has some -->  <span style="color:#6666ff">vulnerable JS</span>
+	- this vulnerable JS uses -->      - <span style="color:#6666ff">untrusted inputs</span>
+	                            - instead of having a vulnerability server side
