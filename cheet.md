@@ -647,3 +647,21 @@ Cross Site Scripting (XSS) -->  let us execute JavaScript in a victim browser
 	- <span style="color:#6666ff">client</span> side has some -->  <span style="color:#6666ff">vulnerable JS</span>
 	- this vulnerable JS uses -->      - <span style="color:#6666ff">untrusted inputs</span>
 	                            - instead of having a vulnerability server side
+
+#### Check if page is XSS vulnerable
+- open the page
+- open the console -->  `CTRL+shif+C`
+- try:
+	- `alert(1)`
+	- `print()`
+	- `prompt('hello')`
+
+#### Basic XSS
+`<img src=x onerror="prompt(1)">`
+document tries to load x =>    - it will throw an error
+                         - on the error we can execute come JS
+if it works =>
+try to redirect the user:
+ `<img src=x onerror="window.location.href='https://google.com'">`
+
+

@@ -2073,4 +2073,47 @@ in the console:
   =>
  <span style="background:#fff88f"> imagine if we substitute the action inside the function that runs we press something</span>
  Es -->  we substitute with a fetch API
-  
+
+#### Attacks
+##### DOM XSS 0x01
+we have a input where we can add text
+![[Pasted image 20240307183848.png]]
+
+this is -->  DOM-based XSS
+bc:
+if you open the console -->  you can see that the served doesn't send request
+=>
+- it's happen entire locally
+- the vulnerability is within the client
+=>
+it's a DOM-based XSS
+
+let's try basic paylaod:
+`<script> prompt(1) </script>`
+![[Pasted image 20240307185329.png]]
+
+this didn't work:
+- even if it's added to the page
+- the code is not called
+=>
+we need a trigger 
+
+<span style="background:#fff88f">trigger example:</span>
+`<img src=x onerror="prompt(1)">`
+document tries to load x
+=>
+- it will throw an error
+- on the error we can execute come JS
+=>
+<span style="color:#00b050">it works</span>
+
+<span style="background:#fff88f">if it works try to redirect the user to another web page:</span>
+`<img src=x onerror="window.location.href='https://google.com'">`
+
+##### Stored XSS 0x01
+first we need to:
+setup a container for testing -->  this allow us to:
+							- have multiple sessions open
+							- test across different users
+in this way:
+we can check if the -->  XSS is stored
