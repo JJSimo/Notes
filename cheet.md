@@ -303,6 +303,12 @@ What can we do now:
 - download a list of payloads and try to fuzz it
 - look for other injection points
 
+`sqlmap -r req2.txt --level=2`  -->  for cookies
+<span style="background:#fff88f">if you find a payload:</span>
+`sqlmap -r req2.txt --level=2 --dump` -->  to try to use the payload against the webserver
+
+[[Notes_ETH#Sqlmap|example here]]
+
 
 ----
 ### Metasploit

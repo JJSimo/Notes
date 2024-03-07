@@ -1954,5 +1954,28 @@ or:
 use [[cheet#sqlmap]]
 
 <span style="background:#fff88f">sqlmap:</span>
+- copy the clean request without the payload
+- save it inside a txt file
+- `sqlmap -r req2.txt --level=2`
+  ![[Pasted image 20240307155135.png]]
+	- when it asks for:
+		- fuzzy test --> n
+		- random integer value --> n
+		- y
+		- n
+	=>
+	<span style="color:#00b050">We have a payload</span> 
+	![[Pasted image 20240307155619.png]]
+	=>
+- we can try to use the payload to find the password:
+- `sqlmap -r req2.txt --level=2 --dump -T injection0x02`  -->  -T to try only for this table
+	- URL encode cookie values --> n
+	- store hashes --> n
+	- crack them via dictionary attack -->  n
 
+=>
+<span style="color:#00b050">we found the password:</span>
+![[Pasted image 20240307160349.png]]
 
+#### Injection 0x03
+ goal -->  find admin password
