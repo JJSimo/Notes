@@ -543,6 +543,19 @@ Go to the Settings > Add Proxy
 Set the proxy in this way:
 ![[Pasted image 20240215140635.png]]
 
+#### Firefox Multi-Account Containers
+setup a container for testing -->  this allow us to:
+							- have multiple sessions open
+							- test across different users
+useful example for -->  [[Notes_ETH#Stored XSS 0x01|Stored XSS]]
+
+- search on firefox -->  [Firefox Multi-Account Containers](https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/)
+- install it and open it
+- click on Manage Container > click on Personal > Modify the name to `Container 1`
+- modify the 2 one to `Container 2`
+- delete the others
+
+
 -----
 ## File transfers
 Usually as attacker we -->  host files
