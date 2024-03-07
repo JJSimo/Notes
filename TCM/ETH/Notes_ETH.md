@@ -1715,3 +1715,38 @@ fi
 
 - => open new tab and set the permission to the web-server:
   `./set-permissions.sh`
+
+- open the browser to localhost to see if it's working:
+  ![[Pasted image 20240307104930.png]]
+- click on -->  "Click here to reset the database"
+#### Docker commands
+`CTRL + C -->  inside the terminal`    -->   to <span style="color:#00b050">stop</span> the container
+`sudo docker-compose up -d`                   -->  to run the container in <span style="color:#00b050">background</span>
+                                      to <span style="color:#00b050">stop</span> the container created in background:
+                                      `sudo docker-compose stop`
+                                      
+`sudo docker ps -a`                                  -->  <span style="color:#00b050">check</span> which containers are <span style="color:#00b050">running</span>
+`sudo docker rm <container-ID>`            -->  <span style="color:#00b050">remove</span> the container
+                                       <span style="background:#fff88f">to remove all containers:</span>
+                                       `sudo docker rm $(sudo docker ps -aq)`
+
+### BurpSuite
+once everything is working:
+- open BurpSuite
+- turn on [[cheet#FoxyProxy|FoxyProxy]] (already configured)
+
+## Attacks
+### SQL Injection
+Our lab uses this -->  users table:
+![[Pasted image 20240307111356.png]]
+
+#### Injection 0x01
+- Turn on docker-compose
+- Open browser to localhost
+- Open the first lab
+
+we'll find a simply search bar:
+if we write for example -->  jeremy => it will return the email
+![[Pasted image 20240307111601.png]]
+
+
