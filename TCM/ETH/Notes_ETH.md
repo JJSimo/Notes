@@ -1863,3 +1863,26 @@ What can we do now:
 - go back to manual testing
 - download a list of payloads and try to fuzz it
 - look for other injection points
+
+
+
+in this case -->  let's see what the application can offer more
+=>
+go back to the Proxy > HTTP History
+
+as you can see:
+- when we send a legitimate request with good credentials:
+	- web server replies by setting a cookie
+	- the next GET request includes -->  this cookie
+=>
+- open this GET request
+- send it to repeater (CTRL+R)
+- click on Send -->  to see the initial request
+                 The response has `Content-Length` = 1027
+- try to modify the cookie and look at the Response `Content-Length` (if it changes)
+- if the Content-Length is not reliable =>  use the Search bar after the response to search to 
+                                     something that can change based on the req
+- try to add to the cookie -->  `' and 1=1#`
+  ![[Pasted image 20240307131833.png]]
+- the length doesn't change =>  this can be a sign that there is a potential SQL injection
+  
