@@ -1919,6 +1919,40 @@ the sql versions are usually something like this -->  7.0.1
 ![[Pasted image 20240307152847.png]]
 
 Now:
-we can use this mechanism -->  to find the <span style="color:#00b050">jeremy password</span>
+we can use this mechanism -->  to find the <span style="color:#00b050">jessamy password</span>
+
+<span style="background:#fff88f">Find jessamy password:</span>
+we don't want to do it manually, bc it means doing something like this:
+#payload
+`' and substring((select password from injection0x02 where username = 'jessamy'), 1, 1) = 'a'#`
+this will check -->  if the first Ch of jessamy password is equal to 'a'
+=>
+in this way it takes a life to find the password
+=>
+we can automate using <span style="color:#00b050">INTRUDER</span>:
+- on the current request with our #payload click CTRL+i -->  to send it to Intruder 
+- click on Intruder Section
+- select the 'a' in the payload and add as value
+  ![[Pasted image 20240307153917.png]]
+
+- click on the Payloads section
+- in the Payload settings [Simple list] insert our list => Ch from a to z and number 0 to 9 
+  =>
+  ![[Pasted image 20240307154214.png]]
+- now click on -->  Start attack
+- click on Length -->  to order by length
+  =>
+  `z` -->  is the only Ch with different length =>  <span style="color:#00b050">we found the first password Ch</span> 
+	- if you click on the z:
+		- open the response
+		- search below in the bar "welcome" -->  we can check if the injection worked
+		  ![[Pasted image 20240307154633.png]]
+
+now:
+we can continue in this way with BurpSuite
+or:
+use [[cheet#sqlmap]]
+
+<span style="background:#fff88f">sqlmap:</span>
 
 
