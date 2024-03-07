@@ -1694,3 +1694,24 @@ fi
 
 # Find & Exploit Common Web Vulnerabilities
 ## Lab Setup
+### Docker
+- Install docker:
+	`sudo apt install docker.io`                  -->  `check with docker --version`
+	`sudo apt install docker-compose`         -->  `check with docker-compose --version`
+
+- Download the laboratory tar from tcm and extract it:
+  `tar -xf peh-web-labs.tar.gz`
+  `cd peh-web-labs/labs/`
+
+- Run docker compose:
+  `sudo docker-compose up`
+  if you got an error `Error starting userland proxy: listen tcp4 0.0.0.0:80: bind`
+  =>
+  try to stop apache and then run again docker -compose:
+	  sudo /etc/init.d/apache2 stop
+
+- go ahead when you see -->  the databses are 'ready for connections'
+  ![[Pasted image 20240307104124.png]]
+
+- => open new tab and set the permission to the web-server:
+  `./set-permissions.sh`
