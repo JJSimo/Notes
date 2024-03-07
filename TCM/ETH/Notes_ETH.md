@@ -2054,3 +2054,23 @@ Cross Site Scripting (XSS) -->  let us execute JavaScript in a victim browser
 	- <span style="color:#6666ff">client</span> side has some -->  <span style="color:#6666ff">vulnerable JS</span>
 	- this vulnerable JS uses -->      - <span style="color:#6666ff">untrusted inputs</span>
 	                            - instead of having a vulnerability server side
+
+#### Check if page is XSS vulnerable
+- open the page
+- open the console -->  `CTRL+shif+C`
+- try:
+	- `alert(1)`
+	- `print()`
+	- `prompt('hello')`
+
+#### Other cool thing
+in the console:
+- `function logKey(event){ console.log(event.key) }`  -->   create a fz that print the event
+- `document.addEventListener('keydown', logKey)`  -->  when press keys =>  execute the fz
+  =>
+  ![[Pasted image 20240307182831.png]]
+  if I type something inside the webpage =>  it will be printend inside the console
+  =>
+ <span style="background:#fff88f"> imagine if we substitute the action inside the function that runs we press something</span>
+ Es -->  we substitute with a fetch API
+  
