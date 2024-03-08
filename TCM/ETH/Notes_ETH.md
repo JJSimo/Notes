@@ -2201,6 +2201,7 @@ how it works:
 
 - open the [[cheet#AppSecExplained|App Sec explained]] -->  and check for Injection > Command Injection
 
+##### Basic command
 <span style="background:#fff88f">basic command injection:</span>
 `; ls -la`
 `&& ls -la`
@@ -2252,3 +2253,8 @@ for example with the last command:
 `; cat /etc/passwd; asd`
 ![[Pasted image 20240308121532.png]]
 
+this is already a -->  serious vuln
+but:
+let's try to popup a shell
+
+##### Popup a shell
