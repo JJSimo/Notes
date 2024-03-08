@@ -2218,4 +2218,20 @@ how it works:
 
 =>
 let's try the first one
-`; whoami`
+`https://google.com; whoami`
+![[Pasted image 20240308120816.png]]
+=>
+the command that is executed is -->  `curl -I -s -L https://google.com; whoami | grep "HTTP/"`
+=>
+let's try to:
+- don't use the URL 
+- grep command fails
+
+=>
+`; whoami; asd`
+![[Pasted image 20240308121011.png]]
+<span style="color:#00b050">it works</span> 
+
+=>
+we found a way to command injection:
+=>
