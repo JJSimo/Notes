@@ -2186,3 +2186,16 @@ if you refresh the container 2 -->  <span style="color:#00b050">you'll see a pop
 bc if you find it => you can:
                   - <span style="color:#00b050">compromise the entire app</span>
                   - <span style="color:#00b050">compromise the host</span> 
+how it works:
+- the app takes an input from the user
+- pass that into a -->  function 
+- the function --> executes it as code
+
+#### Basic - 0x01
+- open the first lab
+- we have a network check:
+	- if we type an URL we get:
+		- the command that the site executes
+		- the result
+		- ![[Pasted image 20240308114321.png]]
+

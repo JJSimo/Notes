@@ -537,6 +537,10 @@ curated list of Unix binaries that can be used to bypass local security restrict
 it gives you an unique website URL -->  that you can make calls to
 [Webhook](https.//webhook.site)
 
+### AppSecExplained
+up-to-date handbook for Web Application Hacking
+[AppSecExplained](https://appsecexplained.gitbook.io/appsecexplained/)
+
 ----
 ## Browser Extensions
 #### FoxyProxy 
@@ -699,4 +703,13 @@ try to redirect the user:
 - <span style="color:#00b050">we got the cookie</span> 
   ![[Pasted image 20240308113410.png]]
 
+### Command Injection
+<span style="background:#fff88f">serious vuln:</span>
+bc if you find it => you can:
+                  - <span style="color:#00b050">compromise the entire app</span>
+                  - <span style="color:#00b050">compromise the host</span> 
+how it works:
+- the app takes an input from the user
+- pass that into a -->  function 
+- the function --> executes it as code
 
