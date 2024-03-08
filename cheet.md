@@ -28,6 +28,8 @@ follow [[Notes_ETH#Install VM Tools (guest addition)|these steps]]
 `locate file.txt`
 useful to find where a file/program is located   (to update the file type -->  `sudo updatedb`)
 
+`which ls`
+find where a tool is installed (also check if it's installed)
 
 -------
 ## Tools
@@ -533,6 +535,10 @@ Look [[Notes_ETH#Kerberoasting|here]] to deply understand
 curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems
 [GTFOBins](https://gtfobins.github.io/)
 
+### Payload All The Things
+A list of useful payloads and bypasses for Web Application Security
+[PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master)
+example of use here -->  [[Notes_ETH#Popup a shell|Popup a shell]]
 ### Webhook.site
 it gives you an unique website URL -->  that you can make calls to
 [Webhook](https.//webhook.site)
@@ -733,7 +739,15 @@ how it works:
 >[!tips]
 >if you have a bad formatted output
 >=>
->press CTRL+U in the page to see -->  the source code
+>press `CTRL+U` in the page to see -->  the source code
 >=>
 >to see also better -->  the output
 
+#### Payload
+[[cheet#Payload All The Things]]
+
+>[!tips] Best Practice
+>- use the full path for binaries  (ex `/bin/sh`)
+>- use a different port (not 4444) -->  bc something fails
+>	- try common port -->  80/8080/443
+>
