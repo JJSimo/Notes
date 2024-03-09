@@ -2377,13 +2377,27 @@ first we can try to upload a txt file:
 - it doesn't work --> prompt the user that are acceptable only png and jpg
 
 check the calls to the webserver:
-- open the dev tool -->  CTRL+ALT+C
+- open the dev tool -->  `CTRL+ALT+C`
 - go to Network
 - Reload the page
 - Upload again the txt file
-- check if the app is doing some checks (here no)
+- check if the app is doing some checks (here only png and jpg)
 
 ###### BurpSuite
-download an image
-Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
-
+- download an image
+- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- upload the img to the webserver
+- open the req into Burp
+- Send it to Repeater (CTRL+R)
+- We want to verify if there is some check:
+  =>
+	- delete the img from the req    (select all the img, not like in the screen)
+	  ![[Pasted image 20240309102311.png]] 
+	- put some text instead 
+	- change the filename to -->  .txt
+	- click Send
+	  =>
+		- <span style="color:#00b050">we obtain 200 OK</span> and into the response there is the mex -->  "file is been uploaded"
+		- you can check by refreshing the page
+		  =>
+		  THE CHECK IS PERFORMED ONLY CLIENT SIDE   (here we could sent the .txt)
