@@ -2463,3 +2463,5 @@ upload an image and txt file to test the webserver =>  the webserver only accept
 - delete the img, change file type to `.php` and try to send our [[Notes_ETH#PHP shell|PHP shell]]
   `<?php system($_GET['cmd']); ?>`
 	- this time we have an error =>  <span style="color:#00b050">CHECK HAPPENS server side </span> 
+
+##### Bypass Check Server-Side (Magic Bytes)
