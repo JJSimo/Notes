@@ -2389,7 +2389,7 @@ check the calls to the webserver:
 - upload the img to the webserver
 - open the req into Burp
 - Send it to Repeater (CTRL+R)
-- We want to verify if there is some check:
+- <span style="background:#fff88f">We want to verify if the check that server performed happens only client Side or also Server:</span>
   =>
 	- delete the img from the req    (select all the img, not like in the screen)
 	  ![[Pasted image 20240309102311.png]] 

