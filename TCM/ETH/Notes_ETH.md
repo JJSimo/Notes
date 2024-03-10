@@ -1855,7 +1855,7 @@ let's try to automate this process to find if there is potential SQL injection v
 ###### Sqlmap
 - copy the entire POST request with the initial values   (=> remove the 'or 1=1#)
 - save it inside a text file
-- sqlmap -r req.txt
+- `sqlmap -r req.txt`
 =>
 in this case -->  the tool said that the parameters does not seem to be injectable 
 ![[Pasted image 20240307130311.png]]
@@ -2696,5 +2696,14 @@ let's try to connect to the first one: (1008)
 =>
 we can automate this process and writing a script to find -->  all the admin accounts
 ## Capstone
-
+- created an account
+- logged in
+### SQL Injection
+- tested if there are potential SQL injection in the input
+- also with Burp and Repeater
+#### sqlmap
+- copy a clean request from the -->  Add Rating feature
+- save it inside a txt file
+- `sqlmap -r req_review.txt --dump`
+  ![[Pasted image 20240310173954.png]]
 
