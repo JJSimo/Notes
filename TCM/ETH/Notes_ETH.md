@@ -2531,8 +2531,11 @@ and see if it worked:
 	=>
 	- google -->  valid php file extension
 	- retry with different extension
-	- <span style="color:#00b050">with php5 works</span>
-		![[Pasted image 20240310124022.png]]
+	- <span style="color:#00b050">with phtml works</span>
+		 ![[Pasted image 20240310124834.png]]
 		=>
-		![[Pasted image 20240310124600.png]]
+		![[Pasted image 20240310124911.png]]
 
+
+
+### Attacking Authentication
