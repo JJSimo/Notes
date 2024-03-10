@@ -2463,5 +2463,16 @@ upload an image and txt file to test the webserver =>  the webserver only accept
 - delete the img, change file type to `.php` and try to send our [[Notes_ETH#PHP shell|PHP shell]]
   `<?php system($_GET['cmd']); ?>`
 	- this time we have an error =>  <span style="color:#00b050">CHECK HAPPENS server side </span> 
+	=>
 
+<span style="background:#fff88f">we need to understand where the app checks for this control:</span>
+the app could:
+- look at the file extension   (filename="file.<span style="color:#00b050"><u>php</u></span>")
+  how to bypass this:
+  `filename="file.php%00.png"`
+  `%00` -->  is a NULL byte => it ends the string
+  
+  `filename="file.php.png"`
+  sometimes if the app is not well configured -->  also this can bypass the check
+- 
 ##### Bypass Check Server-Side (Magic Bytes)
