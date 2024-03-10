@@ -143,7 +143,7 @@ for each word inside the wordlist => try to find if it exists the webiste + word
 <span style="background:#fff88f">bruteforcing login:</span>
 - Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
 - send some random credentials
-- open the req into Burp > Copy it > Save it inside a txt file
+- [ ] open the req into Burp > Copy it > Save it inside a txt file
 - change the password value as -->  your fuzz variable
 - we need a not huge wordlist:
   =>
@@ -610,6 +610,7 @@ if you have a meterpreter shell -->  you can use the features `upload/download`
 
 -----
 ## Web Exploitation
+check always the [[cheet#AppSecExplained|App Sec site]] for having a list of what to do during web exploitation
 ### SQL Injection
 [SQL Injection Cheet Sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 #### Basic check
