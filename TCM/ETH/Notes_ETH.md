@@ -2539,3 +2539,39 @@ and see if it worked:
 
 
 ### Attacking Authentication
+we can test 2 things:
+- bruteforcing
+- logical issues
+#### auth bruteforce 0x01
+If you are attacking a liver target:
+=>
+- the attack can be slow =>  don't use a huge wordlist
+- maybe the target allows only 4-5 req per second =>  you need to stay inside this interval
+
+you can use for bruteforcing:
+- BurpSuite -->  but you need PRO version
+- ffuf
+
+##### ffuf
+First  we need to capture a clean req:   (=> we need burp anyway)
+=> 
+- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- send some random credentials
+- open the req into Burp > Copy it > Save it inside a txt file
+  ![[Pasted image 20240310130154.png]]
+- change the password value as -->  your fuzz variable
+- we need a not huge wordlist:
+  =>
+  `git clone --depth 1 \
+  https://github.com/danielmiessler/SecLists.git`
+- `ffuf -request req.txt -request-proto http -w /home/simone/Desktop/TCM/wordlist/SecLists/Passwords/xato-net-10-million-passwords-10000.txt`
+- We need to filter the result
+  =>
+  check the Size in the output of ffuf and:
+  `ffuf -request req.txt -request-proto http -w /home/simone/Desktop/TCM/wordlist/SecLists/Passwords/xato-net-10-million-passwords-10000.txt -fs <Size_number>`
+  =>
+=>
+<span style="color:#00b050">password found</span> 
+![[Pasted image 20240310132112.png]]
+
+##### MFA 0x02

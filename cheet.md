@@ -140,6 +140,20 @@ for each word inside the wordlist => try to find if it exists the webiste + word
 > =>
 > Check only one deep layer => <span style="color:#00b050">faster</span>
 
+<span style="background:#fff88f">bruteforcing login:</span>
+- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- send some random credentials
+- open the req into Burp > Copy it > Save it inside a txt file
+- change the password value as -->  your fuzz variable
+- we need a not huge wordlist:
+  =>
+  `git clone --depth 1 \
+  https://github.com/danielmiessler/SecLists.git`
+- `ffuf -request req.txt -request-proto http -w /home/simone/Desktop/TCM/wordlist/SecLists/Passwords/xato-net-10-million-passwords-10000.txt`
+- We need to filter the result
+  =>
+  check the Size in the output of ffuf and:
+  `ffuf -request req.txt -request-proto http -w /home/simone/Desktop/TCM/wordlist/SecLists/Passwords/xato-net-10-million-passwords-10000.txt -fs <Size_number>`
 -----
 #### Enumerating SMB
 ##### Metasploit
@@ -778,3 +792,5 @@ we can do:
    you can inspect the code to see where the other img in the webserver are stored
 -  <span style="color:#00b050">directory busting</span> (ex [[cheet#dirb]])
    `dirb  http://localhost/`
+
+### Attacking authentication
