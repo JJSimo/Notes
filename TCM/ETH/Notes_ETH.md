@@ -2639,6 +2639,15 @@ there are 2 xml files:
 - <span style="color:#00b050">a legitimate xml file</span>![[Pasted image 20240310160128.png]]
 - <span style="color:#00b050">a xml file that contains an exploit </span> (print the /etc/passwd file) ![[Pasted image 20240310160227.png]]
 
-What does the second file:
+<span style="background:#fff88f">What does the second file:</span>
 the external entity `xxe` that is inside the `creds` document:
 is going to reference -->  `SYSTEM "file:///etc/passwd"`
+=>
+when this file is passed -->    - the contents of it will be grabbed
+                         - and it will be place where xxe is
+                           our reference to xxe is inside the `<user> </user>` field:
+                           `<creds><user>&xxe;</user><password>pass</password></creds>`
+=>
+if we upload this file:
+![[Pasted image 20240310160926.png]]
+<span style="color:#00b050">we'll get the /etc/pass file </span>    (to see better format => `CTRL+U` )
