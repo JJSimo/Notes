@@ -2574,4 +2574,59 @@ First  we need to capture a clean req:   (=> we need burp anyway)
 <span style="color:#00b050">password found</span> 
 ![[Pasted image 20240310132112.png]]
 
-##### MFA 0x02
+#### MFA 0x02
+- Open the lab
+- Enter the credentials that the lab provided
+- => you'll get a MFA code to complete the login > insert it and you'll be logged in
+  ![[Pasted image 20240310150530.png]]
+=>
+- Reload the page
+- login again
+- copy the new Code
+- put it inside the MFA box
+- Open BurpSuite
+- enable FoxyProxy
+
+##### Intercept and Edit req BurpSuite
+- go to Proxy > Intercept > Intercept On
+- now click the Submit button into the lab
+- Now you have captured the request inside BurpSuite
+  =>
+  the req is not been sent
+  =>
+  modify the useraname to -->  jeremy    (that is our target)
+  ![[Pasted image 20240310151812.png]]
+
+- click on Intercept Off (it will send the request)
+- now go back to the page -->  <span style="color:#00b050">We have access as Jeremy</span>
+  ![[Pasted image 20240310151842.png]]
+
+#### auth 0x03
+after 5 attempts -->  account will block
+=>
+we will test only 4 passwords for each possible account
+=>
+Copy one single request with Burpsuite:
+- turn on FoxyProxy
+- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- send as credentials -->  admin:admin
+- open the req into Burp 
+- <span style="color:#00b050">Save the response Length </span>-->  (3376)
+- Copy the req > Save it inside a txt file
+- modify the 2 parameters:
+	- `username=FUZZUSER`
+	- `password = FUZZPASS`
+	  
+Create a txt file with 4 passwords -->  123456, password, letmein, teashop
+
+##### ffuf
+`ffuf -request req.txt -request-proto http -mode clusterbomb -w passwords.txt:FUZZPASS -w /home/simone/Desktop/TCM/wordlist/SecLists/Usernames/top-usernames-shortlist.txt:FUZZUSER -fs 3376`     
+`-mode clusterbomb` -->  for each username it tries everypassword
+`-fs 3376` -->  length of the response that we captured
+=>
+now in the output find an attempts that have a different size value as what we specified
+=>
+<span style="color:#00b050">We found a possible login</span> 
+![[Pasted image 20240310154953.png]]
+=>
+<span style="color:#00b050">it works</span> 
