@@ -813,3 +813,11 @@ abuse input that accept XML files to exploit the webpage
 to craft a payload look at -->  [[cheet#Payload All The Things]]
 
 ### IDOR - Insecure Direct Object Reference
+IDOR -->  Insicure Direct Object Reference
+it's:
+an <span style="color:#00b050">access control issue</span> where:
+- we can request a resource with an obj ID
+- server will return some info of the obj
+
+<span style="background:#fff88f">easiest way to test IDOR:</span>
+find a way where you are able to -->  manipulate an obj ID

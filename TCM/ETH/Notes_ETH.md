@@ -2653,3 +2653,48 @@ if we upload this file:
 <span style="color:#00b050">we'll get the /etc/pass file </span>    (to see better format => `CTRL+U` )
 
 #### IDOR - Insecure Direct Object Reference
+IDOR -->  Insicure Direct Object Reference
+it's:
+an <span style="color:#00b050">access control issue</span> where:
+- we can request a resource with an obj ID
+- server will return some info of the obj
+
+<span style="background:#fff88f">easiest way to test IDOR:</span>
+find a way where you are able to -->  manipulate an obj ID
+
+in our lab:
+we can do it through the -->  URL
+![[Pasted image 20240310170434.png]]
+
+if we change this value =>  we'll get another account info
+=>
+let's enumerate all the possible accounts
+
+##### Enumerate all the possible accounts (ffuf)
+first we need a wordlist
+we can create it with python:
+insert n° from 0 to 2000 -->  `python3 -c 'for i in range(1,2001): print(i)' > num.txt`
+![[Pasted image 20240310170919.png]]
+
+=>
+copy the lab URL
+`ffuf -u "http://localhost/labs/e0x02.php?account=FUZZ" -w num.txt`
+we need the `""` -->  bc inside the URL there is the `?`
+
+in this way -->  we'll get a lot of result  (also all the n° that don't correspond to a valid ID)
+=>
+filter the result via the size:
+- check the size in the ffuf output 
+- `ffuf -u "http://localhost/labs/e0x02.php?account=FUZZ" -w num.txt -fs <size>`
+  =>
+  ![[Pasted image 20240310171521.png]]
+
+=>
+let's try to connect to the first one: (1008)
+![[Pasted image 20240310171602.png]]
+<span style="color:#00b050">we found an admin account</span> 
+=>
+we can automate this process and writing a script to find -->  all the admin accounts
+## Capstone
+
+
