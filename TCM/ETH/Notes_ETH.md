@@ -2630,3 +2630,15 @@ now in the output find an attempts that have a different size value as what we s
 ![[Pasted image 20240310154953.png]]
 =>
 <span style="color:#00b050">it works</span> 
+
+### XXE - External Entities Injection
+Some apps use XML -->  to transfer data
+
+Inside our lab `peh-web-labs/labs/user-content/`:
+there are 2 xml files:
+- <span style="color:#00b050">a legitimate xml file</span>![[Pasted image 20240310160128.png]]
+- <span style="color:#00b050">a xml file that contains an exploit </span> (print the /etc/passwd file) ![[Pasted image 20240310160227.png]]
+
+What does the second file:
+the external entity `xxe` that is inside the `creds` document:
+is going to reference -->  `SYSTEM "file:///etc/passwd"`

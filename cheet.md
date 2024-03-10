@@ -807,3 +807,9 @@ we can do:
    `dirb  http://localhost/`
 
 ### Attacking authentication
+
+### XXE - External Entities Injection
+abuse input that accept XML files to exploit the webpage
+to craft a payload look at -->  [[cheet#Payload All The Things]]
+
+
