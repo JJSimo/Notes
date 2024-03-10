@@ -2651,3 +2651,5 @@ when this file is passed -->    - the contents of it will be grabbed
 if we upload this file:
 ![[Pasted image 20240310160926.png]]
 <span style="color:#00b050">we'll get the /etc/pass file </span>    (to see better format => `CTRL+U` )
+
+#### IDOR - Insecure Direct Object Reference
