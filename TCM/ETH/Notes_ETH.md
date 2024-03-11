@@ -2961,6 +2961,8 @@ Finding Report -->  <span style="color:#00b050">what you found from a high level
 
 
 ## Pentest Report Writing Sample
+you can find the samples inside the -->  `Pentest_reports` folder
+
 <span style="background:#fff88f">Confidentiality Statements:</span>
 says that this document is only for the company that made the pentest and no one else
 
@@ -2975,5 +2977,46 @@ Also:
 if you have a limited time =>  you won't find everything
 and this is also written inside the disclaimer
 
-Assessment Overview
+<span style="background:#fff88f">Assessment Overview:</span>
+it tells how the work is been performed
+
+<span style="background:#fff88f">Assessment Components:</span>
+who is been attacked
+
+<span style="background:#fff88f">Finding Severity Ratings:</span>
+rate the severity of the vulnerabilities found
+
+<span style="background:#fff88f">Executive Summary:</span>
+Summary for CISO or CEO
+=>
+probably the don't have a technical background
+=>
+you need to explain in a very basic way what you found -->  so they can understand
+
+inside this section there is also the:
+- Attack Summary and Recommendation
+- Security Strengths and Security Weakness
+- Impact of the vulnerabilities found
+
+<span style="background:#b1ffff">Attack Summary and Recommendation:</span>
+describes each attack and the recommendation 
+	 
+<span style="background:#b1ffff">Security Strengths and Security Weakness:</span>
+example -->  missing multi factor auth, weak password policy, unrestricted logon attempts
+
+<span style="background:#b1ffff">Impact of the vulnerabilities found</span>
+
+<span style="background:#fff88f">Technical Summary:</span>
+Summary of all the vuln and attacks in technical words
+also -->  technical remediation
+=>
+it's the same as the Executive Summary -->  but in technical
+
+
+
+
+
+
+
+
 
