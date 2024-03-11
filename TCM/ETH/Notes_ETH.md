@@ -2960,3 +2960,20 @@ example:
 Finding Report -->  <span style="color:#00b050">what you found from a high level and a technical level</span>
 
 
+## Pentest Report Writing Sample
+<span style="background:#fff88f">Confidentiality Statements:</span>
+says that this document is only for the company that made the pentest and no one else
+
+<span style="background:#fff88f">Disclaimer:</span>
+if the pentest was a 1 week job
+=>
+if a finding comes up a week later or someone opens up a port or setup an app badly
+=>
+we are not responsible for that
+
+Also:
+if you have a limited time =>  you won't find everything
+and this is also written inside the disclaimer
+
+Assessment Overview
+
