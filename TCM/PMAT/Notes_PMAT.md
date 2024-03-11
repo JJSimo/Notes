@@ -173,3 +173,21 @@ we want that the 2 VMs:
 		- `ping 8.8.8.8` -->  should fails
 		- `ping the other machine` -->  should works
 ![[Pasted image 20240311173414.png]]
+
+## INetSim Setup
+we have 2 VMs:
+- windows VM -->  bc usually malware run on windows
+- REMnux VM
+
+why do we have this linux VM:
+- bc the REMnux is going to be a -->  <span style="color:#00b050">Internet Simulator</span> 
+- to analyse traffic with -->  <span style="color:#00b050">Wireshark</span>, tcpdump
+
+to act as "Internet Simulator" we need a tool called:
+<span style="color:#00b050">INetSim</span> 
+
+<span style="background:#fff88f">This tool will be the capability to:</span>
+- respond to any outbound internet requests -->   that the malware is going to make
+
+Then we could:
+- <span style="color:#00b050">analyze the requests from the malware</span> through -->  wireshark
