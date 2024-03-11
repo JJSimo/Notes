@@ -98,4 +98,7 @@ FLARE-VM -->  collection of software installations scripts for Windows systems t
 Remnux -->  linux distro buils specifically for malware analysis and reverse engineering
 =>
 - go [here](https://remnux.org/#distro) > Download > VirtualBox OVA > Download OVA from Box > Download
-- 
+- right click on the file downloaded > open with VirtualBox
+- change the name to -->  `PMAT-REMnux`
+- change hw resources as you wish
+- run the VM > minimize and maximize the VM to enter in fullscreen
