@@ -2911,7 +2911,52 @@ press `CTRL+C`
 <span style="color:#00b050">PASSWORD FOUND</span>
 ![[Pasted image 20240311111109.png]]
 
-
-# Legal Documents and Report Writing
-
 `sudo systemctl start NetworkManager` -->  start again the wifi 
+# Legal Documents and Report Writing
+<span style="background:#fff88f">3 main sections</span>
+![[Pasted image 20240311111433.png]]
+<span style="color:#00b050">As a pentester:</span>
+you probably will see only -->  ROE and Finding Report
+
+let's discuss all of them:
+
+## Sales
+### Mutual Non-Disclosure Agreement (NDA)
+NDA -->  <span style="color:#00b050">it simply says that:</span>
+         - no one from both side will take anything learned with this work and 
+         - disclose it to anybody else
+        =>
+        can't go to to say to someone the technologies/vulnerab/other things of a client
+
+### Master Service Agreement (MSA)
+MSA -->  contractual document
+         it specifies:
+         - <span style="color:#00b050">performance objectives</span>
+         - <span style="color:#00b050">responsibilities of both the parties</span>
+
+### Statement of Work (SOW)
+SOW -->   specifies:
+         - <span style="color:#00b050">activities</span>
+         - <span style="color:#00b050">timelines</span>
+         - <span style="color:#00b050">how much is going to pay</span>
+
+<span style="color:#00b050">Example:</span>
+in this assignment I'm going to perform a wireless pentesting and is going to cost you that money
+=>
+if the client accepts =>  he will sign the SOW
+
+### Others
+Sample Report
+## Before you test
+### Rules of Engagement (ROE)
+ROE -->  <span style="color:#00b050">it specifies what you can and what you can't do </span>
+
+example:
+- which IP you can attack
+- usually you can't do -->  DoS, Social Engineering (it does in separate engagement)
+
+## After you yest
+### Finding Report
+Finding Report -->  <span style="color:#00b050">what you found from a high level and a technical level</span>
+
+
