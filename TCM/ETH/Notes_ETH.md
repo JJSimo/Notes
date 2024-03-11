@@ -2827,3 +2827,28 @@ Copy one single request with Burpsuite:
 =>
 `ffuf -request req_login.txt -request-proto http -w /home/simone/Desktop/TCM/wordlist/SecLists/Passwords/xato-net-10-million-passwords-10000.txt:FUZZPASS`
 
+
+
+# Wireless Penetration Testing
+
+## What is
+### Assessment of wireless network
+- <span style="color:#00b050">WPA2 PSK</span> -->  use inside homes
+- <span style="color:#00b050">WPA2 Enterprise</span> -->  use inside company
+=>
+we'll focus on WPA2 PSK       (bc build a lab for Enterprise is expensive)ù
+
+### Activities performed
+- evaluating strength of PSK
+- reviewing nearby networks
+- assessing guest networks
+- checking network access
+
+### Tools
+- Wireless card -->  to inject data
+- router
+
+## Hacking process WPA2 PSK
+![[Pasted image 20240311103027.png]]
+
+
