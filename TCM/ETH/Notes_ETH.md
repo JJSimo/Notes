@@ -25,11 +25,11 @@
 
 -------
 # Capstones
-[[Notes/TCM/Capstones/Blue/report|Blue Report]]
-[[Notes/TCM/Capstones/Academy/report|Academy Report]]
-[[Notes/TCM/Capstones/dev/report|Dev Report]]
-[[Notes/TCM/Capstones/Butler/report|Butler Report]]
-[[Notes/TCM/Capstones/Blackpearl/report|Back pearl Report]]
+[[Notes/TCM/ETH/Capstones/Blue/report|Blue Report]]
+[[Notes/TCM/ETH/Capstones/Academy/report|Academy Report]]
+[[Notes/TCM/ETH/Capstones/dev/report|Dev Report]]
+[[Notes/TCM/ETH/Capstones/Butler/report|Butler Report]]
+[[Notes/TCM/ETH/Capstones/Blackpearl/report|Back pearl Report]]
 
 # Active Directory
 **AD:**
