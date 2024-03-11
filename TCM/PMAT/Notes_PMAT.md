@@ -102,3 +102,45 @@ Remnux -->  linux distro buils specifically for malware analysis and reverse eng
 - change the name to -->  `PMAT-REMnux`
 - change hw resources as you wish
 - run the VM > minimize and maximize the VM to enter in fullscreen
+
+### Network Setup
+We need to setup the network for our VMs
+bc:
+>[!warning] We need a safe environment
+>we'll run malware
+>=>
+>it's important that -->  those VVs cannot reach our physical OS through the network 
+
+=>
+we want that the 2 VMs:
+- can talk to each other
+- cannot talk with physical OS
+  
+=>
+- power off both the VMs and close VirtualBox
+- To do the step under we need to change a virtual box config
+  =>
+	- `open terminal` 
+	- `cd /etc`
+	- `sudo mkdir vbox`
+	- `sudo vi networks.conf`
+	- paste `* 0.0.0.0/0 ::/0`
+	  
+- open Virtual box
+- click on Tools in the main page of virtualbox, click the least icon > Network
+- Create > enable DHCP server in the new network
+- go to the Adapter tab under the network:
+	- change the IPv4 Address to something diff from your network =>  `10.0.0.1`
+	- netmask -->  `255.255.255.0`
+	- click Apply
+- go to the DHCP Server tab:
+	- Server address -->  `10.0.0.2`
+	- Server Mask -->  `255.255.255.0`
+	- Lower Address Bound -->  `10.0.0.3`
+	- Lower Address Bound -->  `10.0.0.254`
+	- click Apply
+
+#### PMAT-FlareVM
+- Open the VM settings > Network > select Host Only Adapter > and select the network that we created
+- check the other Adapters are OFF
+- click OK
