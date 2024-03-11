@@ -3,6 +3,15 @@ Introduction to:
 - reverse engineering
 - triage
 
+It's important for malware analysis:
+to have a place where you can run a malware
+<span style="color:#00b050">detonating</span> = run a malware
+=>
+- this must be done in a safe environment 
+- malware usually work in windows
+=>
+we need to build up a safe LAB
+
 # Build Malware Analysis Lab
 Download windows 10 64 bit enterprise from -->  [here](https://www.microsoft.com/en-us/evalcenter/download-windows-10-enterprise)
 ## Virtual Box
@@ -144,3 +153,23 @@ we want that the 2 VMs:
 - Open the VM settings > Network > select Host Only Adapter > and select the network that we created
 - check the other Adapters are OFF
 - click OK
+
+#### PMAT-REMnux
+- Do the exact same thing
+
+### Check setup
+- turn on both VM
+- we need to check that our machines have the right network configuration:
+	- on REMnux:
+		- open terminal 
+		- `ip a`
+		  
+	- on Windows:
+		- search cmder
+		- `ipconfig`
+		  
+	- on both check if they cannot talk to outside the network but can talk to each other
+		- `ping google.com` -->  should fails
+		- `ping 8.8.8.8` -->  should fails
+		- `ping the other machine` -->  should works
+![[Pasted image 20240311173414.png]]
