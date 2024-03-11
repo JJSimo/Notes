@@ -3029,7 +3029,29 @@ they ask for a super hero
 if you find a interesting job =>  apply for it
                            in a bad scenario you will be rejected
                            BUT:
-                           you'll understand what you need to study/learn to achieve this job
+                          _<span style="color:#00b050"> you'll understand what you need to study/learn to achieve this kind of job</span>
+
+For an interview:
+if there is something that you really don't know about =>  say that you are going to learn that
+
+<span style="background:#fff88f">Don't apply for every job that you found:</span>
+=>
+apply only to jobs that meet your criteria -->  think about work-life balance
+
+<span style="background:#fff88f">STRIVE TO BE THE DUMBEST GUY IN THE ROOM:</span>
+(sforzati di essere il più stupido della stanza)
+=>
+if you can't learn nothing room in your job =>  it's time to move one and search for a new one
+                                        where you can learn and improve yourself
+=>
+- don't be afraid to ask to people that know
+- share also your knowledge
+
+<span style="background:#fff88f">BUILD A NETWORK:</span>
+- network with people
+- meet new people -->  even on discord and online
+- it will be easy to get new possibilities
+
 
 
 
