@@ -175,6 +175,7 @@ we want that the 2 VMs:
 ![[Pasted image 20240311173414.png]]
 
 ## INetSim Setup
+### Explain why we need this and the 2 VMs
 we have 2 VMs:
 - windows VM -->  bc usually malware run on windows
 - REMnux VM
@@ -191,3 +192,61 @@ to act as "Internet Simulator" we need a tool called:
 
 Then we could:
 - <span style="color:#00b050">analyze the requests from the malware</span> through -->  wireshark
+
+=>
+we need to setup to different location:
+1) one that -->  will focus on Host Based Indicators
+2) one that --> will help with Network Based Indicators
+
+For these reasons -->  we need to use 2 VMs
+
+### INetSim Setup (REMnux)
+- open a temrinal
+- `sudo vi /etc/inetsim/inetsim.conf`
+- we want to enable DNS =>   delete the comment from `start_service dns`
+- uncomment also `service_bind_address   10.10.10.1`
+	- and change it to -->  `service_bind_address   0.0.0.0`
+	- in this way we'll bind to all the interface on the host
+	  
+- find the Service DNS
+	- uncomment -->  `dns_default_ip         10.10.10.1`
+	- and change it to -->   `dns_default_ip         10.0.0.4`    IP of this REMnux VM
+
+- Save the file and close it
+
+run the tool:
+`inetsim`
+![[Pasted image 20240311182112.png]]
+=>
+Now DNS is running  (also the other protocol that were enabled by default)
+
+#### Test INetSim
+To test it -->  run the Windows VM
+- open Google chrome
+- type the REMnux IP => 10.0.0.4
+  ![[Pasted image 20240311182424.png]]
+
+- it also works with HTTPS
+- NOW:
+  type `https://10.0.0.4/malz.exe`
+  =>
+  it will download a exe file
+  
+Another thing we need:
+- click win button > Network connections > double click Ethernet > Properties >
+- double click on Internet Protocol Version 4 > click on Use the following DNS server address
+- type the REMnux IP -->  `10.0.0.4`
+- Exit
+
+<span style="background:#fff88f">What we did:</span>
+now every time you search whatever page you want on google =>  you'll be <span style="color:#00b050">r</span><span style="color:#00b050">edirect to INet</span>
+=>
+we have setup a -->  <span style="color:#00b050">fake DNS Server</span>
+<span style="color:#00b050">that will respond to </span>-->  <span style="color:#00b050">any DNS request</span> from the windows machine
+
+<span style="background:#fff88f">why we did this:</span>
+bc in this way:
+<span style="color:#00b050">when we detonate a malware</span> 
+=>
+we can -->  <span style="color:#00b050">monitor every site</span> <span style="color:#00b050">that the <span style="color:#00b050">malware</span> is trying to reach</span>
+
