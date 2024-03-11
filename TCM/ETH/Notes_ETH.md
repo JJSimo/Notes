@@ -3012,7 +3012,24 @@ also -->  technical remediation
 =>
 it's the same as the Executive Summary -->  but in technical
 
+# Career Advice
+![[Pasted image 20240311123244.png]]
+Don't become complacent =>  don't feel like that you arrived at the end
+there is always something else:
+- that you can learn
+- other job
 
+keep studying and keep searching for new job
+
+<span style="background:#fff88f">NEVER BE AFRAID TO APPLY JOBS YOU'RE UNQUALIFIED FOR:</span>
+often job descriptions/requirements are ridiculous 
+bc:
+they ask for a super hero
+=>
+if you find a interesting job =>  apply for it
+                           in a bad scenario you will be rejected
+                           BUT:
+                           you'll understand what you need to study/learn to achieve this job
 
 
 
