@@ -821,3 +821,11 @@ an <span style="color:#00b050">access control issue</span> where:
 
 <span style="background:#fff88f">easiest way to test IDOR:</span>
 find a way where you are able to -->  manipulate an obj ID
+
+------
+## Malware Analysis
+### Installing FLARE-VM
+collection of software installations scripts for Windows systems that allows you to easily setup and maintain a reverse engineering environment on a virtual machine (VM)
+
+How to install it:
+look [[Notes_PMAT#Installing FLARE-VM|here]]
