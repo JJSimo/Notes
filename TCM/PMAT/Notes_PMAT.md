@@ -89,6 +89,13 @@ FLARE-VM -->  collection of software installations scripts for Windows systems t
     - Run: `.\install.ps1 -customConfig https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/config.xml`
     - Follow the rest of the prompts and continue with the installation.
     - It takes a long time and also maybe it will reboot a couple of times
-      
+	    - if it seems stucked =>  try to hit enter in the terminal
+	    - you will <span style="color:#00b050">hear a sound</span> when it will finishes
+    
 - When the installation is done =>  TAKE ANOTHER SNAPSHOT -->  call it flareVM-clean
 
+### PMAT-REMnux
+Remnux -->  linux distro buils specifically for malware analysis and reverse engineering
+=>
+- go [here](https://remnux.org/#distro) > Download > VirtualBox OVA > Download OVA from Box > Download
+- 
