@@ -363,3 +363,17 @@ is to <span style="color:#00b050">add</span> -->  <span style="color:#00b050">an
 =>
 so in this way -->  it will not executed if you run it 
 
+### Standard convention to handle malware
+Usually you need a convention for:
+- <span style="background:#fff88f">the filename of the malware:</span>
+  `malware.name.exe.malz`
+  `malware` -->  category of the malware
+  `name` -->  name of the malware
+  `exe` -->  extension of the malware
+  `malz` -->  extra extension for safety reason
+
+- <span style="background:#fff88f">how to build the folder that contains the malware:</span>
+	- <span style="color:#00b050">call the folder</span> -->  in the same way you called the malware
+	- <span style="color:#00b050">ZIP</span> the malware
+	- <span style="color:#00b050">ENCRYPT</span> the malware with a password
+  
