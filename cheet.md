@@ -844,7 +844,8 @@ tools for extracting Strings from binary
 it also tries to -->    - decode
                  - de-obfuscate  the strings
                    
-`FLOSS.exe Malware.Unknown.exe.malz`
+`FLOSS.exe Malware.Unknown.exe.malz` -->  it will print any strings that has at least 4 characters
+`FLOSS.exe -n 6 Malware.Unknown.exe.malz` -->  to print only strings with >= 6 ch
 
 -----
 ### Sites

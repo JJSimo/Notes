@@ -444,4 +444,5 @@ it also tries to -->    - <span style="color:#00b050">decode</span>
                  - <span style="color:#00b050">de-obfuscate </span> the strings
 
 `FLOSS.exe Malware.Unknown.exe.malz`  -->  it will print any strings that has at least 4 characters
+`FLOSS.exe -n 6 Malware.Unknown.exe.malz` -->  to print only strings with >= 6 ch
 
