@@ -250,3 +250,39 @@ bc in this way:
 =>
 we can -->  <span style="color:#00b050">monitor every site</span> <span style="color:#00b050">that the <span style="color:#00b050">malware</span> is trying to reach</span>
 
+## Course Lab Repo
+[github course lab repo](https://github.com/HuskyHacks/PMAT-labs)
+- Go to the repo > click on Code > Download ZIP
+- Copy the zip inside the FlareVM machine
+- to open each zip for each malware the password is -->  `infected`
+
+You may be wondering, why is there a picture of a handsome cat in the root directory?
+The malware samples in this course are built to perform different functions. 
+Some are designed to:
+- <span style="color:#00b050">destroy data</span>
+- <span style="color:#00b050">other to steal it</span>
+- some don't touch your data at all.
+
+`cosmo.jpeg` 
+=>  
+is a <span style="color:#00b050">placeholder for the precious data</span> that an average end user may have on their host
+=>
+Some malware samples in this course will -->    - <span style="color:#00b050">steal him</span>
+                                        - <span style="color:#00b050">encrypt him</span>
+                                        - <span style="color:#00b050">encode and exfiltrate him</span>
+
+## Detonate First Malware
+### Take a snapshot
+Go to top bar of the VM > Machine > Take a snapshot > call it `pre-detonation`
+
+### Wannacry
+- Open the LAB folder > labs > 4.1 Bossfight-wannacry > 
+- double click on the 7zip (open it with 7zip) > insert `infected`
+=>
+copy the exe into the desktop
+
+>[!warning]
+>before detonate the malware --> <span style="color:#00b050"> turn OFF InetSim </span>on REMnux VM
+
+
+
