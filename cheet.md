@@ -829,3 +829,26 @@ collection of software installations scripts for Windows systems that allows you
 
 How to install it:
 look [[Notes_PMAT#Installing FLARE-VM|here]]
+
+------
+### Practice
+#### Find SHA256sum and MD5sum
+`sha256sum.exe Malware.Unknown.exe.malz`
+`md5sum.exe Malware.Unknown.exe.malz`
+
+
+---
+### Tools
+
+
+
+-----
+### Sites
+#### VIRUSTOTAL
+[virustotal](https://www.virustotal.com/gui/)
+gigantic repository of lots of different info about malware samples
+=>
+you can use it to ask him if it has ever seen our malware
+=>
+- click on search and paste the [[cheet#Find SHA256sum and MD5sum|sha256sum or md5sum]]  (without the name of the malware)
+

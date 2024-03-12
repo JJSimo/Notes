@@ -386,4 +386,44 @@ Usually you need a convention for:
 - vx-underground GitHub repo: [https://github.com/vxunderground/MalwareSourceCode](https://github.com/vxunderground/MalwareSourceCode)
 - Zeltser Resources: [https://zeltser.com/malware-sample-sources/](https://zeltser.com/malware-sample-sources/)
 - MalwareBazaar: [https://bazaar.abuse.ch/](https://bazaar.abuse.ch/)
-  
+
+# Basic Static Analysis
+Static Analysis -->  we are not running the malware
+in this phase:
+it's a very early in the analysis =>  we won't able to draw any definitive conclusions
+								(without running the malware)
+
+## Hashing Malware Samples
+Lab sample:
+`PMAT-labs/labs/1-1.BasicStaticAnalysis/Malware.Unknown.exe.malz/Malware.Unknown.exe.7z`
+- extract the malware into Desktop
+### Find Hashes of the malware
+now:
+to fingerprint the malware we first need to collect 2 hashes:
+-  SHA256 sum
+- MD5 sum
+
+=>
+- open cmder > cd to Desktop
+- `sha256sum.exe Malware.Unknown.exe.malz`
+  ![[Pasted image 20240312135226.png]]
+- save this hash in a txt file <span style="background:#fff88f">FOR FUTURE REPORT</span>:
+  `92730427321a1c4ccfc0d0580834daef98121efa9bb8963da332bfd6cf1fda8a *Malware.Unknown.exe.malz`  
+
+- `md5sum.exe Malware.Unknown.exe.malz`
+- save the output in the txt file:
+  `1d8562c0adcaee734d63f7baaca02f7c *Malware.Unknown.exe.malz`
+
+### Check if the hashes are well known as malware sample
+- Open [[cheet#VIRUSTOTAL]]
+  gigantic repository of lots of different info about malware samples
+- in the search section paste one hash per time and check if it finds something 
+  ![[Pasted image 20240312140730.png]]
+=>
+<span style="color:#00b050">in this way we can gather more info on the malware</span> 
+
+### Strings & FLOSS: Static String Analysis
+<span style="background:#fff88f">if a bad programmer wants to call a website inside is malware:</span>
+for example to go to -->  `https://domain.com/evil.exe`
+=>
+he needs to <span style="color:#00b050">put this string </span>somewhere <span style="color:#00b050">inside the malware</span> 
