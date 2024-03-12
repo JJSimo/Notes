@@ -407,7 +407,7 @@ to fingerprint the malware we first need to collect 2 hashes:
 - open cmder > cd to Desktop
 - `sha256sum.exe Malware.Unknown.exe.malz`
   ![[Pasted image 20240312135226.png]]
-- save this hash in a txt file <span style="background:#fff88f">FOR FUTURE REPORT</span>:
+- save this hash in a txt file <span style="background:#fff88f">FOR FUTURE REPORT</span>:   [[1.1-Basic_static_analysis]]
   `92730427321a1c4ccfc0d0580834daef98121efa9bb8963da332bfd6cf1fda8a *Malware.Unknown.exe.malz`  
 
 - `md5sum.exe Malware.Unknown.exe.malz`
@@ -443,4 +443,5 @@ tools for extracting Strings from binary
 it also tries to -->    - <span style="color:#00b050">decode</span>
                  - <span style="color:#00b050">de-obfuscate </span> the strings
 
-`FLOSS.exe Malware.Unknown.exe.malz`
+`FLOSS.exe Malware.Unknown.exe.malz`  -->  it will print any strings that has at least 4 characters
+
