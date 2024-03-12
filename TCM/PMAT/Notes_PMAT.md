@@ -378,5 +378,12 @@ Usually you need a convention for:
 	- <span style="color:#00b050">ENCRYPT</span> the malware with a password
 
 ## Safe Malware Sourcing & Additional Resources
-
+### Where to find source malware
+<span style="background:#fff88f">where to find source malware:</span>
+- PMAT Labs: [https://github.com/HuskyHacks/PMAT-labs](https://github.com/HuskyHacks/PMAT-labs)
+- theZoo: [https://github.com/ytisf/theZoo](https://github.com/ytisf/theZoo)     (easy)
+- vx-underground main site: [https://www.vx-underground.org/](https://www.vx-underground.org/)
+- vx-underground GitHub repo: [https://github.com/vxunderground/MalwareSourceCode](https://github.com/vxunderground/MalwareSourceCode)
+- Zeltser Resources: [https://zeltser.com/malware-sample-sources/](https://zeltser.com/malware-sample-sources/)
+- MalwareBazaar: [https://bazaar.abuse.ch/](https://bazaar.abuse.ch/)
   
