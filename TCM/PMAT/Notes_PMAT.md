@@ -285,4 +285,64 @@ copy the exe into the desktop
 >before detonate the malware --> <span style="color:#00b050"> turn OFF InetSim </span>on REMnux VM
 
 
+the file that we have extracted -->  as no extension
+=>
+this is for -->  extra safety reason
+=>
+to "arm" the file => add .exe at the end of the filename  (do it) 
+
+Now:
+- right click on the .exe > Run as administrator
+- ![[Pasted image 20240312112717.png]]
+=>
+<span style="color:#00b050">we ran our first malware</span>
+
+<span style="background:#fff88f">Now we want to restore our VM to a state before the detonation:</span>
+=>
+- Close the VM by -->  clicking the "x" in the top right corner > "Power off the machine" AND
+- click on "Restore current snapshot 'pre-detonation"
+- if we re-open our VM => <span style="color:#00b050"> everything is good without malware</span>
+- delete the .exe
+
+## Tool Troubleshooting
+if you open the Tools folder on your FlareVM desktop
+=>
+you can find -->  all the tools installed with FLARE-VM
+
+<span style="background:#fff88f">What do we do if one of these tools it doesn't work or his installation failed:</span>
+- Go back temporarily to a network -->  that allows us to connect to internet
+	- Machine > Settings > Network > switch to NAT
+	- restart the VM
+	- win button > Network Connection > double click Ethernet > Properties > ipv4 
+	- make sure that both are using address automatically (IP address and DNS server IP)
+	- open the browser
+	- google the name of the tool
+	- download it and install it 
+- NOW you need to restore your VM:
+	- switch back network to Host-only Adapter and select the network name
+	- restore the DNS server to the REMnux machine
+
+### List of tools and link
+- FLARE-VM
+    - strings/FLOSS: [https://github.com/mandiant/flare-floss](https://github.com/mandiant/flare-floss)
+    - PEView: [http://wjradburn.com/software/](http://wjradburn.com/software)
+    - upx (not used but referenced): [https://upx.github.io/](https://upx.github.io/)
+    - PEStudio: [https://www.winitor.com/download](https://www.winitor.com/download)
+    - Capa: [https://github.com/mandiant/capa](https://github.com/mandiant/capa)
+    - Wireshark: [https://www.wireshark.org/](https://www.wireshark.org/)
+    - Sysinternals (Procmon, TCPView): [https://learn.microsoft.com/en-us/sysinternals/downloads/](https://learn.microsoft.com/en-us/sysinternals/downloads)
+    - nc/ncat: [https://nmap.org/download](https://nmap.org/download)
+    - Cutter: [https://github.com/rizinorg/cutter](https://github.com/rizinorg/cutter)
+    - x32/x64dbg: [https://x64dbg.com/](https://x64dbg.com/)
+    - Process Hacker 2 (now known as System Informer): [https://systeminformer.sourceforge.io/](https://systeminformer.sourceforge.io/
+    - scdbg: [https://github.com/dzzie/SCDBG](https://github.com/dzzie/SCDBG)
+    - dnSpy/dnSpyEx: [https://github.com/dnSpyEx/dnSpy](https://github.com/dnSpyEx/dnSpy)
+    - PEBear: [https://hshrzd.wordpress.com/pe-bear/](https://hshrzd.wordpress.com/pe-bear)
+    - YARA: [https://github.com/VirusTotal/yara](https://github.com/VirusTotal/yara)
+- REMnux
+    - base64 (built in Linux bin)
+    - OLEdump: [https://github.com/DidierStevens/DidierStevensSuite/blob/master/oledump.py](https://github.com/DidierStevens/DidierStevensSuite/blob/master/oledump.py)
+    - MobSF (Docker Container): [https://github.com/MobSF/Mobile-Security-Framework-MobSF](https://github.com/MobSF/Mobile-Security-Framework-MobSF) | [https://hub.docker.com/r/opensecurity/mobile-security-framework-mobsf/](https://hub.docker.com/r/opensecurity/mobile-security-framework-mobsf)
+    - INetSim: [https://www.inetsim.org/](https://www.inetsim.org/)
+
 
