@@ -346,3 +346,14 @@ you can find -->  all the tools installed with FLARE-VM
     - INetSim: [https://www.inetsim.org/](https://www.inetsim.org/)
 
 
+
+
+# Basic Malware Handling
+One thing that you really need to keep in mind:
+<span style="color:#00b050">SAFETY ALWAYS</span>
+
+bc:
+we are going to work with -->  Live malware
+
+<span style="background:#fff88f">the times that you are most vulnerable:</span>
+are going to be -->  when the malware is in transit 
