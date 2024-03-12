@@ -839,8 +839,12 @@ look [[Notes_PMAT#Installing FLARE-VM|here]]
 
 ---
 ### Tools
-
-
+#### FLOSS
+tools for extracting Strings from binary
+it also tries to -->    - decode
+                 - de-obfuscate  the strings
+                   
+`FLOSS.exe Malware.Unknown.exe.malz`
 
 -----
 ### Sites

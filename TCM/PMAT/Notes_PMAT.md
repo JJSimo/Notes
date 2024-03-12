@@ -426,4 +426,21 @@ to fingerprint the malware we first need to collect 2 hashes:
 <span style="background:#fff88f">if a bad programmer wants to call a website inside is malware:</span>
 for example to go to -->  `https://domain.com/evil.exe`
 =>
-he needs to <span style="color:#00b050">put this string </span>somewhere <span style="color:#00b050">inside the malware</span> 
+he needs to:
+- <span style="color:#00b050">put this string </span>somewhere <span style="color:#00b050">inside the malware</span> 
+- make a web request
+
+<span style="background:#fff88f">when a binary is assembled:</span>
+- the strings are inside the binary
+- they <span style="color:#00b050">can be read</span> by looking -->  the <span style="color:#00b050">bytes</span> of the binary
+  =>
+  we <span style="color:#00b050">don't need to run the malware</span> to read them
+
+How to do that -->  with [[cheet#FLOSS]]
+
+#### FLOSS
+tools for extracting Strings from binary
+it also tries to -->    - <span style="color:#00b050">decode</span>
+                 - <span style="color:#00b050">de-obfuscate </span> the strings
+
+`FLOSS.exe Malware.Unknown.exe.malz`
