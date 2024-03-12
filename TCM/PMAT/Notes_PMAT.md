@@ -376,4 +376,7 @@ Usually you need a convention for:
 	- <span style="color:#00b050">call the folder</span> -->  in the same way you called the malware
 	- <span style="color:#00b050">ZIP</span> the malware
 	- <span style="color:#00b050">ENCRYPT</span> the malware with a password
+
+## Safe Malware Sourcing & Additional Resources
+
   
