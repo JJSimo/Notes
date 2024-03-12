@@ -446,3 +446,44 @@ it also tries to -->    - <span style="color:#00b050">decode</span>
 `FLOSS.exe Malware.Unknown.exe.malz`  -->  it will print any strings that has at least 4 characters
 `FLOSS.exe -n 6 Malware.Unknown.exe.malz` -->  to print only strings with >= 6 ch
 
+- some strings will be completely useless
+- <span style="background:#fff88f">others can be useful:</span>
+  ![[Pasted image 20240312143455.png]]
+  _<span style="color:#00b050">with some experience you will find interesting strings easier</span>
+  
+<span style="background:#fff88f">Sometimes the most useful strings are in the bottom output:</span>
+in the -->  `FLOSS STATIC STRINGS:`
+![[Pasted image 20240312143710.png]]
+<span style="color:#00b050">this might or not might be useful</span>
+=>  copy this strings inside the [[1.1-Basic_static_analysis|report]]
+
+### Analyzing the Import Address Table
+Now we are going to:
+- <span style="color:#00b050">look at the structure </span>of the binary 
+- find more info about:
+	- <span style="color:#00b050">when it was compiled</span>
+	- <span style="color:#00b050">what kind of functions it might be using</span>
+
+we are going to use -->  [[cheet|PEview]]
+>[!info]
+>to install it:
+>- download the zip from [here]([http://wjradburn.com/software/PEview.zip](http://wjradburn.com/software/PEview.zip)      
+>- copy the zip inside the FlareVM
+
+#### Peview
+- open it
+- it will ask for a exe file =>  chanhe the type file to "All Files" > select our malware
+  ![[Pasted image 20240312145215.png]]
+=>
+a <span style="color:#00b050">Portable executable</span> -->  is simply a huge array of bytes
+
+let's see the column of Peview:
+`pFile` -->  represents the offset of the exadecimal bytes
+`Raw Data` -->  represents the exadecimal bytes
+`Value` -->  it's a character representation of what these bytes looks like
+
+<span style="background:#fff88f">The MZ value:</span>
+- is the Magic Bytes  [[Notes_ETH#Magic Bytes 0x02|more info here]]
+- is a unique string that identifies the file as -->  windows executable
+
+
