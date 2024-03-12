@@ -348,7 +348,7 @@ you can find -->  all the tools installed with FLARE-VM
 
 
 
-# Basic Malware Handling
+## Basic Malware Handling
 One thing that you really need to keep in mind:
 <span style="color:#00b050">SAFETY ALWAYS</span>
 
@@ -356,4 +356,10 @@ bc:
 we are going to work with -->  Live malware
 
 <span style="background:#fff88f">the times that you are most vulnerable:</span>
-are going to be -->  when the malware is in transit 
+are going to be -->  when the <span style="color:#00b050">malware is in transit</span> 
+
+<span style="background:#fff88f">one principle of malware handling:</span>
+is to <span style="color:#00b050">add</span> -->  <span style="color:#00b050">another extension</span> to the malware   (es `malware.exe.malz`)
+=>
+so in this way -->  it will not executed if you run it 
+
