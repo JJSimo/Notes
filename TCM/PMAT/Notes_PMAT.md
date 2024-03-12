@@ -477,6 +477,7 @@ we are going to use -->  [[cheet|PEview]]
 =>
 a <span style="color:#00b050">Portable executable</span> -->  is simply a huge array of bytes
 
+#### Peview Structure
 let's see the column of Peview:
 `pFile` -->  represents the offset of the exadecimal bytes
 `Raw Data` -->  represents the exadecimal bytes
@@ -486,4 +487,35 @@ let's see the column of Peview:
 - is the Magic Bytes  [[Notes_ETH#Magic Bytes 0x02|more info here]]
 - is a unique string that identifies the file as -->  windows executable
 
+##### IMAGE_FILE_HEADER section
+<span style="background:#fff88f">one of the first thing to look at:</span>
+is the -->  <span style="color:#00b050">IMAGE_FILE_HEADER section</span> (inside the IMAGE_NT_HEADERS)
+bc:
+one set of bytes inside the executable -->  will have the <span style="color:#00b050">time date stamp</span>
+time date stamp -->  is a time of compilation
 
+why can be useful:
+bc in some case if the date is weird (ex too hold) =>  can mean something useful
+
+#### IMAGE_SECTION_HEADER.txt
+has info that can be read into the binary at runtime
+=>
+look at:
+- <span style="color:#00b050">Virtual Size</span> 
+- <span style="color:#00b050">Size of Raw Data</span> 
+![[Pasted image 20240312151355.png]]
+=>
+- Take this 2 values (second column)
+- Convert them into decimal
+- compare them
+
+<span style="background:#fff88f">If the Virtual Size is much much  bigger of the Size of Raw Data:</span>
+=>
+maybe there is more into this binary -->  than is initially available to us 
+=>
+how binary can be -->  a <span style="color:#00b050">packet binary</span>  (we'll see that later)
+
+#### IMPORT Address Table
+inside the SECTION .rdata
+
+This can be really useful -->  but first we need to understand what is the <span style="color:#00b050">WINDOWS API</span> 
