@@ -599,6 +599,7 @@ here he have to 2 malware:
 	- we can notice sections called -->  <span style="color:#00b050">UPX</span>
 also:
 - we still have the -->  <span style="color:#00b050">IMPORT Address table</span>
+- we can check the dimension of -->  Virtual Size vs Raw Data
 #### IMPORT Address Table - Packed malware
 if you open it
 you'll see that -->  the <span style="color:#00b050">Address Table is ridiculously SHORT</span> 
@@ -606,3 +607,25 @@ you'll see that -->  the <span style="color:#00b050">Address Table is ridiculous
                 ![[Pasted image 20240313115845.png]]
 Also:
 <span style="background:#fff88f">there are 2 suspicious functions:</span>
+- `LoadLibraryA` -->  loads the specified module into the address space of the calling process
+- `GetProcAddress` -->  retrieves the address of an exported function/variable from the specified
+                    dynamic-link library (DLL)
+=>
+<span style="background:#fff88f">these 2 functions mean:</span>
+- <span style="color:#00b050"> I don't have these address imports in my table right now</span>
+- => I'll go find them
+=>
+<span style="background:#fff88f">When the malware will go back to the normal size:</span>
+- these 2 fz -->    - will be invoked 
+                - will <span style="color:#00b050">find the other API calls </span>that the malware uses
+
+#### IMAGE_SECTION_HEADER_UPX0
+Last thing to check:
+if the -->  <span style="color:#00b050">Virtual Size is different from the Raw Data</span> 
+![[Pasted image 20240313120815.png]]
+
+here is -->  COMPLETELY DIFFERENT 
+
+here the Size of Raw Data is 0:
+bc -->  <span style="color:#00b050">it will be initialized after the binary inflated from its packed state</span>        inflated=gonfiato
+
