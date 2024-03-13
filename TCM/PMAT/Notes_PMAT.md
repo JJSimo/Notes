@@ -672,6 +672,46 @@ Capa will examine a binary -->      - identify an API call or string of interest
 =>
 <span style="color:#00b050">It translates</span> -->  the technical info in a binary into a simple, human-readable piece of info
 
-#### Example
+<span style="background:#fff88f">example:</span>
 `capa.exe Malware.Unknown.exe.malz`
 ![[Pasted image 20240313125946.png]]
+
+#### MITRE Adversary Tactics, Techniques & Common Knowledge (ATT&CK)
+The MITRE ATT&CK Framework:
+is a <span style="color:#00b050">standard knowledge</span> base of -->  adversary tactics, techniques, and procedures (TTPs). <span style="background:#fff88f">MITRE ATT&CK:</span>
+- <span style="color:#00b050">define and classify cyber adversary activity into groups </span>
+- based on:
+	- what the activity seeks to accomplish 
+	- how the activity is carried out.
+
+<span style="color:#00b050">"In my professional life, no other standard set of def has seen more use than MITRE ATT&CK. 
+It is an industry standard just about everywhere you go"</span> 
+
+#### Capa Output
+##### Malware Behavioral Catalog (MBC)
+MBC:
+- similar classification system to MITRE ATT&CK
+- but <span style="color:#00b050">focuses</span> on <span style="color:#00b050">malware</span> specifically
+  =>
+- <span style="color:#00b050">translates MITRE ATT&CK items</span> -->  into terms that focus on the malware analysis use case
+
+<span style="background:#fff88f">In this case Capa identifies that the maware has the capability to:</span>
+- Send and receive data
+- Do so over HTTP
+- Create and terminate processes
+
+##### Capability
+- identifies Capa rule matches against the default Capa rule set.
+- this is the most specific of the 3 outputs and gives us the best information for triage
+
+Like in the MBC output, the Capa rule output identifies that the malware can:
+- connect to a URL
+- send and receive data
+- manipulate processes.
+
+More than MBC here we can see -->     - the <span style="color:#00b050">n° of matches </span>
+                                 - the <span style="color:#00b050">namespace for the rules in this output</span>
+
+#### Other example
+`capa.exe Malware.Unknown.exe.malz -v`
+`-v` -->  verbose

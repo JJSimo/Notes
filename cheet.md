@@ -855,7 +855,15 @@ tools for basic initial static malware analysis
 tools that automate all the info that you can find manually with PEview
 [[Notes_PMAT#!! PEStudio !!|how to use it]]
 
+#### Capa
+program that <span style="color:#00b050">detects malicious capabilities</span> in suspicious programs <span style="color:#00b050">by using a set of rules</span>
+These <span style="color:#00b050">rules</span>:
+are meant to be -->  as <span style="color:#00b050">high-level and human readable</span> as possible
+=>
+<span style="color:#00b050">It translates</span> -->  the technical info in a binary into a simple, human-readable piece of info
 
+`capa.exe Malware.Unknown.exe.malz`
+`capa.exe Malware.Unknown.exe.malz -v` -->  for more info
 
 -----
 ### Sites
