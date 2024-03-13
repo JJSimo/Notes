@@ -793,7 +793,9 @@ some actions can be both:
 example DNS request -->      - can be surely a network indicator
                         - but also a host indicator   (due to log file inside the host)
 
-## Initial Detonation & Triage: Hunting for Network Signatures
+## Initial Detonation & Triage
+### Network Indicators
+#### Hunting for Network Signatures
 we'll use the same malware as the previous lab
 `PMAT-labs/labs/1-1.BasicStaticAnalysis/Malware.Unknown.exe.malz/Malware.Unknown.exe.7z`
 
@@ -803,7 +805,7 @@ we'll use the same malware as the previous lab
 	- if YES =>  it connects to it
 	- if NO =>  it deletes the malware from the pc 
 =>
-### Wireshark and Inetsim
+##### Wireshark and Inetsim
 - turn on REMnux VM
 	- launch `inetsim`              ([[Notes_PMAT#INetSim Setup]])
 	- launch wireshark -->  `sudo wireshark`
@@ -849,3 +851,9 @@ Copy this screenshot inside the report as -->  <span style="color:#00b050">Netwo
 >=>
 >- we must restore our VM -->  before the detonation
 
+## Host-Based Indicators
+### Procmon
+advanced monitoring tool for Windows that shows:
+- real-time file system
+- registry
+- process/thread activity

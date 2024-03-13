@@ -839,6 +839,11 @@ look [[Notes_PMAT#Installing FLARE-VM|here]]
 
 ---
 ### Tools
+
+#### INetSim
+software suite for simulating common internet services in a lab environment
+example -->  for analyzing the network behaviour of unknown malware samples
+[[Notes_PMAT#INetSim Setup (REMnux)|example how to use it]]
 #### FLOSS
 tools for extracting Strings from binary
 it also tries to -->    - decode
@@ -864,6 +869,12 @@ are meant to be -->  as <span style="color:#00b050">high-level and human readabl
 
 `capa.exe Malware.Unknown.exe.malz`
 `capa.exe Malware.Unknown.exe.malz -v` -->  for more info
+
+### Procmon
+advanced monitoring tool for Windows that shows:
+- real-time file system
+- registry
+- process/thread activity
 
 -----
 ### Sites
