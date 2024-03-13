@@ -659,4 +659,4 @@ lists all the libraries used by the binary and identifies -->  <span style="colo
 additional layer that examines the strings inside the binary
 ![[Pasted image 20240313123214.png]]
 
-###
+### Capa

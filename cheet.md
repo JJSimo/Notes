@@ -848,6 +848,13 @@ it also tries to -->    - decode
 `FLOSS.exe -n 6 Malware.Unknown.exe.malz` -->  to print only strings with >= 6 ch
 
 #### PEview
+tools for basic initial static malware analysis 
+[[Notes_PMAT#Peview|how to use it]]
+
+#### PEstudio
+tools that automate all the info that you can find manually with PEview
+[[Notes_PMAT#!! PEStudio !!|how to use it]]
+
 
 
 -----
