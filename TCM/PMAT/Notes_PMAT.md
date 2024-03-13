@@ -552,4 +552,57 @@ if you don't know that a function does =>  google it and look at the Microsoft d
 >
 
 ## Packed Malware Analysis
-Packer malware -->  
+Packet malware:
+<span style="color:#00b050">packet</span> means something -->  <span style="color:#00b050">compressed</span>/<span style="color:#00b050">encrypted</span>
+=>
+<span style="color:#00b050">packet malware</span> -->        - is malware that is compressed/encrypted
+                    - so that it <span style="color:#00b050">looks different than its original source</span>
+### Packing Program
+A packing program: (ex <span style="color:#00b050">UPX</span>)
+- takes a malware
+- puts inside it at the top a program called -->  <span style="color:#00b050">packet stub</span>   (or comprension/stub, coder/stub)
+- this packet stub:
+	- takes all the malware code below him -->  and it compresses these codes
+	  => 
+- the result is:
+	- a program -->  a lot smaller than the original one
+	- it will have 3 sections:
+		- the<span style="color:#00b050"> original portable executable header</span>
+		- the <span style="color:#00b050">stub</span>
+		- the <span style="color:#00b050">code</span> (but compressed)
+
+At runtime:
+- the stub -->  <span style="color:#00b050">expand the code to the original size</span> 
+
+<span style="background:#fff88f">why do that:</span>
+bc for example an <span style="color:#00b050">Anti Virus (AV) </span>-->  can <span style="color:#00b050">DON'T KNOW the signature</span> of the malware compressed
+=>
+<span style="background:#fff88f">if the AV finds:</span>
+- the <span style="color:#00b050">unpacked malware</span> -->      - it <span style="color:#00b050">will recognize</span> the signature
+							- it will <span style="color:#00b050">stop</span> the malware
+
+- the <span style="color:#00b050">packed malware</span> -->   - maybe the AV <span style="color:#00b050">won't recognize</span> it as a malware
+						- the malware will <span style="color:#00b050">execute</span> 
+
+### Example packet malware
+Unzip into Desktop the zip inside the lab folder:
+`labs\1-1.BasicStaticAnalysis\Malware.PackedAndNotPacked.exe.malz`
+
+here he have to 2 malware:
+- one packed
+- one unpacked
+
+=>
+- open the packet malware with [[cheet#PEview]]
+  ![[Pasted image 20240313115501.png]]
+- we have different sections here  (compare to the unpacked malware)
+	- we can notice sections called -->  <span style="color:#00b050">UPX</span>
+also:
+- we still have the -->  <span style="color:#00b050">IMPORT Address table</span>
+#### IMPORT Address Table - Packed malware
+if you open it
+you'll see that -->  the <span style="color:#00b050">Address Table is ridiculously SHORT</span> 
+                 (even the simplest program would have a tabler bigger than this one)
+                ![[Pasted image 20240313115845.png]]
+Also:
+<span style="background:#fff88f">there are 2 suspicious functions:</span>
