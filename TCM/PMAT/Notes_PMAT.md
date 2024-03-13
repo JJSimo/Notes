@@ -713,5 +713,57 @@ More than MBC here we can see -->     - the <span style="color:#00b050">n° of m
                                  - the <span style="color:#00b050">namespace for the rules in this output</span>
 
 #### Other example
+##### verbose
 `capa.exe Malware.Unknown.exe.malz -v`
 `-v` -->  verbose
+![[Pasted image 20240313131853.png]]
+
+Capa identifies:
+- the rule that is triggered for the binary
+- the type of rule
+- even the <span style="color:#00b050">location in the binary where the rule is triggered in hex form</span>
+
+##### double verbose
+`capa.exe Malware.Unknown.exe.malz -vv`
+![[Pasted image 20240313132351.png]]
+
+```
+download URL to file
+namespace  communication/http/client
+author     matthew.williams@fireeye.com
+scope      function
+mbc        Communication::HTTP Communication::Download URL [C0002.006]
+examples   F5C93AC768C8206E87544DDD76B3277C:0x100020F0, Practical Malware Analysis Lab 20-01.exe_:0x401040
+function @ 0x401080
+  or:
+    api: urlmon.URLDownloadToFile @ 0x4010D9
+```
+
+For example the output of `download URL to file` rule indicates that:
+- his rule triggers when the `urlmon.URLDownloadToFile` API call is located in the binary
+- It has identified:
+	- this API call
+	- provides the location in the binary where it is called
+	- provides some examples of where this kind of malware behavior has been seen before
+
+ For some rules:
+<span style="background:#fff88f"> there are conditionals that can trigger the rule based on multiple criteria</span>
+example:
+```
+create process (2 matches)
+namespace  host-interaction/process/create
+author     moritz.raabe@fireeye.com
+scope      basic block
+mbc        Process::Create Process [C0017]
+examples   9324D1A8AE37A36AE560C37448C9705A:0x406DB0, Practical Malware Analysis Lab 01-04.exe_:0x4011FC
+basic block @ 0x4010E3
+  or:
+    api: shell32.ShellExecute @ 0x401128
+basic block @ 0x401142
+  or:
+    api: kernel32.CreateProcess @ 0x4011AD
+```
+This rule identifies process creation based on:
+- the existence of the `ShellExecute` API call -->  located in `shell32.dll` 
+  or 
+- the `CreateProcess` API call -->  located in `kernel32.dll`
