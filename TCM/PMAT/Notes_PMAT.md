@@ -660,3 +660,18 @@ additional layer that examines the strings inside the binary
 ![[Pasted image 20240313123214.png]]
 
 ### Capa
+program that <span style="color:#00b050">detects malicious capabilities</span> in suspicious programs <span style="color:#00b050">by using a set of rules</span>
+These <span style="color:#00b050">rules</span>:
+are meant to be -->  as <span style="color:#00b050">high-level and human readable</span> as possible
+example:
+Capa will examine a binary -->      - identify an API call or string of interest
+                            - match this piece of info against a rule 
+                              that is called 
+	                            - "receive data" or 
+	                            - "connect to a URL"
+=>
+<span style="color:#00b050">It translates</span> -->  the technical info in a binary into a simple, human-readable piece of info
+
+#### Example
+`capa.exe Malware.Unknown.exe.malz`
+![[Pasted image 20240313125946.png]]
