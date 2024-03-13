@@ -767,3 +767,12 @@ This rule identifies process creation based on:
 - the existence of the `ShellExecute` API call -->  located in `shell32.dll` 
   or 
 - the `CreateProcess` API call -->  located in `kernel32.dll`
+
+## Note Review
+Look at the -->   [[1.1-Basic_static_analysis|report]]
+to see how to write a report for this work
+
+#  Basic Dynamic Analysis
+In this process -->  we are going to execute the malware
+
+##  Host and Network Indicators
