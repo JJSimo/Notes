@@ -633,7 +633,8 @@ bc -->  <span style="color:#00b050">it will be initialized after the binary infl
 >At this point of the analysis:
 >it's still to <span style="color:#00b050">early</span> to -->  <span style="color:#00b050">come to any conclusions</span>
 
-## Combining Analysis Methods: !! PEStudio !!
+## Combining Analysis Methods: 
+### !! PEStudio !!
 Go back to the original malware sample for this section:
 => 
 `PMAT-labs/labs/1-1.BasicStaticAnalysis/Malware.Unknown.exe.malz/Malware.Unknown.exe.7z`
@@ -646,16 +647,16 @@ it will automatically:
 
 ![[Pasted image 20240313122233.png]]
 
-### Indicators Section
+#### Indicators Section
 lists all the Strings in the binary and catalogs them into -->  <span style="color:#00b050">POTENTIAL MALICIOUS STRING</span>
 ![[Pasted image 20240313122502.png]]
 
-### libraries 
+#### libraries 
 lists all the libraries used by the binary and identifies -->  <span style="color:#00b050">those usually only used by malware</span> 
 ![[Pasted image 20240313122755.png]]
 
-### strings
+#### strings
 additional layer that examines the strings inside the binary
 ![[Pasted image 20240313123214.png]]
 
-##
+###
