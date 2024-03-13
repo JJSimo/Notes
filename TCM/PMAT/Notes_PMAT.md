@@ -3,6 +3,11 @@ Introduction to:
 - reverse engineering
 - triage
 
+GOAL malware analysis -->  deeply understand what the malware does
+                          - how it is build
+                          - what network actions does
+                          - what actions to the host does
+
 It's important for malware analysis:
 to have a place where you can run a malware
 <span style="color:#00b050">detonating</span> = run a malware
