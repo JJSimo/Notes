@@ -860,3 +860,7 @@ you can use it to ask him if it has ever seen our malware
 =>
 - click on search and paste the [[cheet#Find SHA256sum and MD5sum|sha256sum or md5sum]]  (without the name of the malware)
 
+#### MAlAPI.io
+- it catalogs Windows API -->  that can be user maliciously
+- it identifies sample of malwares that -->  those APIs are used maliciously in
+

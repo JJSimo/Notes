@@ -422,7 +422,7 @@ to fingerprint the malware we first need to collect 2 hashes:
 =>
 <span style="color:#00b050">in this way we can gather more info on the malware</span> 
 
-### Strings & FLOSS: Static String Analysis
+## Strings & FLOSS: Static String Analysis
 <span style="background:#fff88f">if a bad programmer wants to call a website inside is malware:</span>
 for example to go to -->  `https://domain.com/evil.exe`
 =>
@@ -438,7 +438,7 @@ he needs to:
 
 How to do that -->  with [[cheet#FLOSS]]
 
-#### FLOSS
+### FLOSS
 tools for extracting Strings from binary
 it also tries to -->    - <span style="color:#00b050">decode</span>
                  - <span style="color:#00b050">de-obfuscate </span> the strings
@@ -457,7 +457,7 @@ in the -->  `FLOSS STATIC STRINGS:`
 <span style="color:#00b050">this might or not might be useful</span>
 =>  copy this strings inside the [[1.1-Basic_static_analysis|report]]
 
-### Analyzing the Import Address Table
+## Analyzing the Import Address Table
 Now we are going to:
 - <span style="color:#00b050">look at the structure </span>of the binary 
 - find more info about:
@@ -470,14 +470,14 @@ we are going to use -->  [[cheet|PEview]]
 >- download the zip from [here]([http://wjradburn.com/software/PEview.zip](http://wjradburn.com/software/PEview.zip)      
 >- copy the zip inside the FlareVM
 
-#### Peview
+### Peview
 - open it
 - it will ask for a exe file =>  chanhe the type file to "All Files" > select our malware
   ![[Pasted image 20240312145215.png]]
 =>
 a <span style="color:#00b050">Portable executable</span> -->  is simply a huge array of bytes
 
-#### Peview Structure
+### Peview Structure
 let's see the column of Peview:
 `pFile` -->  represents the offset of the exadecimal bytes
 `Raw Data` -->  represents the exadecimal bytes
@@ -487,7 +487,7 @@ let's see the column of Peview:
 - is the Magic Bytes  [[Notes_ETH#Magic Bytes 0x02|more info here]]
 - is a unique string that identifies the file as -->  windows executable
 
-##### IMAGE_FILE_HEADER section
+#### IMAGE_FILE_HEADER section
 <span style="background:#fff88f">one of the first thing to look at:</span>
 is the -->  <span style="color:#00b050">IMAGE_FILE_HEADER section</span> (inside the IMAGE_NT_HEADERS)
 bc:
@@ -497,7 +497,7 @@ time date stamp -->  is a time of compilation
 why can be useful:
 bc in some case if the date is weird (ex too hold) =>  can mean something useful
 
-#### IMAGE_SECTION_HEADER.txt
+### IMAGE_SECTION_HEADER.txt
 has info that can be read into the binary at runtime
 =>
 look at:
@@ -515,7 +515,41 @@ maybe there is more into this binary -->  than is initially available to us
 =>
 how binary can be -->  a <span style="color:#00b050">packet binary</span>  (we'll see that later)
 
-#### IMPORT Address Table
+### IMPORT Address Table
 inside the SECTION .rdata
 
 This can be really useful -->  but first we need to understand what is the <span style="color:#00b050">WINDOWS API</span> 
+
+#### Windows API
+OS is written in very low level (01, jmp, xor)
+=>
+<span style="background:#fff88f">to make easier the life of programmers:</span>
+=>
+OS programmers decide that:
+if a programmer wants to create a tool for the OS =>   - he won't need to write it at low low level
+											  - he can use a language like C, C++
+											  - and use the functions provided by the OS
+##### MAlAPI.io
+How to understand which API can be used maliciously?
+we can use this website -->  [MAlAPI.io](https://malapi.io/)
+<span style="color:#00b050">MAlAPI:</span>
+- it catalogs Windows API -->  that can be user maliciously
+- it identifies sample of malwares that -->  those APIs are used maliciously in
+
+=>
+### IMPORT Address Table
+It's important to check:
+<span style="color:#00b050">which OS functions</span> -->  the malware used
+Some functions that may make us suspicious are:
+- [ShellExecuteW](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shellexecutew) -->  performs an operation on a specified file
+- [URLDownloadToFileW](https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775123(v=vs.85)) -->  download bits from internet and saves them to a file
+
+if you don't know that a function does =>  google it and look at the Microsoft documentation
+
+>[!warning]
+>At this point of the analysis:
+>it's still to <span style="color:#00b050">early</span> to -->  <span style="color:#00b050">come to any conclusions</span>
+>
+
+## Packed Malware Analysis
+Packer malware -->  
