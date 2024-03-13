@@ -629,3 +629,33 @@ here is -->  COMPLETELY DIFFERENT
 here the Size of Raw Data is 0:
 bc -->  <span style="color:#00b050">it will be initialized after the binary inflated from its packed state</span>        inflated=gonfiato
 
+>[!info] Keep in mind
+>At this point of the analysis:
+>it's still to <span style="color:#00b050">early</span> to -->  <span style="color:#00b050">come to any conclusions</span>
+
+## Combining Analysis Methods: !! PEStudio !!
+Go back to the original malware sample for this section:
+=> 
+`PMAT-labs/labs/1-1.BasicStaticAnalysis/Malware.Unknown.exe.malz/Malware.Unknown.exe.7z`
+
+<span style="color:#00b050">PEStdio</span> -->  one of the best tools for initial static analysis
+it will automatically:
+1) [[Notes_PMAT#Find Hashes of the malware|find the hashes of the malware]]
+2) these hashes have a direct link to [[cheet#VIRUSTOTAL|VIRUSTOTAL]]   (right click on the hash > copy link)
+3) show the [[Notes_PMAT#Peview|magic bytes]]
+
+![[Pasted image 20240313122233.png]]
+
+### Indicators Section
+lists all the Strings in the binary and catalogs them into -->  <span style="color:#00b050">POTENTIAL MALICIOUS STRING</span>
+![[Pasted image 20240313122502.png]]
+
+### libraries 
+lists all the libraries used by the binary and identifies -->  <span style="color:#00b050">those usually only used by malware</span> 
+![[Pasted image 20240313122755.png]]
+
+### strings
+additional layer that examines the strings inside the binary
+![[Pasted image 20240313123214.png]]
+
+##
