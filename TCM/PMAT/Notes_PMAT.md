@@ -775,4 +775,72 @@ to see how to write a report for this work
 #  Basic Dynamic Analysis
 In this process -->  we are going to execute the malware
 
+doing Static analysis -->  is useful to find some initial info
+but nothing more than run the malware:
+can give us info
+
 ##  Host and Network Indicators
+dynamically analysis will tell us a lot of info about:
+- <span style="color:#00b050">host indicators</span> -->  actions that happen on the host where the malware is been detonated
+- <span style="color:#00b050">network indicators</span> -->  action that happen through the network
+
+some actions can be both:
+example DNS request -->      - can be surely a network indicator
+                        - but also a host indicator   (due to log file inside the host)
+
+## Initial Detonation & Triage: Hunting for Network Signatures
+we'll use the same malware as the previous lab
+`PMAT-labs/labs/1-1.BasicStaticAnalysis/Malware.Unknown.exe.malz/Malware.Unknown.exe.7z`
+
+<span style="background:#fff88f">what this malware does:</span>
+- it tries to reach a domain
+- it sees if the domain is online
+	- if YES =>  it connects to it
+	- if NO =>  it deletes the malware from the pc 
+=>
+### Wireshark and Inetsim
+- turn on REMnux VM
+	- launch `inetsim`              ([[Notes_PMAT#INetSim Setup]])
+	- launch wireshark -->  `sudo wireshark`
+- on FlareVM
+	- remove the .malz extension to the malware
+
+Now:
+look at our Report and what we found with the static analysis:
+```bash
+cmd.exe /C ping 1.1.1.1 -n 1 -w 3000 > Nul & Del /f /q "%s"     
+http://ssl-6582datamanager.helpdeskbros.local/favicon.ico
+C:\Users\Public\Documents\CR433101.dat.exe 
+Mozilla/5.0               
+http://huskyhacks.dev                         
+ping 1.1.1.1 -n 1 -w 3000 > Nul & C:\Users\Public\Documents\CR433101.dat.exe
+Open
+```
+=>
+let's filter the wireshark traffic to -->  <span style="color:#00b050">try to catch the favicon.ico</span>
+=>
+put inside the wireshark bar --> `http.request.full_uri contains favicon.icon` 
+
+now:
+<span style="color:#00b050">detonate the malware</span> 
+=>
+we captured one packet:
+![[Pasted image 20240313154822.png]]
+open it to the Hypertext Transfer Protocol:
+- it's a get request to a site that contains -->  favicon.ico
+- from a Firefox browser
+- and the FULL URI is -->  `http://ssl-6582datamanager.helpdeskbros.local/favicon.ico`
+- <span style="color:#00b050">that is the URI that we found in our static analysis</span> 
+
+=>
+Copy this screenshot inside the report as -->  <span style="color:#00b050">Network Signature</span> 
+
+>[!info] What know
+>our <span style="color:#00b050">GOAL</span> is to -->  <span style="color:#00b050">completely understand what the malware does</span>
+>=>
+>for now we only understand that -->  it makes a http request to this webiste
+>BUT:
+>we don't know what else is doing on the host side (host indicators)
+>=>
+>- we must restore our VM -->  before the detonation
+
