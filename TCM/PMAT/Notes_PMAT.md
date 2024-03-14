@@ -1217,7 +1217,7 @@ Now to see the complete TCP flow:
 ### Malware Classification
 this is a -->  <span style="color:#00b050">BIND SHELL</span>
 
-### Analyzing a Reverse Shell 
+## Analyzing a Reverse Shell 
 - restore VM to pre detonation
 
 malware:
@@ -1226,13 +1226,13 @@ malware:
 README:
 ![[Pasted image 20240314115853.png]]
 
-#### Static analysis
+### Static analysis
 - we have the hashes inside the malware folder
 - paste them in [[cheet#VIRUSTOTAL]] -->  no result
 - open cmder
 - run [[Notes_PMAT#FLOSS]] -->  `FLOSS.exe RAT.Unknown2.exe.malz > floss_output.txt`
 - floss -->  no relevant strings
-##### PEStudio
+#### PEStudio
 - open the malware
 - look at:
 	- indicators
@@ -1242,12 +1242,12 @@ no relevant info
 =>
 let's move into Dynamic analysis
 
-#### Dynamic analysis
+### Dynamic analysis
 - turn on INetSim 
 - turn on Wireshark
 - detonate the malware as admin
 
-##### Wireshark
+#### Wireshark
 check the first highest protocol packet:
 DNS
 ![[Pasted image 20240314122525.png]]
@@ -1267,7 +1267,7 @@ update our note -->  [[1.2-RAT.Unknown2.exe]]
 Notice:
 that we only found DNS request => NO HTTP
 
-##### Fake DNS reply
+#### Fake DNS reply
 We know that the malware tries to -->  connect to `aaaaaaaaaaaaaaaaaaaa.kadusus.local` via DNS
 =>
 we can:
@@ -1286,7 +1286,7 @@ when we run the malware:
 How to test it:
 with -->  procmon
 
-###### Procmon
+##### Procmon
 - filter by [[Notes_PMAT#Filter by process name|process name]]
 - filter by [[Notes_PMAT#Filter by TCP|TCP]]
 - detonate the malware
@@ -1296,7 +1296,7 @@ with -->  procmon
 =>
 save it in the report -->  Potential call out to specified DNS record on HTTPS port (443)
 
-###### Listen for DNS with netcat
+##### Listen for DNS with netcat
 - keep open procmon
 - on cmder -->  `ncat.exe -nvlp 443`
 ![[Pasted image 20240314125012.png]]
@@ -1309,10 +1309,171 @@ save it in the report -->  Potential call out to specified DNS record on HTTPS p
   ![[Pasted image 20240314125304.png]]
 =>
 Update the report -->  Reverse shell capabilities
-##### Malware Classification
+#### Malware Classification
 This is a:
 <span style="color:#00b050">REVERSE SHELL</span> -->  bc:
                    - we setup a listener
                    - after the malware is been executed => the malware connected to the listener
 =>
 
+### Parent-Child Process Analysis (always dynamic analysis)
+- Clear the procmon output (1)
+- Remove the TCP filter (2-5)
+  ![[Pasted image 20240314130532.png]]
+- write another command inside netcat -->  id
+
+<span style="background:#fff88f">To analyze the Parent-Child Process:</span>
+- click on Process Tree (1)
+- click on the malware (2)
+  ![[Pasted image 20240314131231.png]]
+
+<span style="background:#fff88f">Everytime we write a command inside the reverse shell:</span>
+- the malware process -->  will <span style="color:#ff9900">spawn a child CMD process</span>
+	- this child CMD process -->  will <span style="color:#ff9900">execute the command</span> inside the reverse shell
+- Example:
+	- if we type -->  `ipconfig` and after `whoami`
+	- close and open again the Process tree
+	  =>
+	  ![[Pasted image 20240314131726.png]]
+	- you will find:
+		- a child CMD process
+		- that runs the command written in the reverse shell
+=>
+>[!warning]
+>Every time:
+>you find a process that:
+>- spawn child CMD process
+>- those CMD processes EXECUTE commands (like whoami, ipconfig, id)
+>=>
+><span style="color:#ff9900">this is suspicious</span> 
+
+<span style="background:#fff88f">WHAT MALWARE DEVELOPERS DO:</span>
+they try to -->  <span style="color:#00b050">DECHAIN / DECOUPLING this parent child relationship</span> (we'll see later)
+
+#### Filter By Parent PID
+<span style="background:#fff88f">These info that we found with Parent PID Analysis:</span>
+cannot be found -->  by filtering only for the process name
+=>
+
+ we can also -->     filter by the parent PID 
+                that is 7608  (look at the latest img)
+in this way:
+we can see -->  <span style="color:#00b050">all the process related to our parent PID</span>
+=>
+![[Pasted image 20240314133202.png]]
+
+in this way for example we can see:
+- the commands that we wrote in the reverse shell -->  as process on host
+
+
+# SillyPutty Challenge
+## Info
+Hello Analyst,
+
+The help desk has received a few calls from different IT admins regarding the attached program. They say that they've been using this program with no problems until recently. Now, it's crashing randomly and popping up blue windows when it's run. I don't like the sound of that. Do your thing!
+
+IR Team
+
+### Objective
+Perform basic static and basic dynamic analysis on this malware sample and extract facts about the malware's behavior. Answer the challenge questions below. 
+If you get stuck, the `answers/` directory has the answers to the challenge.
+
+### Tools
+Basic Static:
+- File hashes
+- VirusTotal
+- FLOSS
+- PEStudio
+- PEView
+
+Basic Dynamic Analysis
+- Wireshark
+- Inetsim
+- Netcat
+- TCPView
+- Procmon
+### Challenge Questions
+#### Basic Static Analysis
+- What is the SHA256 hash of the sample?
+- What architecture is this binary?
+- Are there any results from submitting the SHA256 hash to VirusTotal?
+- Describe the results of pulling the strings from this binary. Record and describe any strings that are potentially interesting. Can any interesting information be extracted from the strings?
+- Describe the results of inspecting the IAT for this binary. Are there any imports worth noting?
+- Is it likely that this binary is packed?
+
+#### Basic Dynamic Analysis
+- Describe initial detonation. Are there any notable occurrences at first detonation? Without internet simulation? With internet simulation?
+- From the host-based indicators perspective, what is the main payload that is initiated at detonation? What tool can you use to identify this?
+- What is the DNS record that is queried at detonation?
+- What is the callback port number at detonation?
+- What is the callback protocol at detonation?
+- How can you use host-based telemetry to identify the DNS record, port, and protocol?
+- Attempt to get the binary to initiate a shell on the localhost. Does a shell spawn? What is needed for a shell to spawn?
+
+## Basic static analysis
+### What is the SHA256 hash of the sample
+`sha256sum.exe putty.exe`
+0c82e654c09c8fd9fdf4899718efa37670974c9eec5a8fc18a167f93cea6ee83 *putty.exe
+![[Pasted image 20240314151156.png]]
+
+### What architecture is this binary
+`file putty.exe`
+putty.exe: PE32 executable (GUI) Intel 80386, for MS Windows, 10 section
+=>
+32 bit
+![[Pasted image 20240314151210.png]]
+
+### VIRUSTOTAL
+it seems a -->  trojan / shell code
+![[Pasted image 20240314151324.png]]
+
+### Strings
+ `FLOSS.exe putty.exe > floss_output.txt`
+
+`FLOSS.exe putty.exe | grep -i "powershell"`
+![[Pasted image 20240314155050.png]]
+### Binary IMPORT Address Table (IAT)
+![[Pasted image 20240314153300.png]]
+
+### Is it likely that this binary is packed
+It doesn't seem packed bc:
+- the Address table is not short
+- in the IMAGE_SECTION_HEADER .text -->  the Virtual Size is almost = to the Raw Data
+
+### Capa output
+very long and a lot of info
+it seems that the malware:
+- Can copy/modify data from the clipboard 
+- Has keylogger capabilities
+- edit/create registry key
+- encrypt and decrypt data
+- enumerate file on the host
+- OBFUSCATE FILE
+
+All these capabilities -->  are usually performed by putty
+the last one no
+
+## Basic Dynamic Analysis
+### Describe initial detonation
+#### No INetSim
+when open the malware =>  you can see a blue screen
+
+#### With INetSim
+when open the malware =>  you can see a blue screen
+
+I don't see any difference
+
+### Network Indicators
+![[Pasted image 20240314160027.png]]
+It tries to download this file
+
+### Procmon
+it creates 2 different files:
+- `x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.1110_none_c0da534e38c01f4d`
+- `comctl32.dll`
+![[Pasted image 20240314160444.png]]
+
+### TCPView
+![[Pasted image 20240314160723.png]]
+=>
+`nc -nv 10.0.0.3 50131`
