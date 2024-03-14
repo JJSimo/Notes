@@ -1247,13 +1247,14 @@ let's move into Dynamic analysis
 - turn on Wireshark
 - detonate the malware as admin
 
-#### Wireshark
+##### Wireshark
 check the first highest protocol packet:
 DNS
 ![[Pasted image 20240314122525.png]]
 =>
-we found a -->  an A record DNS for `aaaaaaaaaaaaaaaaaaaa.kadusus.local`
+<span style="color:#ff9900">we found a</span> -->  an A record DNS for `aaaaaaaaaaaaaaaaaaaa.kadusus.local`
 update our note -->  [[1.2-RAT.Unknown2.exe]]
+
 >[!warning]
 >Maybe in the static analysis:
 >we found one of these strings -->  aaaaa..., kadusus or local
@@ -1262,4 +1263,56 @@ update our note -->  [[1.2-RAT.Unknown2.exe]]
 >is that some malware -->  <span style="color:#ff9900">build the strings at runtime</span> 
 >=>
 >in this case -->  you will never find the strings with static analysis
+
+Notice:
+that we only found DNS request => NO HTTP
+
+##### Fake DNS reply
+We know that the malware tries to -->  connect to `aaaaaaaaaaaaaaaaaaaa.kadusus.local` via DNS
+=>
+we can:
+- <span style="color:#ff9900">modify</span> the `/etc/host` file on FlareVM
+- so that we can say -->  <span style="color:#ff9900">This record is here inside FlareVM</span>
+=>
+- open cmder as admin
+- `nano.exe C:\Windows\System32\drivers\etc\hosts`
+- paste -->  `127.0.0.1               aaaaaaaaaaaaaaaaaaaa.kadusus.local`
+- `CTRL+O` > enter > `CTRL+X`
+
+=>
+when we run the malware:
+- the <span style="color:#00b050">DNS request will be redirect to our host</span>
+  =>
+How to test it:
+with -->  procmon
+
+###### Procmon
+- filter by [[Notes_PMAT#Filter by process name|process name]]
+- filter by [[Notes_PMAT#Filter by TCP|TCP]]
+- detonate the malware
+![[Pasted image 20240314124416.png]]
+=>
+<span style="color:#ff9900">it tries to reach </span>-->  the <span style="color:#ff9900">domain via HTTPS</span> 
+=>
+save it in the report -->  Potential call out to specified DNS record on HTTPS port (443)
+
+###### Listen for DNS with netcat
+- keep open procmon
+- on cmder -->  `ncat.exe -nvlp 443`
+![[Pasted image 20240314125012.png]]
+=>
+- <span style="color:#ff9900">we have opened socket with our fake locally server</span>
+  =>
+- let's try if there is -->  <span style="color:#ff9900">command injection</span> possibility
+  =>
+  _<span style="color:#00b050">YES WE HAVE</span>_
+  ![[Pasted image 20240314125304.png]]
+=>
+Update the report -->  Reverse shell capabilities
+##### Malware Classification
+This is a:
+<span style="color:#00b050">REVERSE SHELL</span> -->  bc:
+                   - we setup a listener
+                   - after the malware is been executed => the malware connected to the listener
+=>
 
