@@ -1015,7 +1015,7 @@ MessageBoxW
 @http://serv1.ec2-102-95-13-2-ubuntu.local
 ```
 
-add this to the note [[1.2-RAT.Unknown.exe]]
+add this to the note [[1.2-RAT.CMDSocket.exe]]
 
 ### First Detonation
 #### NO INetSim
@@ -1116,7 +1116,7 @@ What we found:
 - <span style="color:#ff9900">the malware creates a file in this path</span> -->  called `mscordll.exe`
 - but the GET request is not for this file but for -->  `msdcorelib.exe`
 =>
-save this inside the [[1.2-RAT.Unknown.exe|report]] as -->  host indicator
+save this inside the [[1.2-RAT.CMDSocket.exe|report]] as -->  host indicator
 
 ALSO:
 <span style="color:#ff9900">we must check if </span>-->  this file is really in this path
@@ -1177,5 +1177,10 @@ Let's check with out connection in netcat if there is command injection:
 ![[Pasted image 20240314113319.png]]
 =>
 <span style="color:#00b050">WE CONFIRMED THAT THE MALWARE CAN INJECT COMMAND</span>   (as README file said)
+
+Try with different command to check better
 =>
-update note
+<span style="background:#fff88f">update note</span>
+=>
+change also the filename:
+`RAT.CMDSocket.exe`
