@@ -1217,3 +1217,31 @@ Now to see the complete TCP flow:
 ### Malware Classification
 this is a -->  <span style="color:#00b050">BIND SHELL</span>
 
+### Analyzing a Reverse Shell 
+- restore VM to pre detonation
+
+malware:
+`PMAT-labs/labs/1-2.BasicDynamicAnalysis/RAT.Unknown2.exe.malz/RAT.Unknown2.exe.7z`
+
+README:
+![[Pasted image 20240314115853.png]]
+
+#### Static analysis
+- we have the hashes inside the malware folder
+- paste them in [[cheet#VIRUSTOTAL]] -->  no result
+- open cmder
+- run [[Notes_PMAT#FLOSS]] -->  `FLOSS.exe RAT.Unknown2.exe.malz > floss_output.txt`
+- floss -->  no relevant strings
+##### PEStudio
+- open the malware
+- look at:
+	- indicators
+	- strings
+=>
+no relevant info
+=>
+let's move into Dynamic analysis
+
+#### Dynamic analysis
+- turn on INetSim 
+- turn on Wireshark

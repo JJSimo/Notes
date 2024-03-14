@@ -876,6 +876,9 @@ advanced monitoring tool for Windows that shows:
 - registry
 - process/thread activity
 
+### TCPView
+Windows program that will show you detailed listings of all TCP and UDP endpoints on your system, including the local and remote addresses and state of TCP connections.
+
 -----
 ### Sites
 #### VIRUSTOTAL
