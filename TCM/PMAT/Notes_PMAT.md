@@ -1533,5 +1533,5 @@ Why we can't establish the connection:
 - look at the wireshark output
 - when we try to connect -->  the server tries to establish a HTTPS connection
 - =>
-  without a valid certificate we won't be able to connect to it
+  without a valid certificate we won't be able to connect to it 
 
