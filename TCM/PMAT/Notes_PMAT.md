@@ -1535,3 +1535,4 @@ Why we can't establish the connection:
 - =>
   without a valid certificate we won't be able to connect to it 
 
+# Advanced Static Analysis
