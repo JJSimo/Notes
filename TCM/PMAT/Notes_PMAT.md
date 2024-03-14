@@ -1278,6 +1278,7 @@ we can:
 - `nano.exe C:\Windows\System32\drivers\etc\hosts`
 - paste -->  `127.0.0.1               aaaaaaaaaaaaaaaaaaaa.kadusus.local`
 - `CTRL+O` > enter > `CTRL+X`
+- `ipconfig /flushdns` -->  to clear DNS cache
 
 =>
 when we run the malware:
@@ -1461,19 +1462,76 @@ when open the malware =>  you can see a blue screen
 #### With INetSim
 when open the malware =>  you can see a blue screen
 
-I don't see any difference
+Blue Screen:
+could be -->  <span style="color:#00b050">powershell</span> 
+### Host indicators - main payload that is initiated at detonation
+We can find it with procmon
+if we filter by [[Notes_PMAT#Filter By Parent PID|parent PID]]
+first process that we find:
+![[Pasted image 20240314162934.png]]
+![[Pasted image 20240314163232.png]]
+=>
+It seems that is trying to:
+- create a compressed object
+- insert into it -->  a string in Base64
+=>
+let's decrypt it:
+`echo "..." | base64 -d > out`
+![[Pasted image 20240314163508.png]]
+=>
+we redirect the output to a file with no extension
+with `file` command we know that -->  is a gzip file
+=>
+open it:
+![[Pasted image 20240314163651.png]]
+=>
+<span style="color:#00b050">we found a SHELL SCRIPT</span>
 
-### Network Indicators
-![[Pasted image 20240314160027.png]]
-It tries to download this file
+### Network Indicators - What is the DNS record that is queried at detonation
+- Restore VM
+- open wireshark and turn on INetSim
+=>
+first higher protocol packet -->  DNS
+![[Pasted image 20240314164532.png]]
+=>
+it asks for -->  `bonus2.corporatebonusapplication.local` type A, class IN
+=>
+we can create a fake [[Notes_PMAT#Fake DNS reply|DNS reply]]
+- open cmder as admin
+- `nano.exe C:\Windows\System32\drivers\etc\hosts`
+- paste -->  `127.0.0.1               bonus2.corporatebonusapplication.local
+- `CTRL+O` > enter > `CTRL+X`
+- `ipconfig /flushdns` -->  to clear DNS cache 
 
-### Procmon
-it creates 2 different files:
-- `x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.1110_none_c0da534e38c01f4d`
-- `comctl32.dll`
-![[Pasted image 20240314160444.png]]
+=>
+when we run the malware:
+- the <span style="color:#00b050">DNS request will be redirect to our host</span>
 
-### TCPView
+### What is the callback port number at detonation?
+=>
+#### TCPView
 ![[Pasted image 20240314160723.png]]
 =>
-`nc -nv 10.0.0.3 50131`
+remote port is -->  8443
+
+### What is the callback protocol at detonation?
+The protocol is SSL/TLS. 
+This can be identified in Wireshark by the initiation of a CLIENT HELLO message from the detonation to the specified domain
+
+
+### How to identify the DNS record, port, and protocol?
+This can be accomplished by:
+filtering on the name of the binary and adding an additional filter of "Operation contains TCP" in procmon
+
+### Can you spawn a shell?
+NO
+after having setup the /etc/host file:
+- setup netcat --> `ncat.exe -nvlp 8443`
+- detonate the malware
+![[Pasted image 20240314170735.png]]
+Why we can't establish the connection:
+- look at the wireshark output
+- when we try to connect -->  the server tries to establish a HTTPS connection
+- =>
+  without a valid certificate we won't be able to connect to it
+
