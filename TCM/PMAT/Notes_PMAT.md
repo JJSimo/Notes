@@ -1184,3 +1184,36 @@ Try with different command to check better
 =>
 change also the filename:
 `RAT.CMDSocket.exe`
+
+##### Other check with Procmon
+- Open Procmon
+- filter by [[Notes_PMAT#Filter by process name|process name]]
+###### Filter by TCP
+![[Pasted image 20240314114146.png]]
+
+NOW:
+<span style="color:#ff9900">send a command through netcat</span> -->  `id`
+=>
+![[Pasted image 20240314114704.png]]
+<span style="color:#00b050">We have a successful</span> -->  TCP Receive and TCP Send
+
+Now to see the complete TCP flow:
+- open task manager > kill the malware
+  =>
+  you will see the TCP connection close
+- run again the malware
+  =>
+  you will see the entire TCP socket creation
+  ![[Pasted image 20240314115021.png]]
+
+<span style="background:#fff88f">TO SEE the entire WORKFLOW of the malware with a command injection:</span>
+- remove the filter by TCP
+- write in netcat -->  whoami
+=>
+![[Pasted image 20240314115409.png]]
+<span style="color:#00b050">we can see the malware that run the tool whoami on the host</span> 
+
+=>
+### Malware Classification
+this is a -->  <span style="color:#00b050">BIND SHELL</span>
+
