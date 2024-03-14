@@ -1245,3 +1245,21 @@ let's move into Dynamic analysis
 #### Dynamic analysis
 - turn on INetSim 
 - turn on Wireshark
+- detonate the malware as admin
+
+#### Wireshark
+check the first highest protocol packet:
+DNS
+![[Pasted image 20240314122525.png]]
+=>
+we found a -->  an A record DNS for `aaaaaaaaaaaaaaaaaaaa.kadusus.local`
+update our note -->  [[1.2-RAT.Unknown2.exe]]
+>[!warning]
+>Maybe in the static analysis:
+>we found one of these strings -->  aaaaa..., kadusus or local
+>
+>the reason why we didn't find the entire string:
+>is that some malware -->  <span style="color:#ff9900">build the strings at runtime</span> 
+>=>
+>in this case -->  you will never find the strings with static analysis
+
