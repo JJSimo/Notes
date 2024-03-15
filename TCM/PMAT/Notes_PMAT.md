@@ -1617,7 +1617,36 @@ example -->  if you set a 32 bit sub-register =>  t<span style="color:#00b050">h
 4) `%al` --> last 8 bits
 ![[Pasted image 20240315112745.png]]
 
+##### Memory Operands
+To access memory you need to -->  <span style="color:#00b050">dereferencing pointers</span>
+<span style="background:#fff88f">dereferencing pointers:</span>
+access the variable value to which the pointer points
 
+how -->  `displacement(base, index, scale)`
+`displacement` -->  constant value that is added to the resulting address            OPTIONAL
+`base` -->  register that contains an address
+`index` -->  register used to indexing an array or struct                                          OPTIONAL
+`scale` -->  multiplication factor to the index                                                           OPTIONAL
+           can be (1, 2, 4, 8)  =>  it's used to defined different array types 
+
+<span style="background:#fff88f">example:</span>
+- `(%rax)`
+	- there is only `base` => - we use the content of `%rax` as pointers 
+                         - and we deference it 
+                         =>
+    -  we obtain the value inside `%rax`                    (in C is like a pointer)
+      
+- `0x400000` --> dereferencing a memory address
+- `-8(%rbp)` -->  takes the base pointer, subtract 8 B and deference it
+- `foo` -->  global variable   (like in C)
+- `foo(%rax)` -->   create an array foo
+- `foo(, %rax, 8)` 
+	- no `base` but we define `index` and `scale` 
+	  => 
+	- create an array foo with a different type  (multiplication factor = 8 =>   type is long)
+![[Pasted image 20240315115137.png]]
+
+##### Jump
 
 
 
