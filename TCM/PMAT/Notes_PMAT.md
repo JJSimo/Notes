@@ -1717,8 +1717,9 @@ push RBP
 mov RBP, RSP
 sub RSP, $n
 ```
-`$n` -->  is the size of local variables
-
+`$n` -->  is the size of local variables 
+        =>
+        <span style="color:#00b050">we are allocating space</span> for the stack frame
 ##### Epilogue
 used to -->  <span style="color:#00b050">clean the stack frame</span> to make it <span style="color:#00b050">return to the state before the function ca</span><span style="color:#00b050">ll</span>
 =>
@@ -1739,18 +1740,68 @@ LAB:
 
 To reverse engineering this we will use -->  [[cheat#Cutter]]
 =>
+### Cutter
 - open it
-- import the 
+- import the file .exe
+- leave as default
+- the main page -->  gives us basic info about the program  (hashes, architecture, size...)
+- on the left -->  you can see the functions inside the program
+  ![[Pasted image 20240315143333.png]]
+Usually:
+a program is -->     <span style="color:#00b050">stripped</span>
+                =>
+                when you reverse it =>  you don't see the function names but random Ch
+Why:
+bc in this way is -->  harder to analyze it
 
+<span style="background:#fff88f">In the tool bar at the bottom we can:</span>
+- see the imports -->  that the program makes
+- see the strings and ALSO <span style="color:#00b050">SEARCH strings</span>
+  for example we can search for -->  Hello
+  ![[Pasted image 20240315143831.png]]
+	- If you select it and press `X` -->  you can see where this string is located
+	  ![[Pasted image 20240315143951.png]]
+	  It's inside main
+	  
+	- right click on the string > Show in > Disassembly
 
+#### Hello World - Prologue
+Open the main function
+![[Pasted image 20240315145338.png]]
+=>
+<span style="background:#fff88f">prologue:</span>
+`push   EBP` -->  push the base pointer  (points to the base of the stack)
+                =>
+                we are preserving the calling fz's base address
+`mov    EBP, ESP` -->  move the stack pointer value into the base pointer
+`and    ESP, 0xfffffff0` -->  make sure that our stack pointer is pointing to an address
+                          that is a -->  multiple of 4
+`sub    ESP, 0x10` -->  if you right click on 0x10 you can convert it into decimal (Set based of...)
+                     =>
+                     we subtract from the stack pointer 16 bit
+                     =>
+                     <span style="color:#00b050">we are allocating 16 bit space for our string</span> Hello, Wolrd!
+#### Hello World - Program flow
+After the prologue:
+`mov     dword [ESP], str.Hello__World` -->  copy the String into the location of stack pointer
+`call    _printf`    -->  call the printf function and prints the string
+`mov     EAX, 0` -->  move 0 into EAX
 
+#### Hello World - Epilogue
+`leave`  -->  it's an alias for:
+            `mov    ESP, EBP` -->     - restore the stack pointer
+                                 - put it back to what the stack pointer was before the calling to these function
+            `pop    EBP` -->  restore the base pointer
+            
+`ret` -->  we return the EAX value (=>  in this case 0)
 
-
-## Disassembling & Decompiling a Malware Dropper
+#### Decompiler
+in the bottom bar you can click on "Decompiler" -->  to see the code in something similar to the 
+                                            original one
+![[Pasted image 20240315151358.png]]
+##  Advanced Analysis of a Process Injector
 LAB:
-`PMAT-labs/labs/2-1.AdvancedStaticAnalysis/Dropper.DownloadFromURL.exe.malz/Dropper.DownloadFromURL.exe.7z`
-
-This is the same malware as -->  [[1.1-Basic_static_analysis]]
+`PMAT-labs/labs/2-1.AdvancedStaticAnalysis/Malware.stage0.exe.malz/Malware.stage0.exe.malz.7z`
 
 README:
-![[Pasted image 20240315100133.png]]
+
