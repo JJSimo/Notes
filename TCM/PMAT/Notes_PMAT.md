@@ -1535,5 +1535,20 @@ Why we can't establish the connection:
 - =>
   without a valid certificate we won't be able to connect to it 
 
+# Advanced Analysis
+This is only an intro to advance anaylisis
+## Advanced Static Analysis
+<span style="background:#fff88f">we are going to:</span>
+- read the <span style="color:#00b050">assembly</span>
+- load the malware into -->  - <span style="color:#00b050">decompilers</span>
+                         - <span style="color:#00b050">disassemblers</span>
+GOAL:
+It's to -->  <span style="color:#00b050">REVERSE ENGINEERING</span> the executable files
+         (to read the source code)
+## Advanced Dynamic Analysis
+we are going to run the malware -->  inside <span style="color:#00b050">Debugger</span>
+Debugger:
+it allows us -->  <span style="color:#00b050">complete control</span> over the <span style="color:#00b050">execution instructions</span>
+
 # Advanced Static Analysis
 ## Intro Assembly
