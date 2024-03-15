@@ -31,9 +31,10 @@ pub enum Error {
 }
 ```
 
-| Prova | Prova2 |
-| ---- | ---- |
-| aaa | bbbb |
+| Prova | Prova2 |     |
+| ----- | ------ | --- |
+| aaa   | bbbb   |     |
+|       |        |     |
 
 ### Change Heading Color
 - Right click on the project folder > Show in System Explorel

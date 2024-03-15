@@ -1596,6 +1596,30 @@ data is written:
 	- Examples -->   `$42` or `$0x401000` 
 		- $42 --> is a constants
 		- $0x401000 -->  
+##### Registers
+Registers most used -->  <span style="color:#00b050">general purpose</span>
+                      `%rax, %rbx, %rcx, %rdx, %rsi, %rdi`
+
+| **32 b**                               | 64b                                    | Description                                                                                      |
+| -------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| <span style="color:#00b050">EIP</span> | <span style="color:#00b050">RIP</span> | Instruction Pointer:<br>points to the instruction that the CPU is executing now                  |
+| <span style="color:#00b050">ESP</span> | <span style="color:#00b050">RSP</span> | Stack Pointer:<br>points to the top of the stack                                                 |
+| <span style="color:#00b050">EBP</span> | <span style="color:#00b050">RBP</span> | Base Pointer / Frame Pointer:<br>points to the base of the stack   (beginning of the stack, low) |
+###### Small register
+`%rax` -->  it's a 64 bit register
+
+<span style="background:#fff88f">we can use smaller registers:</span>
+example -->  if you set a 32 bit sub-register =>  t<span style="color:#00b050">he tops 32 bit will be set to 0</span>
+=>
+1) `%eax` --> sub register that contains last 32 bits 
+2) `%ax` --> last 16 bits 
+3) `%ah` --> penultimate 8 bits 
+4) `%al` --> last 8 bits
+![[Pasted image 20240315112745.png]]
+
+
+
+
 
 
 ## Disassembling & Decompiling a Malware Dropper
