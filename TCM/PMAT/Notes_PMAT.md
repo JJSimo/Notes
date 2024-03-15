@@ -1805,3 +1805,91 @@ LAB:
 
 README:
 
+### Basic Analysis
+#### Static
+`sha256sum.exe Malware.stage0.exe.malz`                                                                                   
+fca62097b364b2f0338c5e4c5bac86134cedffa4f8ddf27ee9901734128952e3
+
+##### VIRUSTOTAL 
+it seems a trojan and a shellcode
+![[Pasted image 20240315152232.png]]
+
+##### Strings
+```
+@C:\Users\Public\werflt.exe 
+@C:\Windows\SysWOW64\WerFault.exe
+@C:\Users\Public\werflt.exe
+
+C:\Users\Administrator\source\repos\CRTInjectorConsole\Release\CRTInjectorConsole.pdb
+```
+
+##### PeView
+no packed malware -->  Virtual Size is similar to the Raw Data
+##### PeStudio
+
+##### Capa
+mitre -->  Adversaries may execute malicious payloads via loading shared modules
+
+#### Dynamic
+##### Procmon
+The malware create a file
+![[Pasted image 20240315163510.png]]
+##### TCPView
+Malware tries to connect to the host
+
+![[Pasted image 20240315154918.png]]
+
+## Advanced Analysis
+Open cutter > open this `werflt.exe file` > open the main function
+
+Always open the main function in first
+
+we'll find a -->  classic pattern for a <span style="color:#00b050">create remote thread process injection</span>
+<span style="background:#fff88f">process injection:</span>
+- malware opens a new process on the host
+- and it will inject code into this new process
+
+
+we can find an API call
+  ![[Pasted image 20240315163947.png]]
+  this API takes 3 parameter
+  =>
+  - usually the lines with `push` before the call are the parameters
+	  - remember that is in <span style="color:#00b050">little endian</span> =>  the order is reverse  (the first push is the last parameter)
+	![[Pasted image 20240315164209.png]]
+	=>
+	1) DesiredAccess
+	2) bInheritHandle
+	3) ProcessId -->  it's taken from `EAX` and it's the<span style="color:#00b050"> handle to the current process </span>
+	   
+`EAX` -->  takes its value from the `argc`
+         that is the argument that the program takes from main
+  =>
+  the malware:
+  - takes as argument the ProcessId =>  the <span style="color:#00b050">handle to the process</span>
+  - copy the ProcessId into `EAX`
+  - opens new process using `EAX`
+  - then copy the value of `EAX (processId)` into `EDI`
+  - it will use `EDI` to a new API call to -->  <span style="color:#00b050">VirtualAllocEx</span>
+    ![[Pasted image 20240315164904.png]]
+    =>
+    this API call -->  <span style="color:#00b050">will allocate memory inside the new process</span> 
+
+- then we have a new API call to -->  <span style="color:#00b050">WriteProcessMemory</span> 
+- it takes as parameters -->   `EDI (processId)`,
+                         `ESI (Base addr of this process)`, 
+                         `EAX(lpBuffer)`
+	- `lpBuffer` -->  is a variable created in the first line of the main
+	  ![[Pasted image 20240315165428.png]]
+
+
+- next API call -->  <span style="color:#00b050">CreateRemoteThread</span>
+	- it uses a lot of parameters but only 2 are set:
+	  ![[Pasted image 20240315165931.png]]
+		- 1° parameter -->  handle to the process (`EDI`)
+		- 4° parameter -->  the start address (`ESI`)
+		                  =>
+		                  _<span style="color:#00b050">where this thread start its execution</span>_
+=>
+<span style="background:#fff88f">the malware:</span>
+- 
