@@ -1845,7 +1845,7 @@ we can try with nc to connect to it:
 
 <span style="color:#00b050">We found the shell</span>
 
-## Advanced Analysis
+### Advanced Static Analysis
 Open cutter > open this `werflt.exe file` > open the main function
 
 Always open the main function in first
@@ -1904,3 +1904,5 @@ we can find an API call
 - starts a thread in the remote process -->  and tells the thread to:
                                         - go to that address (`ESI`)
                                         - execute what ever is there
+
+## Advanced Dynamic Analysis: Debugging Malware
