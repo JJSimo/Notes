@@ -1580,6 +1580,23 @@ data is written:
 =>
 `mov edx, eax` -->  mov eax value to edx value     (=> read from right to left)
 
+#### Operand types
+- <span style="color:#00b050">Register</span> 
+	- small memory slot stored inside the CPU 
+	- the access to these reg is really fast 
+	- the n° of these reg and them dimension -->  are limited
+
+- <span style="color:#00b050">Memory</span> 
+	- used to store > data than the use of registers 
+	- it's like define a pointer in C:
+		- we need to specify an address memory --> where we can access/write data 
+		  
+- <span style="color:#00b050">Constants</span> (aka immediates) 
+	- starts with $
+	- Examples -->   `$42` or `$0x401000` 
+		- $42 --> is a constants
+		- $0x401000 -->  
+
 
 ## Disassembling & Decompiling a Malware Dropper
 LAB:
