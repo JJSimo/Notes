@@ -1906,3 +1906,6 @@ we can find an API call
                                         - execute what ever is there
 
 ## Advanced Dynamic Analysis: Debugging Malware
+### x32dbg
+LAB:
+`PMAT-labs/labs/2-2.AdvancedDynamicAnalysis/Dropper.DownloadFromURL/Dropper.DownloadFromURL.exe.7z`
