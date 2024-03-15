@@ -1906,6 +1906,13 @@ we can find an API call
                                         - execute what ever is there
 
 ## Advanced Dynamic Analysis: Debugging Malware
+we are going to run the malware -->  inside <span style="color:#00b050">Debugger</span>
+Debugger:
+it allows us -->  <span style="color:#00b050">complete control</span> over the <span style="color:#00b050">execution instructions</span>
+
+<span style="background:#fff88f">we'll use:</span>
+- x32dbg
+- x66dbg
 ### x32dbg
 LAB:
 `PMAT-labs/labs/2-2.AdvancedDynamicAnalysis/Dropper.DownloadFromURL/Dropper.DownloadFromURL.exe.7z`
