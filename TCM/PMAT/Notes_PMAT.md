@@ -1738,6 +1738,12 @@ LAB:
 ![[Pasted image 20240315123235.png]]
 
 To reverse engineering this we will use -->  [[cheat#Cutter]]
+=>
+- open it
+- import the 
+
+
+
 
 
 ## Disassembling & Decompiling a Malware Dropper
