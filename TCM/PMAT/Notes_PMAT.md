@@ -1837,7 +1837,13 @@ The malware create a file
 ##### TCPView
 Malware tries to connect to the host
 
-![[Pasted image 20240315154918.png]]
+![[Pasted image 20240315170904.png]]
+=>
+we can try with nc to connect to it:
+`ncat.exe -nvlp 8443`
+![[Pasted image 20240315171506.png]]
+
+<span style="color:#00b050">We found the shell</span>
 
 ## Advanced Analysis
 Open cutter > open this `werflt.exe file` > open the main function
@@ -1892,4 +1898,9 @@ we can find an API call
 		                  _<span style="color:#00b050">where this thread start its execution</span>_
 =>
 <span style="background:#fff88f">the malware:</span>
-- 
+- <span style="color:#00b050">opens new process</span> using the -->  handle to the process as argument
+- <span style="color:#00b050">allocates</span> <span style="color:#00b050">memory</span> into the new process -->  with R-W-X permissions
+- <span style="color:#00b050">writes the conten</span><span style="color:#00b050">t</span> of a specified <span style="color:#00b050">variable</span> -->  into the allocated memory
+- starts a thread in the remote process -->  and tells the thread to:
+                                        - go to that address (`ESI`)
+                                        - execute what ever is there
