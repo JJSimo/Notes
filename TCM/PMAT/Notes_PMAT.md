@@ -1552,3 +1552,40 @@ it allows us -->  <span style="color:#00b050">complete control</span> over the <
 
 # Advanced Static Analysis
 ## Intro Assembly
+<span style="background:#fff88f">Assembly core:</span>
+- <span style="color:#00b050">instructions</span> -->  simple operations
+                `mov %rax, %rbx` -->   copies value from %rbx into %rax
+                
+                
+- <span style="color:#00b050">directives</span> -->  commands for the assembler e not for CPU
+	- `.data` -->  section with global and static variables 
+	- `.text` -->  section with code (assembler instructions)
+		- usually <span style="color:#ff9900">READ ONLY</span>
+		- if you try to write it =>  <span style="color:#ff9900">Segmentation fault</span>
+		  
+	- `.byte .word .long .quad` -->  outputs integer (8/16/32/64 bits) 
+	    - suffix -->  `b`, `w`, `l`, `q`
+	      
+	- `.ascii` `.asciz` -->  outputs string (without/with terminator) 
+
+- <span style="color:#00b050">labels</span> --> create symbol at current address
+           `foo: .byte 42`  -->              like global var => `char foo = 42`;
+
+### Instructions
+x86 architecture is in -->  <span style="color:#00b050">little endian</span>
+=>
+data is written:
+- from right
+- to left
+=>
+`mov edx, eax` -->  mov eax value to edx value     (=> read from right to left)
+
+
+## Disassembling & Decompiling a Malware Dropper
+LAB:
+`PMAT-labs/labs/2-1.AdvancedStaticAnalysis/Dropper.DownloadFromURL.exe.malz/Dropper.DownloadFromURL.exe.7z`
+
+This is the same malware as -->  [[1.1-Basic_static_analysis]]
+
+README:
+![[Pasted image 20240315100133.png]]
