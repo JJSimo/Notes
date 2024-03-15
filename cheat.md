@@ -141,7 +141,7 @@ for each word inside the wordlist => try to find if it exists the webiste + word
 > Check only one deep layer => <span style="color:#00b050">faster</span>
 
 ###### Bruteforcing login
-- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- Setup initial things for BurpSuite -->  [[cheat#Initial things to do]]
 - send some random credentials
 - open the req into Burp > Copy it > Save it inside a txt file
 - change the password value as -->  your fuzz variable
@@ -207,7 +207,7 @@ check if the string that you have is an hash and what type
 `paste hash`
 
 #### hashcat
-useful for cracking hash using wordlist         [[cheet#Locate]]
+useful for cracking hash using wordlist         [[cheat#Locate]]
 `locate wordlist.txt`
 `hashcat -m 0 file_contains_hash.txt /path/wordlist.txt`
 `-m 0` -->  use module 0 => crack md5
@@ -252,7 +252,7 @@ automated tool to check if there are some potential priv escal inside the target
 	- `./linpeas.sh`
 
 #### winpeas
-same as [[cheet#linpeas]] but -->  for windows
+same as [[cheat#linpeas]] but -->  for windows
 =>
 automated tool to check if there are some potential priv escal inside the target
 - download the .exe from [here](https://github.com/carlospolop/PEASS-ng/releases/tag/20240211-db8c669a)
@@ -271,7 +271,7 @@ automated tool to check if there are some potential priv escal inside the target
 ## BurpSuite
 [Change display and HTTP dimension](https://forum.portswigger.net/thread/font-size-would-like-to-increase-3fac8746)
 ### Bruteforcing Login
-Set [[cheet#FoxyProxy]]
+Set [[cheat#FoxyProxy]]
 - Turn on the proxy
 - Open Burp
 - Go to Proxy 
@@ -293,7 +293,7 @@ Set [[cheet#FoxyProxy]]
 
 ### SQL Injection
 #### Initial things to do
-- turn on [[cheet#FoxyProxy]]
+- turn on [[cheat#FoxyProxy]]
 - click on Target > Scope Settings > Add > `http://domain-you-want-to-hack > Ok > Yes
     ![[Pasted image 20240307120204.png]]
 - go to Proxy > HTTP history > right click on one of them > Clear History
@@ -415,7 +415,7 @@ LLMNR/NBT-NS/mDNS Poisoner
 `-P` -->  force NTLM authentication for the proxy
 `-v` -->  verbose
 
-after having found the the hash you can use -->  [[cheet#hashcat|hashcat]] (to decrypt the password)
+after having found the the hash you can use -->  [[cheat#hashcat|hashcat]] (to decrypt the password)
 
 > [!warning] 
 > Need to be on the same network as the victim
@@ -452,7 +452,7 @@ if psexec is not working:
 #### mitm6
 mitm6 is a pentesting tool that exploits the default configuration of Windows to take over the default DNS server. It does this by replying to DHCPv6 messages, providing victims with a link-local IPv6 address and setting the attackers host as default DNS server. As DNS server, mitm6 will selectively reply to DNS queries of the attackers choosing and redirect the victims traffic to the attacker machine instead of the legitimate server.
 
-first set up [[cheet#ntlmrelayx.py|ntlmrelayx.py]]:
+first set up [[cheat#ntlmrelayx.py|ntlmrelayx.py]]:
 `ntlmrelayx.py -6 -t ldaps://172.16.214.128 -wh fakewpad.marvel.local -l lootme_folder`
 `-6` --> ipv6
 `-t` -->  target  (Domain Controller)
@@ -622,7 +622,7 @@ if you have a meterpreter shell -->  you can use the features `upload/download`
 
 -----
 ## Web Exploitation
-check always the [[cheet#AppSecExplained|App Sec site]] for having a list of what to do during web exploitation
+check always the [[cheat#AppSecExplained|App Sec site]] for having a list of what to do during web exploitation
 ### SQL Injection
 [SQL Injection Cheet Sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 #### Basic check
@@ -674,7 +674,7 @@ get an <span style="color:#00b050">user password</span>:
 >- 1
 
 #### Tool
-[[cheet#sqlmap|sqlmap]]
+[[cheat#sqlmap|sqlmap]]
 
 ### XSS
 Cross Site Scripting (XSS) -->  let us execute JavaScript in a victim browser
@@ -727,7 +727,7 @@ try to redirect the user:
 `<script> alert(document.cookie)</script>`
 
 ##### Exfiltrate Cookies
-- open [[cheet#Webhook.site|WebHook website]]
+- open [[cheat#Webhook.site|WebHook website]]
 - copy the unique URL
 - at the end of it -->  `/?`
 - type in the vulnerable input
@@ -747,7 +747,7 @@ how it works:
 - the function --> executes it as code
 
 #### Website
-[[cheet#AppSecExplained]]
+[[cheat#AppSecExplained]]
 #### Basic command injection
 `; ls -la`
 `&& ls -la`
@@ -771,7 +771,7 @@ how it works:
 >to see also better -->  the output
 
 #### Payload
-[[cheet#Payload All The Things]]
+[[cheat#Payload All The Things]]
 
 >[!tips] Best Practice
 >- use the full path for binaries  (ex `/bin/sh`)
@@ -803,14 +803,14 @@ we need to change the file type of our new req:
 we can do:
 -  <span style="color:#00b050">guessing</span>
    you can inspect the code to see where the other img in the webserver are stored
--  <span style="color:#00b050">directory busting</span> (ex [[cheet#dirb]])
+-  <span style="color:#00b050">directory busting</span> (ex [[cheat#dirb]])
    `dirb  http://localhost/`
 
 ### Attacking authentication
 
 ### XXE - External Entities Injection
 abuse input that accept XML files to exploit the webpage
-to craft a payload look at -->  [[cheet#Payload All The Things]]
+to craft a payload look at -->  [[cheat#Payload All The Things]]
 
 ### IDOR - Insecure Direct Object Reference
 IDOR -->  Insicure Direct Object Reference
@@ -887,7 +887,7 @@ gigantic repository of lots of different info about malware samples
 =>
 you can use it to ask him if it has ever seen our malware
 =>
-- click on search and paste the [[cheet#Find SHA256sum and MD5sum|sha256sum or md5sum]]  (without the name of the malware)
+- click on search and paste the [[cheat#Find SHA256sum and MD5sum|sha256sum or md5sum]]  (without the name of the malware)
 
 #### MAlAPI.io
 - it catalogs Windows API -->  that can be user maliciously

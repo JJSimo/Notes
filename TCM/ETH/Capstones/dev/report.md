@@ -9,7 +9,7 @@ Info about PHP - PHP Version 7.3.27
 nfs
 
 ### 80 and 8080
-enumerating <span style="color:#ff0000">both</span> with -->  [[cheet#Dirbuster]] + [[cheet#ffuf]] + [[cheet#dirb]]
+enumerating <span style="color:#ff0000">both</span> with -->  [[cheat#Dirbuster]] + [[cheat#ffuf]] + [[cheat#dirb]]
 we'll find a lot of directories
 
 ### nfs
@@ -33,7 +33,7 @@ inside there is a zip
 =>  we can try to bruteforce it
 
 #### fcrackzip
-we are going to crack the zip with [[cheet#fcrackzip|fcrackzip]]
+we are going to crack the zip with [[cheat#fcrackzip|fcrackzip]]
 inside /mnt/dev:
 `fcrackzip -v -u -D -p Desktop/TCM/rockyou.txt save.zip`
 ![[Pasted image 20240215115128.png]]
@@ -52,7 +52,7 @@ inside /mnt/dev:
 let's try to find something intresting inside the subdomains in 80 and 8080
 
 ### 80 and 8080
-enumerating <span style="color:#ff0000">both</span> with -->  [[cheet#Dirbuster]] + [[cheet#ffuf]] + [[cheet#dirb]]
+enumerating <span style="color:#ff0000">both</span> with -->  [[cheat#Dirbuster]] + [[cheat#ffuf]] + [[cheat#dirb]]
 we'll find a lot of directories
 
 There is an interesting subdomain at -->  http://10.0.2.155:8080/dev
@@ -84,7 +84,7 @@ first command -->  `sudo -l`
 => <span style="color:#00b050">we can use zip as root</span>
 
 #### GTFOBins
-Let's search for [[cheet#GTFOBins]]
+Let's search for [[cheat#GTFOBins]]
 we are looking for having root access using zip command
 =>
 search for zip

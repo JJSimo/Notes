@@ -38,11 +38,11 @@ exit from ftp and `cat note.txt`
 ![[Pasted image 20240214154532.png]]
 - We found a password
 - Probably is an hash
-- Check what type with tool [[cheet#Hash-identifier|hash-identifier]] 
+- Check what type with tool [[cheat#Hash-identifier|hash-identifier]] 
 - `hash-identifier
 - `cd73502828457d15655bbd7a63fb0bc8`
 - probably is a --> MD5 hash
-	- => try to crack hash with [[cheet#hashcat|hashcat]] + [[cheet#Locate|locate]]
+	- => try to crack hash with [[cheat#hashcat|hashcat]] + [[cheat#Locate|locate]]
 	- locate rockyou.txt
 	- echo "type here the hash" > hash.txt
 	- `hashcat -m 0 Desktop/TCM/ETH/VMe/Academy/hash.txt` `Desktop/TCM/rockyou.txt` 
@@ -55,7 +55,7 @@ But we don't know for what it's used
 Let's check if it exists a web page where we can enter these credentials
 =>
 #### Enumerate HTTP
-we can use [[cheet#dirb|dirb]] or [[cheet#ffuf|ffuf]]
+we can use [[cheat#dirb|dirb]] or [[cheat#ffuf|ffuf]]
 `ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ_VARIABLE -u http://10.0.2.152/FUZZ_VARIABLE`
 =>
 <span style="color:#00b050">we found an "academy" path</span>
@@ -77,7 +77,7 @@ we can use [[cheet#dirb|dirb]] or [[cheet#ffuf|ffuf]]
 	=>
 	it's time to privilege escalation
 ##### Privilege escalation
-we'll use [[cheet#linpeas|linpeas]] to search any potential privilege escalation
+we'll use [[cheat#linpeas|linpeas]] to search any potential privilege escalation
 - follow all the steps inside linpeas
 - <span style="color:#00b050">we'll find a password</span> -->  My_V3ryS3cur3_P4ss
 	- we can cat the file where the password is stored

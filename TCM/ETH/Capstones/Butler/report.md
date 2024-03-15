@@ -4,7 +4,7 @@ Web login page jenkins
 
 ### Bruteforcing Login
 #### BurpSuite
-Follow all these [[cheet#Bruteforcing Login|steps]]
+Follow all these [[cheat#Bruteforcing Login|steps]]
 ##### Images
 ![[Pasted image 20240215142638.png]]
 ![[Pasted image 20240215142644.png]]
@@ -49,7 +49,7 @@ We need to get root access
 first step: 
 systeminfo  -->  to get info about the machine (example <span style="color:#00b050">architect x86, x64</span>)
 
-We'll use [[cheet#winpeas|winpeas]] -->  same as [[cheet#linpeas|linpeas]], but for windows
+We'll use [[cheat#winpeas|winpeas]] -->  same as [[cheat#linpeas|linpeas]], but for windows
 Follow the steps
 
 inside the winpeas output we can find something intresting:
@@ -82,7 +82,7 @@ every time windows tries to execute this process:
      - will execute our shell
 
 ### Create Reverse Shell
-Follow these [[cheet#Create and rename a shell|steps]]
+Follow these [[cheat#Create and rename a shell|steps]]
 then:
 - create a web server from the attacker to upload the reverse shell
 - dowload the reverse shell from the victim with `certutil`

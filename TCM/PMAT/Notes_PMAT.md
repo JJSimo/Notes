@@ -420,7 +420,7 @@ to fingerprint the malware we first need to collect 2 hashes:
   `1d8562c0adcaee734d63f7baaca02f7c *Malware.Unknown.exe.malz`
 
 ### Check if the hashes are well known as malware sample
-- Open [[cheet#VIRUSTOTAL]]
+- Open [[cheat#VIRUSTOTAL]]
   gigantic repository of lots of different info about malware samples
 - in the search section paste one hash per time and check if it finds something 
   ![[Pasted image 20240312140730.png]]
@@ -441,7 +441,7 @@ he needs to:
   =>
   we <span style="color:#00b050">don't need to run the malware</span> to read them
 
-How to do that -->  with [[cheet#FLOSS]]
+How to do that -->  with [[cheat#FLOSS]]
 
 ### FLOSS
 tools for extracting Strings from binary
@@ -469,7 +469,7 @@ Now we are going to:
 	- <span style="color:#00b050">when it was compiled</span>
 	- <span style="color:#00b050">what kind of functions it might be using</span>
 
-we are going to use -->  [[cheet|PEview]]
+we are going to use -->  [[cheat|PEview]]
 >[!info]
 >to install it:
 >- download the zip from [here]([http://wjradburn.com/software/PEview.zip](http://wjradburn.com/software/PEview.zip)      
@@ -598,7 +598,7 @@ here he have to 2 malware:
 - one unpacked
 
 =>
-- open the packet malware with [[cheet#PEview]]
+- open the packet malware with [[cheat#PEview]]
   ![[Pasted image 20240313115501.png]]
 - we have different sections here  (compare to the unpacked malware)
 	- we can notice sections called -->  <span style="color:#00b050">UPX</span>
@@ -647,7 +647,7 @@ Go back to the original malware sample for this section:
 <span style="color:#00b050">PEStdio</span> -->  one of the best tools for initial static analysis
 it will automatically:
 1) [[Notes_PMAT#Find Hashes of the malware|find the hashes of the malware]]
-2) these hashes have a direct link to [[cheet#VIRUSTOTAL|VIRUSTOTAL]]   (right click on the hash > copy link)
+2) these hashes have a direct link to [[cheat#VIRUSTOTAL|VIRUSTOTAL]]   (right click on the hash > copy link)
 3) show the [[Notes_PMAT#Peview|magic bytes]]
 
 ![[Pasted image 20240313122233.png]]
@@ -1228,7 +1228,7 @@ README:
 
 ### Static analysis
 - we have the hashes inside the malware folder
-- paste them in [[cheet#VIRUSTOTAL]] -->  no result
+- paste them in [[cheat#VIRUSTOTAL]] -->  no result
 - open cmder
 - run [[Notes_PMAT#FLOSS]] -->  `FLOSS.exe RAT.Unknown2.exe.malz > floss_output.txt`
 - floss -->  no relevant strings
@@ -1647,8 +1647,97 @@ how -->  `displacement(base, index, scale)`
 ![[Pasted image 20240315115137.png]]
 
 ##### Jump
+| Command                                | Meaning                                       | What does            |
+| -------------------------------------- | --------------------------------------------- | -------------------- |
+| <span style="color:#00b050">e/z</span> | <span style="color:#00b050">equal/zero</span> | result == 0          |
+| <span style="color:#00b050">b</span>   | <span style="color:#00b050">below</span>      | dst < src (UNSIGNED) |
+| <span style="color:#00b050">a</span>   | <span style="color:#00b050">above</span>      | dst > src (UNSIGNED) |
+| <span style="color:#00b050">l</span>   | <span style="color:#00b050">less</span>       | dst < src (SIGNED)   |
+| <span style="color:#00b050">g</span>   | <span style="color:#00b050">greater</span>    | dst > src (SIGNED)   |
+| <span style="color:#00b050">s</span>   | <span style="color:#00b050">sign</span>       | result < 0 (SIGNED)  |
+| <span style="color:#00b050">n</span>.. | <span style="color:#00b050">not</span>        | negation of ..       |
+`cmp` commands -->   `cmp dst, src`
+
+jump to label if `%rax < %rbx` (unsigned) 
+`cmp %rbx, %rax` 
+`jb label` 
+
+jump to label if `%rax >= %rbx (signed)`              >= bc there is `n` that -->  negate the condition 
+`cmp %rbx, %rax` 
+`jnl label` 
+
+jump to label if `%rax == 0` 
+`test %rax, %rax` 
+`jz label` 
+
+jump to label if `%rax >= 0` (signed) 
+`cmp $0, %rax` 
+`jns label`
+
+### Stack
+Remember:
+![[Pasted image 20240315120647.png]]
+=>
+- Top of the stack -->  identifies by `RSP`  (stack pointer)
+- Entries inside stack -->  ALWAYS 64 bit
+- `push` and `pop` -->  store and load  RSP
+- <span style="background:#fff88f">Stack grows downwards</span>
+	- `push` decrements %rsp by 8 
+	- `pop` increments %rsp by 8
+
+- `call` and `ret` -->  push and pop return address
+
+#### Stack Frames
+As the stack grows:
+it is logically divided into regions → called <span style="color:#00b050">Stack Frames</span> 
+								- allocate the required memory in the stack 
+								- for the corresponding function
+=>
+<span style="background:#fff88f">A stack frame defines: </span>
+a frame of data with:
+- the beginning `RBP`   (Base pointer)
+- the end `RSP`             (stack pointer)
+  that is pushed onto the stack when a function is called
+
+##### Prologue
+<span style="background:#fff88f">Since the stack memory is built on a Last-In-First-Out (LIFO) data structure:</span>
+first step is to -->    store the previous RBP position on the stack
+                 (which can be restored after the function completes)
+=>
+it's used to -->  <span style="color:#00b050">setup the stack frame for the current fz</span>
+=>
+- The `RBP` in the stack frame -->  is set first when a function is called
+- `RBP` contains -->  the `RBP` of the previous stack frame.
+- the value of the `RSP` -->  is copied to the `RBP`
+                        creating a new stack frame
+=>
+
+```asm6502
+push RBP
+mov RBP, RSP
+sub RSP, $n
+```
+`$n` -->  is the size of local variables
+
+##### Epilogue
+used to -->  <span style="color:#00b050">clean the stack frame</span> to make it <span style="color:#00b050">return to the state before the function ca</span><span style="color:#00b050">ll</span>
+=>
+- `RSP` -->  is replaced by the current `RBP`
+-  its value is reset -->  to the value it had before in the prologue
+=>
+```asm6502
+mov RSP, RBP  
+pop RBP  
+ret ...
+```
 
 
+## Hello, World! Under a Microscope
+LAB:
+`PMAT-labs\labs\2-1.AdvancedStaticAnalysis\helloWorld-c`
+![[Pasted image 20240315123235.png]]
+
+To reverse engineering this we will use -->  [[cheat#Cutter]]
 
 
 ## Disassembling & Decompiling a Malware Dropper

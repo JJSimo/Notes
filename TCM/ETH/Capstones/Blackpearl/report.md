@@ -1,14 +1,14 @@
 80 - 10.0.2.154 - 15/02/2024
 Default Nginx page
 
-Directory busting with [[cheet#ffuf]]  + [[cheet#Nikto]] + [[cheet#dirb]]
+Directory busting with [[cheat#ffuf]]  + [[cheat#Nikto]] + [[cheat#dirb]]
 We found a /secret
 `/secret` contains a file -->  that tells that here we con't find anything
 
 53 - 10.0.2.154:
 
 ### Enumerating DNS
-We'll use [[cheet#dnsrecon]] to gather some info about the victim host
+We'll use [[cheat#dnsrecon]] to gather some info about the victim host
 `dnsrecon -r 127.0.0.1/24 -n 10.0.2.154 -d blabla`
 ![[Pasted image 20240216094823.png]]
 as you can see -->  we have found a <span style="color:#00b050">DNS POINTER record</span>:
@@ -76,11 +76,11 @@ you need to check if the system has python:
 =>
 - let's find some privilege escalation
 - try sudo -l       (it doesn't exist)
-- try use [[cheet#linpeas|linpeas]]
+- try use [[cheat#linpeas|linpeas]]
 - ![[Pasted image 20240216120521.png]]
 
 ## Privilege Escalation
-we'll use [[cheet#linpeas|linpeas]]
+we'll use [[cheat#linpeas|linpeas]]
 run it 
 we'll see that --> there are some programs that have set the <span style="color:#00b050">SUID bit</span>
 ![[Pasted image 20240216114009.png]]
@@ -89,7 +89,7 @@ we'll see that --> there are some programs that have set the <span style="color:
 to check better the commands that have the s bit we can use this:
 `find / -type f -perm -4000 2>/dev/null`
 ![[Pasted image 20240216120747.png]]
-now we can use -->  [[cheet#GTFOBins|GTFOBins]]
+now we can use -->  [[cheat#GTFOBins|GTFOBins]]
                  to find if 1 of these commands have vuln to do privilege escalation
 =>
 - go to GTFOBins
