@@ -1913,7 +1913,68 @@ it allows us -->  <span style="color:#00b050">complete control</span> over the <
 <span style="background:#fff88f">we'll use:</span>
 - x32dbg
 - x66dbg
-### x32dbg
+### x32dbg - Basic commands
 LAB:
 `PMAT-labs/labs/2-2.AdvancedDynamicAnalysis/Dropper.DownloadFromURL/Dropper.DownloadFromURL.exe.7z`
 
+It's the same malware -->  as the Basic Static Analysis
+=>
+we know that:
+- if URL exists:
+	- download favicon.ico
+	- write it to disk (as CR433101.dat.exe)
+	- execute favicon.ico (CR433101.dat.exe)
+	  
+- if URL doesn't exist:
+	- delete from disk
+	- do not run
+=>
+- Open x32dbg
+- File > Open > All files * > Dropper.DownloadFromURL.exe.malz
+![[Pasted image 20240316102450.png]]
+
+Important key features:
+`F9` -->  start program  (if you run again it =>  it wil run the entire program)
+`F7` -->  step into
+`F8` -->  step over
+`F2` -->  set a breakpoint
+`CTRL+F2` -->  restart the program
+
+=>
+- press `F9`
+- if you press `F8` =>  you move to the next instruction 
+- `EIP` -->  tells us where we are in the program
+  ![[Pasted image 20240316103037.png]]
+- press `F8` -->  until you reach the first API call
+  ![[Pasted image 20240316105439.png]]
+- press `F7` -->  to enter inside the API call
+
+### Dynamic Analysis of x86 Instructions & API Calls
+Restart the program => `CTRL+F2`
+<span style="color:#00b050">START INETSIM ON REMNUX</span>
+
+- press `F9` -->  to start the program
+- press F8 until -->  you reach one line that takes more time to execute
+	- when you find it -->  set a breakpoint (click on the red circle)
+	  ![[Pasted image 20240316113014.png]]
+	  =>
+	- right click on it > Follow in Disassembler
+	- here we find -->  the <span style="color:#00b050">MAIN method</span> 
+	- the first API call we find is -->  `InternetOpenW`
+		- it takes 5 parameters:
+			- 1° one -->  point to address `8A3288`   (that contains Mozilla/5.0)
+			- the others --> are `0`
+			  ![[Pasted image 20240316113521.png]]
+		=>
+		- set a breakpoint to the first parameter in the list
+		- restart the program (`CTRL+F2`)
+		- hit `F9` twice -->  to reach the breakpoint where there is the call for the main method
+		- hit `F9` -->  to reach the location with the push parameters into the stack
+		- open <span style="color:#00b050">wireshark</span> inside FlareVM > start capturing
+		- <span style="background:#fff88f">now we are the point where we need to push the parameters into stack:</span>
+			- press `F7` -->  and look at the stack  (bottom right)
+			- press `F7` other 3 times  (for now we pushed only `0`)
+			- press `F7` -->  we'll push into the stack a real parameter (diverso da 0)
+				- we pushed the memory location `8A3288` -->  that contains the string
+				                                        Mozilla/5.0
+		- 
