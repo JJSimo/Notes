@@ -1977,4 +1977,34 @@ Restart the program => `CTRL+F2`
 			- press `F7` -->  we'll push into the stack a real parameter (diverso da 0)
 				- we pushed the memory location `8A3288` -->  that contains the string
 				                                        Mozilla/5.0
-		- 
+			![[Pasted image 20240316114629.png]]
+			
+		- press `F7` -->  to jump into the API call
+			- now it will open all the instructions that the API needs 
+			- =>  press `F8` until you reach the main again
+		- press `F8` -->  until you reach the next API call with its params that must be pushed
+		  ![[Pasted image 20240316115140.png]]
+		  
+			- this API is -->  <span style="color:#00b050">URLDownloadToFileW</span> 
+			- => push the 5 parameters into the stack -->   by pressing `F7` 5 times
+			- NOW:
+			- if we press `F8`:
+				- it will execute the API =>  <span style="color:#00b050">it will Download the file</span>
+				- =>  watch wireshark output
+	![[Pasted image 20240316115743.png]]
+					_<span style="color:#00b050">we downloaded the favicon.ico file</span>_
+			- The next instruction is -->  `test   eax, eax`
+			  ![[Pasted image 20240316115855.png]]
+			- what `does` test:
+				- set a flag in memory -->   if the ended result of the 2 registers is 0
+				- if we look at the value of `EAX` in the img -->  is `0`
+					- why:
+					  bc the <span style="color:#00b050">URLDownloadToFileW</span> -->  it will <span style="color:#00b050">return a boolean value</span>
+						  - `0` -->  <span style="color:#00b050">if download is a success</span>
+						  - `1` -->  if failure 
+				- now it will do -->  the `AND` between `eax` with `eax`
+				- if the result is 0 =>  it will<span style="color:#00b050"> set the flag</span> into the memory
+				- => press `F8`
+				  ![[Pasted image 20240316120611.png]]
+				  
+			- now the next instruction is 
