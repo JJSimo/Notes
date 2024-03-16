@@ -2030,4 +2030,16 @@ Restart the program => `CTRL+F2`
 		  
 	- press `F8` -->  until you run the API
 	- watch procmon output -->  to see what happen into the host system
-	- 
+	  _<span style="color:#00b050">at the end we find a CreateFile operation:</span>_
+	  ![[Pasted image 20240316122532.png]]
+	- it will Execute this file -->  `CR433101.dat`
+		- => open the file explorer to this location
+		- delete the file
+		- <span style="background:#fff88f">we'll try to determine when the file is been created in the host system:</span>
+			- restart the program in x32dbg -->  `CTRL+F2`
+			- press F9 -->  until you reach the moment where you can push the params into sta
+			- then press F8 -->  until you see that the file is been created
+=>
+![[Pasted image 20240316123210.png]]
+
+<span style="color:#00b050">The API call to URDownloadToFileW</span> -->  creates the file
