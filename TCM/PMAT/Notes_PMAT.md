@@ -2205,24 +2205,31 @@ no IMPORT table??
 
 ### Basic Dynamic Analysis
 #### Under what conditions can you get the binary to delete itself?
-Without InetSim -->  if you run the malware both with admin/no-admin privileges it deletes itself
+when the malware deletes itself:
+- Without InetSim -->  if you run the malware both with admin/no-admin privileges 
+- if you stop InetSim -->  while malware executed
+- 
 When you setup a fake dns server and listen with ncat it also deletes 
 
 #### Wireshark
 ##### What is the first callback domain?
 1) DNS request to:
    `update.ec12-4-109-278-3-ubuntu20-04.local`: type A, class IN
-
+	
+ 
 2) then HTTP request to -->  same URI
-
+                         `http://update.ec12-4-109-278-3-ubuntu20-04.local`
+    _<span style="background:#fff88f">FIRST CALLBACK DOMAIN</span>_
+##### What URI is used to exfiltrate data?
 3) then DNS request to:
    `cdn.altimiter.local`: type A, class IN
 
 4) then HTTP request to:
    `http://cdn.altimiter.local/feed?post=A8E437E8F0367592569A2870BBDD382A1DFBB01A15FC23999D7788C33502AD9256E481B402BDC6BC25167B6478F204C49A9BADD68C4AC2A617437ECCBBA9`
-   _<span style="background:#fff88f">EVERY SECOND 1 request</span>_
+   _<span style="background:#fff88f">THIS IS THE URI</span>_
 
 #### Procmon
+##### What key is used to encrypt the data?
 ![[Pasted image 20240316155423.png]]
 
 It creates a file -->  password.txt
@@ -2230,3 +2237,17 @@ It creates a file -->  password.txt
 No sub process
 #### TCPview
 ![[Pasted image 20240316154316.png]]
+
+#### Under what conditions can you get the binary to exfiltrate data?
+If the malware contacts the initial callback domain successfully:
+=> <span style="color:#00b050">exfiltration occurs</span>
+After a successful check in with this domain, the sample unpacks the `passwrd.txt` file into `C:\Users\Public\`,  opens a handle to `cosmo.jpeg`, base64 encodes the contents of the file, and begins the data encryption routine.  
+
+### Advanced Static analysis
+>[!warning]
+>with a nim malware you have to analyze:
+>3 main
+>![[Pasted image 20240316163359.png]]
+>
+#### What kind of encryption algorithm is in use?
+`RC4` -->  you can find it inside the floss output or in cutter
