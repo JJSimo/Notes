@@ -2112,11 +2112,47 @@ LAB:
 		  ![[Pasted image 20240316131720.png]]
 	- <span style="background:#fff88f">How to modify the String:</span>
 		- count the n° of bytes of the string -->  13 bytes
-		- right click on the highlighted string > Binary > Edit
+		- right click on the highlighted string > Binary > <span style="color:#00b050">Edit</span>
 		  ![[Pasted image 20240316132027.png]]
 		
 		- modify the string -->  BUT MUST BE ALWAYS 13 bytes
 		- click ok
-		- press F8 3 times -->  to execute the code
+		- press `F8` 3 times -->  to execute the code
 		  ![[Pasted image 20240316132212.png]]
 <span style="color:#00b050">We have printed a modified string</span> 
+
+#### Print more strings into the binary
+If you look at this img -->  there are more strings than the Hello World
+![[Pasted image 20240316131720.png]]
+=>
+<span style="background:#fff88f">let's try to print even them:</span>
+- restart the program -->  `CTRL+F2`
+- press `F9` -->  until you reach the `move` instruction
+- right click on the move instruction > Follow in dump > `helloworld.<number>`
+- select everything from:
+	- the next Ch after the "!"
+	- to the previous Ch before the "U"
+	  
+- right click > <span style="color:#00b050">Fil</span><span style="color:#00b050">l</span> 
+- write the hex ch `90` -->  it's the `NOP` operation
+                       it will skip until the last NOP
+	![[Pasted image 20240316133012.png]]
+	=>
+	![[Pasted image 20240316133035.png]]
+
+- press `F8` 3 times -->  to execute the code
+  ![[Pasted image 20240316133153.png]]
+
+#### Last instructions and epilogue
+- `move  eax, 0` -->   it returns 0 (as in the code)
+- `leave` -->  alias for the epilogue
+  ![[Pasted image 20240316133644.png]]
+	
+	- `move   ESP, EBP` -->  move EBP into ESP
+	- `pop` `EBP`![[Pasted image 20240316133715.png]]
+=>
+now:
+- if press `F8` again -->  <span style="color:#00b050">we will turn back to the address where the main function is been called</span>
+  ![[Pasted image 20240316133856.png]]
+
+	<span style="color:#00b050">That is the address that was inside the stack </span>(so insde the base pointer)
