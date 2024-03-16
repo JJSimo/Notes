@@ -2007,4 +2007,27 @@ Restart the program => `CTRL+F2`
 				- => press `F8`
 				  ![[Pasted image 20240316120611.png]]
 				  
-			- now the next instruction is 
+			- now the next instruction is a `jump` -->  <span style="color:#00b050">jump IF NOT EQUAL</span>   to `8A1142` address
+				- if the flag is not set =>  JUMP
+				- here the flag is set =>  it won't jump
+			- BUT:
+			  <span style="color:#00b050">we can modify the value of the flag</span> -->  by clicking on it double
+			  =>
+			  in this way -->  it will jump if we press `F7`    (we don't need to do that)
+			  it's just to emphasize:
+> [!warning]
+> remember that inside a debugger -->  we can modify the flow of the program
+>                                 (by modifying instructions and flags)
+
+- now:
+- skip the next API call (InternetOpenURL) and reach the -->  <span style="color:#00b050">shellExecuteW API call</span> 
+	- we have 6 parameters
+	- set a breakpoint to the API call
+	  ![[Pasted image 20240316121838.png]]
+	
+	- open procmon
+		- filter by -->  Process Name contains DownloadFromURL
+		  
+	- press `F8` -->  until you run the API
+	- watch procmon output -->  to see what happen into the host system
+	- 
