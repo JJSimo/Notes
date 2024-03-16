@@ -2047,3 +2047,13 @@ Restart the program => `CTRL+F2`
 - If we press `F8` a few more times -->  we'll reach the `ret`
 	- => it will exit from the main
 	- after few more F8 -->  it will end the program
+
+#### What remember
+From this lecture remember that:
+- <span style="color:#00b050">debugger</span> is useful to --> - <span style="color:#00b050">understand</span> what instructions are executed
+                        - <span style="color:#00b050">modify the behavio</span><span style="color:#00b050">r</span> of the program (by modifying instruction/reg)
+                          
+- <span style="color:#00b050">combine</span> the <span style="color:#00b050">debugger</span> with -->  wireshark, procmon, file system check
+                             to understand:
+                             - <span style="color:#00b050">WHEN THINGS happen</span> to the system
+                             - <span style="color:#00b050">WHICH instructions are responsible fo</span><span style="color:#00b050">r</span> 
