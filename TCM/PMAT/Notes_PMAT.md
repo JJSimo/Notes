@@ -2251,3 +2251,7 @@ After a successful check in with this domain, the sample unpacks the `passwrd.tx
 >
 #### What kind of encryption algorithm is in use?
 `RC4` -->  you can find it inside the floss output or in cutter
+
+
+# Binary Patching & Anti-analysis
+## Patching x86 Binaries
