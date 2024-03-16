@@ -2180,3 +2180,53 @@ LAB:
 - What key is used to encrypt the data?
 - What is the significance of `houdini`?
 
+### Basic Static Analysis
+#### PeStudio
+##### Architecture
+![[Pasted image 20240316151909.png]]
+
+##### Strings
+![[Pasted image 20240316152114.png]]
+
+##### What language is the binary written in?
+The binary is written in Nim. 
+you can see it with -->  `floss`
+This is also indicated by the existence of the NimMain, NimMainInner, and NimMainModule methods present in the binary.
+
+
+#### VIRUSTOTAL
+Trojan - backdoor
+
+#### Peview
+Not packed -->  Virtual size = Raw Data
+no IMPORT table??
+#### Capa
+![[Pasted image 20240316153534.png]]
+
+### Basic Dynamic Analysis
+#### Under what conditions can you get the binary to delete itself?
+Without InetSim -->  if you run the malware both with admin/no-admin privileges it deletes itself
+When you setup a fake dns server and listen with ncat it also deletes 
+
+#### Wireshark
+##### What is the first callback domain?
+1) DNS request to:
+   `update.ec12-4-109-278-3-ubuntu20-04.local`: type A, class IN
+
+2) then HTTP request to -->  same URI
+
+3) then DNS request to:
+   `cdn.altimiter.local`: type A, class IN
+
+4) then HTTP request to:
+   `http://cdn.altimiter.local/feed?post=A8E437E8F0367592569A2870BBDD382A1DFBB01A15FC23999D7788C33502AD9256E481B402BDC6BC25167B6478F204C49A9BADD68C4AC2A617437ECCBBA9`
+   _<span style="background:#fff88f">EVERY SECOND 1 request</span>_
+
+#### Procmon
+![[Pasted image 20240316155423.png]]
+
+It creates a file -->  password.txt
+
+No sub process
+#### TCPview
+![[Pasted image 20240316154316.png]]

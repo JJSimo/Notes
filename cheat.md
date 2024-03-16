@@ -882,6 +882,9 @@ Windows program that will show you detailed listings of all TCP and UDP endpoint
 ### Cutter
  multi-platform reverse engineering tool
 
+### x32dbg - x64dbg
+debugger
+
 -----
 ### Sites
 #### VIRUSTOTAL
