@@ -2156,3 +2156,7 @@ now:
   ![[Pasted image 20240316133856.png]]
 
 	<span style="color:#00b050">That is the address that was inside the stack </span>(so insde the base pointer)
+
+## SikoMode Challenge
+LAB:
+`PMAT-labs/labs/2-3.Challenge-SikoMode/unknown.exe.7z`
