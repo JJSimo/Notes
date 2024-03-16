@@ -2038,8 +2038,12 @@ Restart the program => `CTRL+F2`
 		- <span style="background:#fff88f">we'll try to determine when the file is been created in the host system:</span>
 			- restart the program in x32dbg -->  `CTRL+F2`
 			- press F9 -->  until you reach the moment where you can push the params into sta
-			- then press F8 -->  until you see that the file is been created
+			- then press `F8` -->  until you see that the file is been created
 =>
 ![[Pasted image 20240316123210.png]]
 
 <span style="color:#00b050">The API call to URDownloadToFileW</span> -->  creates the file
+
+- If we press `F8` a few more times -->  we'll reach the `ret`
+	- => it will exit from the main
+	- after few more F8 -->  it will end the program
