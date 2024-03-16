@@ -2057,3 +2057,66 @@ From this lecture remember that:
                              to understand:
                              - <span style="color:#00b050">WHEN THINGS happen</span> to the system
                              - <span style="color:#00b050">WHICH instructions are responsible fo</span><span style="color:#00b050">r</span> 
+
+### Hello World - Part2
+LAB:
+`PMAT-labs/labs/2-2.AdvancedDynamicAnalysis/helloWorld-c`
+
+- open cutter > open helloworld.exe
+- open the main function
+- copy the <span style="color:#00b050">memory location</span> -->  where the main starts
+  ![[Pasted image 20240316124528.png]]
+	- right click on the address > Copy Address
+
+- open x32dbg and open the helloworld
+- press `CTRL+G` -->  and paste the address
+	- <span style="color:#00b050">we will see the main function into x32dbg</span>
+
+- set a breakpoint to the beginning of the main function (`F2`)
+  ![[Pasted image 20240316124925.png]]
+
+- set also a breakpoint to -->  printf CALL
+- press `F9` -->  to start the program
+- press `F9` again -->  to enter in the main
+
+- press `F7` -->  to start the prologue
+  ![[Pasted image 20240316125620.png]]
+
+	- it will push `EBP` -->  into the stack (1)
+	- the EBP value is on the right (2)
+	- the value inside the stack is on (3)
+	- press `F7` -->  move the current stack pointer to the base pointer
+	  ![[Pasted image 20240316125906.png]]
+	 - press `F7` --> to assure that the stack pointer is a multiple of 4
+	 - press `F7` --> to allocate memory for the string
+	   ![[Pasted image 20240316130047.png]]
+		- <span style="color:#00b050">we are 16 bytes subtracted</span> from the stack pointer
+		  
+	- press `F8` -->  to execute the call to the debug hello world main function
+	- press `F7` -->  <span style="color:#00b050">to move the string hello world into the memory location that's pointed to</span>
+	             _<span style="color:#00b050">by the base pointer</span>_
+![[Pasted image 20240316130642.png]]
+	- press `F8` -->  to call the printf function
+	  ![[Pasted image 20240316130800.png]]
+
+####  Modify the hello world string
+- restart the program -->  `CTRL+F2`
+- press `F9` -->  until you reach the main
+- reach the -->  `move` instruction (that copies the string into the address pointed by the EBP)
+	- right click on that instruction
+	- Follow in dump > `helloworld.<number>`
+		- NOW:
+		  watch the hexdump section
+		- <span style="color:#00b050">it will show the hexadecimal data of the string "Hello, World!"</span>
+		- if you underline the String you can see the exact bytes
+		  ![[Pasted image 20240316131720.png]]
+	- <span style="background:#fff88f">How to modify the String:</span>
+		- count the n° of bytes of the string -->  13 bytes
+		- right click on the highlighted string > Binary > Edit
+		  ![[Pasted image 20240316132027.png]]
+		
+		- modify the string -->  BUT MUST BE ALWAYS 13 bytes
+		- click ok
+		- press F8 3 times -->  to execute the code
+		  ![[Pasted image 20240316132212.png]]
+<span style="color:#00b050">We have printed a modified string</span> 
