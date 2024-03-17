@@ -2813,3 +2813,19 @@ Normally a shellcode is -->  inside a binary
 =>
 here we are going to:
 <span style="color:#00b050">extract the shellcode from the memory of a running process</span> 
+=>
+- we'll use a debugger 
+- find when the shellcode is been injected
+- extract the shellcode before the injection
+
+#### PeStudio
+classic import for -->  thread injection
+![[Pasted image 20240317163906.png]]
+
+Where we are going to intervene:
+is during `WriteProcessMemory` API call
+
+Now:
+we need to find where this injection takes place
+
+### Cutter
