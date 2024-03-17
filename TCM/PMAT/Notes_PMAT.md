@@ -2717,3 +2717,21 @@ README:
 ![[Pasted image 20240317153938.png]]
 
 The file inside the `CarveFromText` -->  is just code in C#  (=> it's not an executable)
+=>
+we can open it with an editor
+![[Pasted image 20240317154804.png]]
+
+<span style="background:#fff88f">if we inspect the API call:</span>
+we have a classic -->  Thread Injection pattern
+=>
+- it creates an array -->  `rsrc`
+- `VirtualAlloc` -->  allocate memory
+- `Copy` -->  copy the bytes from `rsrc` into the `Address`  (that is been allocated with VirtualAlloc)
+- `CreateThread` -->  execute a thread that is pointed to the `Address`
+	- what is executed:
+	  the content inside the -->  `rsrc` array 
+
+- `WaitForSingleObject` -->  puts the thread in a waiting state for an indefinite period of time
+	- <span style="background:#fff88f">this is interesting bc:</span>
+		- <span style="color:#00b050">the process will never show up into the process list</span> -->   bc it's waiting to the handle
+		                                                 for the thread
