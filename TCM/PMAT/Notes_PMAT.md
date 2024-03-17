@@ -2438,3 +2438,102 @@ Malware authors may code their malware to <span style="color:#00b050">identify</
 - when it is <span style="color:#00b050">being debugged</span>
 - if it is in a <span style="color:#00b050">virtual machine</span>,
 - if it is in a <span style="color:#00b050">specific environment</span>    (like FLARE-VM)
+
+#### IsDebugger
+Present() API Call
+IsDebuggerPresent() API call:
+<span style="background:#fff88f">naïve form of anti-analysis technique:</span>
+in which the <span style="color:#00b050">malware</span> sample -->  <span style="color:#00b050">detects</span> the presence of a <span style="color:#00b050">debugger</span> 
+                             that is <span style="color:#00b050">attached</span> to its <span style="color:#00b050">process</span> 
+                             
+This technique is -->  quite easy to detect and defeat
+but:
+it is an excellent introduction to the anti-analysis methodology and how to counter it
+
+=>
+- Open `simpleAntiAnalysis-cpp.exe` into Cutter
+- This sample is a 64-bit binary written in C++
+
+- Open the `sym.WinMain` function into the `Graph view`
+  ![[Pasted image 20240317112417.png]]
+
+let's examine the IsDebuggerPresent() API -->  [windows documentation](https://learn.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-isdebuggerpresent)
+![[Pasted image 20240317112918.png]]
+=>
+It returns a bool value based on -->  the current process IS/IS NOT running with a debugger
+
+The core of the logic of the debugger check is this one:
+![[Pasted image 20240317113054.png]]
+=>
+- Execute the IsDebuggerPresent API
+- the result is stored into -->  `EAX`
+	- `EAX == 1` -->  if debugger is detected
+	- `EAX == 0` -->  if debugger is not detected
+	  
+- program performs -->  a bitwise `AND` of the value of `EAX`  (will set the Zero Flag (ZF) to `1` or `0`)
+
+##### SETNE instruction
+Then the program performs a -->  `SETNE` `AL` instruction
+
+SETNE -->  <span style="color:#00b050">SET if Not Equal To</span> 
+=>
+`SETNE AL` :
+sets the value of `AL` -->  to 1 or 0 <span style="color:#00b050">depending on if the Zero Flag is clear or not</span> 
+
+##### TEST
+Finally:
+- value of `AL` is `TEST`ed against itself -->  <span style="color:#00b050">sets the ZF to 1 or 0 </span>depending on the contents of `AL`
+
+##### JE jump
+last:
+`JE` -->  <span style="color:#00b050">Jump if Equal</span> 
+=>
+- **if the Zero Flag is equal to 1 =>   the jump is taken** (<span style="color:#00b050">Malware is executed</span>)
+- if the Zero Flag is equal to 0 =>   the jump is not taken  (<span style="color:#ff9900">Malware is stopped</span>)
+
+##### Recap
+- The program calls `IsDebuggerPresent()`
+	- If a debugger is present =>  a 1 is stored in `EAX`
+	- Otherwise =>  a 0 is stored in `EAX`.
+- This value is `TEST`ed against itself
+- The value undergoes a bitwise `AND` operation
+	- Bitwise `AND` of a 2 values result -->  in a value of 0 if the operands are both 0
+	- if this value ends up being 0 =>   the Zero Flag is set.
+- `SETNE AL` evaluates the Zero Flag
+	- If the Zero Flag is clear =>  `SETNE` sets the value of `AL` to 1
+	- In the opposite case =>  it sets the value of `AL` to 0.
+- Whatever value is placed in `AL` is `TEST`ed against itself
+	- and the Zero Flag is set to 1 or 0 again
+- The `JE [memory address]` evaluates the Zero Flag 
+	- and jumps to the memory location if it equals 1 
+	- proceeds to the other code path if the Zero Flag is 0.
+
+<span style="background:#fff88f">If a debugger is attached:</span>
+- IsDebuggerPresent() = 1 -> `EAX = 1`
+- `TEST EAX, EAX` (bitwise AND of 1 and 1) -> `1`
+- `Zero Flag = 0` (Zero Flag is cleared because the TEST result was not 0)
+- `SETNE AL = 1`
+- `TEST AL, AL -> 1`
+- `Zero Flag = 0`
+- `JE` goes to "No Soup For You!"
+
+<span style="background:#fff88f">And in the opposite case:</span>
+- IsDebuggerPresent() = 0 -> `EAX = 0`
+- `TEST EAX, EAX` (bitwise AND of 0 and 0) -> `0`
+- `Zero Flag = 1` (Zero Flag is set because the TEST result was 0)
+- `SETNE AL = 0`
+- `TEST AL, AL -> 0`
+- `Zero Flag = 1`
+- `JE` goes to "Boom!"
+
+### Defeating Simple Anti-analysis
+Here we'll use an alternative method =>  we'll <span style="color:#00b050">patch the binary DYNAMICALLY</span>  (with x64dbg)
+
+- load the program into x64dbg
+- Run the program (`F9`) until the message box triggers![[Pasted image 20240317114819.png]]
+
+<span style="background:#fff88f">Let’s find the instruction that performs the `IsDebuggerPresent()` check:</span>
+- restart the program (`CTRL+F2`)
+- Start the program (`F9`)
+- right click in the main tab with assembly instruction 
+- Search For > All Modules > String References
