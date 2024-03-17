@@ -2709,4 +2709,11 @@ if you click Edit =>  you can see the macros
 
 they just spawn a calc
 
-##
+## Shellcode Analysis
+LAB:
+`PMAT-labs/labs/3-2.WhatTheShell-ShellcodeAnalysis/CarveFromText`
+
+README:
+![[Pasted image 20240317153938.png]]
+
+The file inside the `CarveFromText` -->  is just code in C#  (=> it's not an executable)
