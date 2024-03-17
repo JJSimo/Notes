@@ -2536,4 +2536,29 @@ Here we'll use an alternative method =>  we'll <span style="color:#00b050">patch
 - restart the program (`CTRL+F2`)
 - Start the program (`F9`)
 - right click in the main tab with assembly instruction 
-- Search For > All Modules > String References
+	- Search For > All Modules > String References
+	- In the String search panel enter -->   `IsDebuggerPresent`
+	- set a breakpoint (`F2`) to this string
+	- exit from the the String tab  (click in the above tab "CPU")
+- continue the execution of the program by pressing `F9` -->  until we reach the breakpoint
+  ![[Pasted image 20240317115801.png]]
+  
+	- continue with `F8` -->  until we can arrive to the <span style="color:#00b050">RETURN FROM THIS CALL</span> (`ret`)
+	- set a breakpoint![[Pasted image 20240317120013.png]]
+	  
+	- <span style="color:#00b050">WE FINALLY REACH THE SAME CODE AS WE SAW IN CUTTER</span> 
+	  
+- <span style="background:#fff88f">Now we want to modify the flow of the malware</span>
+	- press `F8` -->  and reach the JUMP![[Pasted image 20240317120305.png]]
+	  
+	- here the ZF Zero Flag -->  is set to 0    ([[Notes_PMAT#JE jump|recap jump]])
+		- => malware will stop  
+			- bc it recognize that we are inside a debugger
+	 =>
+	- <span style="color:#00b050">change the value of </span>`ZF` -->  by clicking twice on it 
+
+Now:
+continue with `F8` -->  to see the output of the program
+![[Pasted image 20240317120732.png]]
+![[Pasted image 20240317120815.png]]
+
