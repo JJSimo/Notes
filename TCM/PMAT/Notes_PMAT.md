@@ -2316,3 +2316,58 @@ The call to `evaluate_http_body()` -->  <span style="color:#00b050"> splits thi
 `jne 0x43f1c0` -->   <span style="color:#00b050">splits the program</span> into two paths
 =>
 <span style="background:#fff88f">Let’s start at this split and work our way upwards:  </span>             (verso l'alto)
+jne -->  <span style="color:#00b050">Jump if Not Equal</span> 
+         => 
+         Jump if the condition is not met
+         which is the <span style="color:#00b050">condition</span> -->  `test al, al`
+
+#### test function
+used to perform -->  the logical `bitwise AND` operation on 2 operands. 
+In this case:
+we are `AND`’ing -->  the contents of `al` against itself
+                 (`al` is the lower 8 bits of the `eax` register)
+
+the <span style="color:#00b050">result of the test</span> instruction -->     <span style="color:#00b050">sets the</span> 
+                                Zero Flag (`ZF`), Sign Flag (`SF`), and Parity Flag (`PF`) reg 
+                                 _<span style="color:#00b050">to certain values</span>_
+We'll focus on -->    <span style="color:#00b050">Zero Flag</span> value
+                 the value can be -->  `0` or `1`  (based on the previous `AND` operation)
+=>
+- `if ZF == 0` =>  **JNE instruction will be taken**
+-  `if ZF == 1`=>  **JNE instruction will not be taken**
+
+#### XOR
+One instruction higher than the `test al, al`:
+`xor eax, 1` -->      <span style="color:#00b050">this is the true deciding point in the program</span>
+                bc the value of `eax` -->  has been set by the `evaluate_http_body()` function
+
+Remember that -->  `al` is <span style="color:#00b050">the lower 8</span> bits of `eax`
+
+We know that the evaluate_http_body() -->  returns a boolean value
+=>
+- If the result was TRUE =>   our <span style="color:#00b050">XOR returns a 0</span>
+- If the result was FALSE =>  <span style="color:#00b050">XOR returns 1</span> 
+
+And this is evaluated by the -->  `test al, al`
+
+#### Recap
+=> 
+so far we are:
+- Doing the method -->  `evaluate_http_body()`
+- Writing the return value of the method -->   to a variable (<span style="color:#00b050">TRUE</span> or <span style="color:#00b050">FALSE</span>)
+- <span style="color:#00b050">XOR</span> this result -->  against the value of 1       (`xor eax,1`)
+- <span style="color:#00b050">TEST</span> -->  the resulting value of the eax register 
+- <span style="color:#00b050">set the Zero Flag</span> -->  based on the result of this TEST (`test al, al`).
+- Jump to one side of the code path -->   if ZF == 0
+- jump to the other side -->  if ZF == 1                              (`jne [memory address]`)
+
+#### The issue
+let's assume for this example:
+- the malware calls to `http://freetshirts.local/` 
+- grabs the body of the endpoint at -->  `key.crt`
+- this endpoint is now -->  <span style="color:#00b050">offline</span>  <span style="color:#00b050">or</span> has been <span style="color:#00b050">changed</span> 
+
+we know that:
+the <span style="color:#00b050">payload triggers if</span> the SHA256 sum of the contents of `key.crt` -->  is = to  a pre-defined 
+                                                             SHA256 in the binary
+<span style="background:#fff88f">what’s the issue</span>
