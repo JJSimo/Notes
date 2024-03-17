@@ -2371,3 +2371,51 @@ we know that:
 the <span style="color:#00b050">payload triggers if</span> the SHA256 sum of the contents of `key.crt` -->  is = to  a pre-defined 
                                                              SHA256 in the binary
 <span style="background:#fff88f">what’s the issue</span>
+there is <span style="color:#00b050">no way</span> -->  <span style="color:#00b050">we could know</span> the <span style="color:#00b050">contents</span> of that <span style="color:#00b050">endpoint</span> at this point
+bc:
+- we have a SHA256 hash
+- but <span style="color:#00b050">it is impossible to reverse the SHA256</span> sum back into its original contents
+
+=>
+we can't trigger the binary and get to `run_payload()` code path
+
+#### The Patch
+We’re going to -->   - <span style="color:#00b050">patch this binary</span> 
+                 - so it will <span style="color:#00b050">run the payload regardless</span> 
+                   of the <span style="color:#00b050">result</span> of the evaluate_http_body() <span style="color:#00b050">function</span>
+
+<span style="background:#fff88f">We have the binary in our machine:</span>
+=>
+<span style="color:#00b050">we can modify it</span>
+=>
+basic idea:
+- <span style="color:#00b050">insert or alter instructions</span> into the binary 
+- so <span style="color:#00b050">it will reach our intended code pat</span><span style="color:#00b050">h</span>  (regardless of how the program is supposed to run)
+
+#### Running and Patching the Exe
+add `freetshirts.local` to your `/etc/hosts` file and have it point to `127.0.0.1`
+[[Notes_PMAT#Fake DNS reply]]
+
+![[Pasted image 20240317105657.png]]
+
+<span style="background:#fff88f">To patch this we have tons of options:</span>
+- make sure that the value is different -->  by the time it hits this XOR instruction
+- insert a JMP to jump over this code block completely
+
+But keep it simple:
+the opposite of `JNE` -->  is `JE`  (<span style="color:#00b050">Jump if Equal</span> =>  Jump if condition is met)
+=>
+<span style="color:#00b050">let’s patch this</span> -->  <span style="color:#00b050">by changing</span> the `JNE` instruction to a `JE`
+=>
+- Select the jne instruction
+- right click > Edit > <span style="color:#00b050">Reverse Jump</span> 
+  ![[Pasted image 20240317110013.png]]
+
+- Save it and close of cutter   (as rizin project)
+- Our Desktop should be like this:
+  ![[Pasted image 20240317110258.png]]
+
+NOW:
+<span style="color:#00b050">Test</span> the `original malware` and also our `patched malware`:
+![[Pasted image 20240317110733.png]]
+
