@@ -885,6 +885,22 @@ Windows program that will show you detailed listings of all TCP and UDP endpoint
 ### x32dbg - x64dbg
 debugger
 
+### oledump.py
+oledump.py is a program to analyze `OLE files` (Compound File Binary Format)
+These files contain -->  streams of data
+oledump -->  allows you to analyze these streams
+
+`oledump.py sheetsForFinancial.xlsm` -->  find all the data streams and index them
+`oledump.py -s 3 sheetsForFinancial.xlsm`  -->   ->  the hex dump of the file
+`-s 3` -->  use data stream n° 3 
+
+ `oledump.py -s 3 -S sheetsForFinancial.xlsm`
+  `-S` -->  print the Strings inside the data stream     (it's like using FLOSS)
+
+<span style="background:#fff88f">recover the actual syntax of a Visual Basic macro</span>
+`oledump.py -s 3 --vbadecompresscorrupt sheetsForFinancial.xlsm`
+
+
 -----
 ### Sites
 #### VIRUSTOTAL
