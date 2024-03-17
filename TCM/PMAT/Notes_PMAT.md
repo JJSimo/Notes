@@ -2562,3 +2562,14 @@ continue with `F8` -->  to see the output of the program
 ![[Pasted image 20240317120732.png]]
 ![[Pasted image 20240317120815.png]]
 
+# Specialty Malware Classes
+In this next section:
+we'll explore -->  different types of malware and malicious delivery mechanisms
+
+Use this opportunity to -->    - explore different malware mechanisms and 
+                        - learn more about the many diff forms a piece of malware can take
+
+## Analyzing Excel Maldocs: OLEdump
+LAB:
+`PMAT-labs/labs/3-1.GonePhishing-MaldocAnalysis/Excel/sheetsForFinancial.7z`
+
