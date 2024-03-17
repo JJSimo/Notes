@@ -2805,5 +2805,11 @@ the shellcode:
 - save it locally by creating a -->  `javaupdate.exe` file
 - execute `javaupdate.exe` 
   
+### Carving Shellcode from Memory
+LAB:
+`PMAT-labs\labs\3-2.WhatTheShell-ShellcodeAnalysis\CarveFromMemory`
 
-
+Normally a shellcode is -->  inside a binary
+=>
+here we are going to:
+<span style="color:#00b050">extract the shellcode from the memory of a running process</span> 
