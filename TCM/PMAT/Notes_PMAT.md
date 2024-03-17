@@ -2650,5 +2650,6 @@ the macro:
 	5) to run the `run.ps1`
   
 ##  Analyzing Word Maldocs: Remote Template Macro Injection
-
+LAB:
+`PMAT-labs/labs/3-1.GonePhishing-MaldocAnalysis/Word/`
 
