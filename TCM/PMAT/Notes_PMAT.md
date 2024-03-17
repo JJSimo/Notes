@@ -2573,3 +2573,82 @@ Use this opportunity to -->    - explore different malware mechanisms and
 LAB:
 `PMAT-labs/labs/3-1.GonePhishing-MaldocAnalysis/Excel/sheetsForFinancial.7z`
 
+Here we'll learn about -->  malware inside a file
+
+This example is an excel file:
+with `.xlsm` extension -->  `m` stands for MACRO 
+
+- we'll do only static analysis (bc for dynamically we need office suite)
+- we'll use REMnux for analysing this malware
+  =>
+  to copy the file into remnux:
+	- set up a http server into FlareVM -->  `python -m http.server 80`
+	- retrieve the file with wget -->  `wget http://10.0.0.3/sheetsForFinancial.xlsm`
+	- close the http server
+
+<span style="background:#fff88f">When you open a document:</span>
+- you are not opening a single file
+- is more similar to an -->  <span style="color:#00b050">archive</span>
+=>
+- indeed we can unzip the document -->  `unzip sheetsForFinancial.xlsm` ![[Pasted image 20240317131055.png]]
+- the most interesting file  is -->  `vbaProject.bin`
+  bc:
+	- it's a `.bin` file
+	  =>
+	  it contains Raw Byte
+
+	- it's VB -->  can be Visual Basic Script
+
+- if you `cat`  the program =>  you'll see the Raw Byte
+- to analyze this file we'll use -->  `oledump.py`
+
+### oledump.py
+- oledump.py is a program to analyze `OLE files` (Compound File Binary Format)
+- These files contain -->  streams of data
+- oledump -->  allows you to analyze these streams
+=>
+`oledump.py sheetsForFinancial.xlsm`
+![[Pasted image 20240317131302.png]]
+for each data stream that the tool finds =>  it will give an index (A1, A2, A3...)
+=>
+here it says that:
+- inside the `xl` folder and inside the `vbaProject.bin` file
+	- there is a data stream that contains -->   a MACRO    (A3 bc has the `M`)
+
+=>
+analyze this data stream:
+- `oledump.py -s 3 sheetsForFinancial.xlsm`
+  `-s 3` -->  use data stream n° 3 
+  =>
+  it will return -->  the hex dump of the file   (hard to find something in this)
+  =>
+
+- `oledump.py -s 3 -S sheetsForFinancial.xlsm`
+  `-S` -->  print the Strings inside the data stream     (it's like using FLOSS)![[Pasted image 20240317125701.png]]
+  =>
+	- it's running `certutil`
+	- it's running a `decode` of something called `encd.crt`
+	- it's running `run.ps1`
+  =>
+  There is probably something malicious 
+
+let's try to:
+<span style="background:#fff88f">recover the actual syntax of the macro</span>
+- `oledump.py -s 3 --vbadecompresscorrupt sheetsForFinancial.xlsm`
+![[Pasted image 20240317130428.png]]
+THIS IS -->  <span style="color:#00b050">THE FULL TEXT OF THE MACRO</span>                  (that is embedded into the excel sheet)
+=>
+the macro:
+1) create a HTTP object -->  bc maybe we are trying to reach a web URL
+2) we open a GET request to -->  `http://srv3.wonderballfinancial.local/abc123.cr`
+3) we write the <span style="color:#00b050">downloaded file</span> to -->  `encd.crt`
+4) we call the shell
+	1) invoke the `cmd` 
+	2) where `certutil` -->  decode the `encd.crt` file
+	3) we call the `run.ps1`
+	4) invoke the full path to the `PowerShell` at 64 bit
+	5) to run the `run.ps1`
+  
+##  Analyzing Word Maldocs: Remote Template Macro Injection
+
+
