@@ -2722,7 +2722,7 @@ we can open it with an editor
 ![[Pasted image 20240317154804.png]]
 
 <span style="background:#fff88f">if we inspect the API call:</span>
-we have a classic -->  Thread Injection pattern
+we have a classic -->  <span style="color:#00b050">Thread Injection pattern</span>
 =>
 - it creates an array -->  `rsrc`
 - `VirtualAlloc` -->  allocate memory
@@ -2735,3 +2735,75 @@ we have a classic -->  Thread Injection pattern
 	- <span style="background:#fff88f">this is interesting bc:</span>
 		- <span style="color:#00b050">the process will never show up into the process list</span> -->   bc it's waiting to the handle
 		                                                 for the thread
+=>
+the malicious code is -->  inside the `rsrc` array 
+=>
+- copy the entire line with the array
+- paste it inside a txt file in the -->  REMnux VM
+
+We need to parse this file
+
+### Parsing file in python
+into REMnux VM:
+- `nano carve.py`
+- we only need the data inside the array
+	- => in `0xfc` -->  we need `fc`
+- =>![[Pasted image 20240317160542.png]]
+  
+  it will replace:
+	- each `0x` -->  with `""`
+	- the start of the line -->  with `""`
+	- the `};` -->  with "`"`
+	- each `,` -->  with `""`
+
+	![[Pasted image 20240317161009.png]]
+
+- we need the string bytes => modify the script in way:
+  
+```python
+#!/usr/bin/env python3
+
+with open("shellcode.txt", "r") as f:
+        hex_string = f.read().replace("0x", "").replace("byte[] rsrc = new byte[464] {", "").replace("};", "").replace(",", "")
+
+        hex_encode = hex_string.encode()
+
+# write the hex_encode variable inside a file
+with open("out.bin", "wb") as out:                      #wb = write bytes
+        out.write(hex_encode)
+
+```
+=>
+![[Pasted image 20240317161317.png]]
+
+- transfer it to FlareVM:
+  `python3 -m http.server 8080`
+
+- in FlareVM in a powershell
+   `wget http://10.0.0.4:8080/out.bin -UseBasicParsing -Outfile out.bin`
+
+### Analyzing  with scdbg
+`scdbg` -->   is a shellcode analysis application 
+- it will interpret the bytes of the shellcode
+- step through the program to -->  resolve API calls
+- see what the shellcode is doing
+  =>
+  _<span style="color:#00b050">it will not run the shellcode</span>_
+
+when you run it:
+you need to specify the <span style="color:#00b050">n° of steps</span> (`s`):
+n° of instructions that shellcode debug will walk through -->     to identify what the shellcode is 
+                                                     doing (at each set of instructions)
+if you write `-1` -->   n° of steps are unlimited
+=>
+`scdbg /f out.bin -s -1`
+![[Pasted image 20240317162910.png]]
+=>
+the shellcode:
+- connects to -->  `burn.ec2-13-7-109-121-ubuntu-2004.local`
+- download a file
+- save it locally by creating a -->  `javaupdate.exe` file
+- execute `javaupdate.exe` 
+  
+
+

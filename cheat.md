@@ -900,6 +900,21 @@ oledump -->  allows you to analyze these streams
 <span style="background:#fff88f">recover the actual syntax of a Visual Basic macro</span>
 `oledump.py -s 3 --vbadecompresscorrupt sheetsForFinancial.xlsm`
 
+### scdbg
+is a shellcode analysis application 
+- it will interpret the bytes of the shellcode
+- step through the program to -->  resolve API calls
+- see what the shellcode is doing
+  =>
+  _<span style="color:#00b050">it will not run the shellcode</span>_
+
+when you run it:
+you need to specify the <span style="color:#00b050">n° of steps</span> (`s`):
+n° of instructions that shellcode debug will walk through -->     to identify what the shellcode is 
+                                                     doing (at each set of instructions)
+if you write `-1` -->   n° of steps are unlimited
+=>
+`scdbg /f file.bin -s -1`
 
 -----
 ### Sites
