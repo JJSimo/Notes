@@ -2255,3 +2255,64 @@ After a successful check in with this domain, the sample unpacks the `passwrd.tx
 
 # Binary Patching & Anti-analysis
 ## Patching x86 Binaries
+LAB
+`PMAT-labs\labs\2-4.BinaryPatching\SimplePatchMe`
+
+our goal as malware analyst -->  understand what a malware does
+sometimes the malware -->  is <span style="color:#00b050">designed</span> <span style="color:#00b050">to prevent us from accomplishing that goal</span> 
+=>
+we need to -->  outsmart the malware when this is the case
+
+One technique that we can use is:
+<span style="color:#00b050">Binary patching</span> -->  process of making changes to a binary and modify its instruction flow
+
+### Setup
+- On FLAREVM  make a copy of `main.exe` called `main2.exe`:
+  `cp .\main.exe .\main_2.exe`
+
+- Open in Cutter -->  main2.exe and make sure to click on <span style="color:#00b050">Load in write mode</span> when opening Cutt
+
+### Source Code
+First analyze the source code of -->  SimplePatchMe  (`main.nim`)
+![[Pasted image 20240317100801.png]]
+
+The program:
+- performs a <span style="color:#00b050">GET request</span> to -->  `http://freetshirts.local/key.crt`
+- <span style="color:#00b050">write the body of the response</span> -->  into a <span style="color:#00b050">variable</span> (`key_contents`)
+- calculates the <span style="color:#00b050">SHA256sum</span> of the body of the response
+- <span style="color:#00b050">compares</span> it to a preset value:
+	- if the 2 values are = -->    - it executes the `run_payload()`
+	                        - it simply prints `[+] Boom!`
+
+	- if not equal -->  it prints `[-] No dice, sorry :(`
+
+### Cutter
+With nim malware -->  the main is always nested inside other method
+=>
+we need to -->  drill down a few leves
+
+- Open `main()` function into `Decompiler` panel:![[Pasted image 20240317101425.png]]
+
+- Open `_NimMain()`:
+  ![[Pasted image 20240317101513.png]]
+
+	- we can ignore for now -->  `_PreMain()` and `_initStackBottomWith()`
+	- click on the `_NimMainInner` value -->  to jump to the `NimMainInner()` function
+	  
+- finally we get to the true main() of a Nim program -->  `NimMainModule()`.
+![[Pasted image 20240317102436.png]]
+
+The <span style="color:#00b050">symbols of this binary</span> have been left in =>  so the <span style="color:#00b050">function names</span> are nice and <span style="color:#00b050">easy to read</span>
+=>
+we have -->   `evaluate_http_body()` and `run_payload()`
+
+With the graph view is easier to see:
+![[Pasted image 20240317102650.png]]
+
+The call to `evaluate_http_body()` -->  <span style="color:#00b050"> splits this graph into two paths</span>
+- 1 path runs the `run_payload()` fz -->   that we saw print `[+] Boom!`
+- the other path echoes the other string -->  `[-] No dice, sorry :(`
+=>
+`jne 0x43f1c0` -->   <span style="color:#00b050">splits the program</span> into two paths
+=>
+<span style="background:#fff88f">Let’s start at this split and work our way upwards:  </span>             (verso l'alto)
