@@ -2829,3 +2829,10 @@ Now:
 we need to find where this injection takes place
 
 ### Cutter
+no debug symbols for this malware -->  it will be harder find the main
+#### Find main function with no Debug Symbols
+we need to:
+- start at the -->  <span style="color:#00b050">end of the program</span>
+- work backwards
+- <span style="color:#00b050">find the last place</span> where a function -->  <span style="color:#00b050">return</span> something into the `EAX` register 
+
