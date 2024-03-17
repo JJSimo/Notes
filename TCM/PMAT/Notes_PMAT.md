@@ -2653,3 +2653,58 @@ the macro:
 LAB:
 `PMAT-labs/labs/3-1.GonePhishing-MaldocAnalysis/Word/`
 
+2 files:
+- `.docm` -->  it's like the excel file =>  contains a <span style="color:#00b050">macro</span> 
+- `.docx`
+
+### .docm extension 
+is literally the same macro that we saw -->  in the excel example
+=>
+we can use `oledump.py` even on FlareVM:
+- `oledump.py bookReport.docm`![[Pasted image 20240317151349.png]]
+- `oledump.py -s 3 --vbadecompresscorrupt bookReport.docm`
+
+### .docx extension
+#### Remote template word
+we said that -->  a document is like a zip file
+=>
+- change the extension to the file and write -->  `.zip`
+- and you can open it with -->  7zip
+
+this docx file -->  is a word file that use a <span style="color:#00b050">remote template</span> 
+<span style="background:#fff88f">the format and settings for a template:</span>
+are located inside -->  the `rels` folder          (inside the word zip)
+=>
+- extract the zip
+- open it and go to word > rels > `settings.xml.rels`
+- open it with VS code
+	- it contains the template specification in XML
+		- <span style="color:#00b050">interesting field</span> -->  Target
+		  ![[Pasted image 20240317152551.png]]
+		_<span style="background:#fff88f">What usually happen:</span>_
+		- word download a template
+		- stores it into the file system (usually in a directory called `custom word template`)
+		- the `Target` field -->  <span style="color:#00b050">points to that location on the file system</span>
+		  
+	- _<span style="background:#fff88f">Why it's interesting:</span>
+		- bc `Target` value -->  <span style="color:#00b050">DOESN'T NECESSARILY BE SOMETHING INTO THE LOCAL FS</span> 
+		  
+- indeed in the example -->  there is a web resource
+- the file that Target points to is a -->  `.dotm`
+	- remember that `m` -->  macro
+	  =>
+- <span style="background:#fff88f"> if the `macro3.dotm` contains a macro:</span>
+	- that macro will be <span style="color:#00b050">downloaded</span> when the -->  docx file is opened
+	- the macro will <span style="color:#00b050">run</span> 
+
+this macro -->  only spawn the calculator
+=>
+![[Pasted image 20240317153606.png]]
+##### macro3 file
+if you open it in word > search for View Macro:
+![[Pasted image 20240317153710.png]]
+
+if you click Edit =>  you can see the macros
+![[Pasted image 20240317153757.png]]
+
+they just spawn a calc
