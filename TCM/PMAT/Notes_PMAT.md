@@ -2419,3 +2419,22 @@ NOW:
 <span style="color:#00b050">Test</span> the `original malware` and also our `patched malware`:
 ![[Pasted image 20240317110733.png]]
 
+## Identifying & Defeating Anti-analysis Techniques
+LAB:
+`PMAT-labs\labs\2-5.AntiAnalysis\1.simpleAntiAnalysis\simpleAntiAnalysis-cpp.exe`
+###  Anti-analysis Techniques
+broad term for -->  a <span style="color:#00b050">multitude of techniques</span> that malware authors 
+                use to <span style="color:#00b050">disrupt the malware analysis process</span>
+                
+Anti-analysis can be for example `obfuscation`:
+where malware samples are filled with -->  junk strings, null byte, and other random detritus.
+
+<span style="background:#fff88f">But more specifically, anti-analysis also means:</span>
+when a malware author:
+<span style="color:#00b050">puts special code </span>in a malware sample -->  - <span style="color:#00b050">to detect when it is being examined</span> 
+                                     -  <span style="color:#00b050">deter the examination</span>
+                                       
+Malware authors may code their malware to <span style="color:#00b050">identify</span>:
+- when it is <span style="color:#00b050">being debugged</span>
+- if it is in a <span style="color:#00b050">virtual machine</span>,
+- if it is in a <span style="color:#00b050">specific environment</span>    (like FLARE-VM)
