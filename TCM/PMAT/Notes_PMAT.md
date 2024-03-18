@@ -2873,5 +2873,43 @@ we need to look at --> <span style="color:#00b050"> last possible</span> time th
 =>
 <span style="color:#00b050">Probably the last img</span> -->  is the <span style="color:#00b050">main function</span>
 =>
-- double click on this function
+- double click on this function (double click on the last call in this function)
 - right click > Edit function > <span style="color:#00b050">rename it as main</span> 
+
+=>
+#### Main
+- we have 3 call inside main![[Pasted image 20240318104939.png]]
+- open the last one
+- here we can see the API call that the malware uses:![[Pasted image 20240318105202.png]]
+here:
+- we don't need to do other analysis 
+- <span style="color:#00b050">we want to extract the shellcode before it's injected in the host</span>
+- =>
+- we only need the address of the -->  API call `WriteProcessMemory`
+  =>
+  copy the address next to this API call (`0x0040170a`)
+
+Now we can use -->  x64dbg
+
+###  x64dbg
+- open the malware
+- `CTRL+G` inside the main CPU tab -->  paste the address
+- set a breakpoint to this address (`F2`)
+- execute the program until we reach that breakpoint (`F9`)![[Pasted image 20240318110013.png]]
+
+
+let's look inside the WriteProcessMemory documentation:
+- it takes 5 parameters![[Pasted image 20240318110125.png]]
+
+- the third one is the parameter that we need:![[Pasted image 20240318110202.png]]
+  
+- `lpBuffer` -->  is simply words is the buffer that contains the shellcode when the process is 
+              created 
+
+=>
+- set the breakpoint to the actual `call`  (next line)
+- delete the old breakpoint
+- press `F9` to move to the call
+- <span style="color:#00b050">find the third parameter</span> =>   count 3 lines before the API `call`![[Pasted image 20240318110754.png]]
+  
+- right click
