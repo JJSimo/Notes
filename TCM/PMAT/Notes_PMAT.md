@@ -3345,6 +3345,6 @@ this a <span style="color:#00b050">common thing</span> used to:
 - <span style="color:#ff9900">write into memory byte per byte</span>
 
 ## Analyzing Go Malware
-
-
+LAB:
+`PMAT-labs/labs/3-5.GoTime-GoMalware/Backdoor.srvupdat.exe.malz.7z`
  
