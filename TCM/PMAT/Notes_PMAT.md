@@ -3257,3 +3257,29 @@ In this case,:
 - but in real life this is likely a second stage payload.
 
 ## Reversing C# Malware
+LAB:
+`PMAT-labs/labs/3-4.StaySharp-CSharpMalware/Malware.cryptlib64.dll.malz/Malware.cryptlib64.dll.malz.7z`
+
+<span style="background:#fff88f">C# is different from other languages:</span>
+bc:
+you are not necessarily interacting with the OS -->  in the same that you interact with a x86 binary
+
+C# lives into --> <span style="color:#00b050"> .NET framework</span> 
+=>
+every binary created in .NET:
+use the -->       <span style="color:#00b050">Common Language Runtime</span> (CLR)
+             for the **execution** of the program
+
+<span style="background:#fff88f">How a C# binary is created:</span>
+- program is written in C#
+- program is passed to -->  <span style="color:#00b050">C# compiler</span>
+- C# compiler -->  translates the high code into <span style="color:#00b050">Intermediate Language</span> (IL)
+- the IL -->   - serves as an<span style="color:#00b050"> intermediate representation of the code </span>
+            - that can be executed by the Common Language Runtime 
+              
+- finally the <span style="color:#00b050">CLR</span> -->  performs the execution on the OS  (<span style="color:#00b050">by translating the IL into assembly</span>)
+
+Why Intermediate Language is useful in this subject?
+bc it's <span style="color:#00b050">easy</span> -->  to <span style="color:#00b050">reverse engineering</span> it
+
+ 
