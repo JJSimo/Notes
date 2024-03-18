@@ -3285,6 +3285,65 @@ bc it's <span style="color:#00b050">easy</span> -->  to <span style="color:#00b0
 ### Reverse C# binary into IL
 - open dnSpy tool as admin on FlareVM
 - open the malware 
-- 
+- it found 2 classes
+	- open Program folder and `Program` Class![[Pasted image 20240318165402.png]]
+	  
+	  ![[Pasted image 20240318165700.png]]
+	  =>
+	- we get the SHA256 digest byte of a string
+	- we decrypt a block of base64 encoded text
+	- we write all text -->  to a place inside OS
+	- we get the environment variable -->  for the "public" directory
+	- we write this into a file -->  `embed.xml`
+	- we decode another base64 text and save it inside:  `C:\\Users\\Public\\Documents\\embed.vbs`
+	  
+	- we create a registry key called `embed`
+		- that runs `C:\\Users\\Public\\Documents\\embed.vbs`
+
+Let's try to run the script:
+- open cmder
+- remove the extra extension to the malware
+- to run it -->  <span style="color:#00b050">we need to pass the name of the main function</span>
+  =>
+  we knew it -->  it's `embed`
+  =>
+  run: 
+  `rundll32.exe Malware.cryptlib64.dll, embed`
+
+- now we should find the 2 files created in the host fs:![[Pasted image 20240318171025.png]]
+  
+- also we show see the registry key created
+	- search Registry Editor 
+	- search `Computer\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run`![[Pasted image 20240318171438.png]]
+	
+=>
+We found the host indicators
+
+=>
+now let's finish the analysis by analyzing -->  the 2 created files
+
+#### embed.vbs
+![[Pasted image 20240318171804.png]]
+- create a Shell object
+- that runs MSBuild with parameter -->  `embed.xml`
+- Run the shell
+
+#### embed.xml
+Decode a base64 code and decompress it
+what is interesting is this -->  `System.Reflection.Assembly.Load()`
+![[Pasted image 20240318172109.png]]
+
+what it does:
+- whatever this block of base64 is doing
+- it is then:
+	- being loaded reflectively -->  as a <span style="color:#00b050">reflective assembly</span>
+
+=>
+this a <span style="color:#00b050">common thing</span> used to:
+-  <span style="color:#00b050">avoid antivirus</span>
+- be able to <span style="color:#ff9900">load in a program </span>
+- <span style="color:#ff9900">write into memory byte per byte</span>
+
+
 
  
