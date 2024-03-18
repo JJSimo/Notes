@@ -3125,4 +3125,6 @@ we can analyze the shellcode or:
   =>
   _<span style="color:#00b050">we have a new user</span>_
 
-- that user is also added to the administrator group -->  net localgroup Administrators![[Pasted image 20240318130155.png]]
+- that<span style="color:#00b050"> user is also added to the administrator group</span> -->  `net localgroup Administrators`![[Pasted image 20240318130155.png]]
+
+- the user is added as remote user -->  `net localgroup "Remote Desktop Users"`![[Pasted image 20240318130331.png]]
