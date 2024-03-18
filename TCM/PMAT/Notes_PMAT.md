@@ -3256,3 +3256,4 @@ In this case,:
 - this was our INetSim default binary that spawned the message box,
 - but in real life this is likely a second stage payload.
 
+## Reversing C# Malware
