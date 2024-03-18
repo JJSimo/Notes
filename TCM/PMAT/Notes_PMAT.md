@@ -2947,3 +2947,61 @@ Then, do some memory address hex math and you know where to start and where to e
 `scdbg /f dump.bin -s -1`
 ![[Pasted image 20240318112548.png]]
 
+## PowerShell: Analyzing Obfuscated Scripts
+LAB:
+`PMAT-labs/labs/3-3.OffScript-ScriptMalware/PowerShell/Malware.PSObfusc.ps1.malz.7z`
+
+- delete the extra extension
+- open it in notepad
+![[Pasted image 20240318114353.png]]
+
+Powershell:
+is a very <span style="color:#00b050">malleable script language</span>   (malleabile)
+=>
+it's easy for malware developer -->  to <span style="color:#00b050">obfuscate</span> code or strings
+
+example:
+- it's not case sensitive
+- you can concat strings like this -->  `iEx` can become `i+"E"+x`
+
+if you look at the script:
+we have `iEx(...)
+
+<span style="background:#fff88f">what is iEx:</span>
+stands for Invoke-Expression -->  <span style="color:#00b050">runs a specified string as a command </span> 
+
+<span style="background:#fff88f">what the malware is doing:</span>
+- run a string as a command
+- the string is built from:
+	- create a new object
+	- covert text from base64 into string
+	- the base64 text is also -->  compressed 
+
+- when you have decompressed and converted into a string =>  pass it inside the last line of the
+                                                      script
+
+=>
+- make a copy of the malware
+- open cmder and open a powershell 
+
+<span style="background:#fff88f">what we can do:</span>
+is to -->  <span style="color:#00b050">delete the</span> `iex(` <span style="color:#00b050">expression</span>   (and also the last `)`)
+in this way:
+- we can <span style="color:#00b050">assign all the rest of the code</span> -->  to a <span style="color:#00b050">variable</span>
+- <span style="color:#00b050">read the content</span> of the variable
+
+<span style="background:#fff88f">why:</span>
+<span style="color:#00b050">bc we don't need to</span> -->  <span style="color:#00b050">decode</span> and <span style="color:#00b050">decompress</span> the <span style="color:#00b050">string</span> in the script to understand what it is
+why?
+bc -->  <span style="color:#00b050">the script already does it for us</span>
+=>
+by deleting the `iex(` expression -->  we are <span style="color:#ff9900">DISARMING</span> the script  (bc is iEx that runs the string)
+
+<span style="background:#fff88f">the right term is:</span>
+<span style="color:#ff9900">DEFANGED</span> -->   process that modifies malware, making them non-functional and safe to share
+
+=>
+- delete the `iex(`expression  (and also the last `)`)
+- inside the powershell -->  `$variable = nEW-ObJECt ...` ![[Pasted image 20240318120611.png]]
+
+- 
