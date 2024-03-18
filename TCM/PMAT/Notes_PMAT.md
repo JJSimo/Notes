@@ -2912,4 +2912,38 @@ let's look inside the WriteProcessMemory documentation:
 - press `F9` to move to the call
 - <span style="color:#00b050">find the third parameter</span> =>   count 3 lines before the API `call`![[Pasted image 20240318110754.png]]
   
-- right click
+- right click on it > Follow in dump > `r8: ...`     (to see what is inside `r8`)
+- <span style="color:#00b050">we have found the shellcode</span> 
+
+#### Find the shellcode size
+In this example, the size of the buffer that the program is injecting is known.
+`VirtualAllocEx` call -->   - is executed before the `WriteProcessMemoryEx` call
+                       - sets up the section of memory 
+                       - changes the RWX permissions so the shellcode is executable.
+
+According to the documentation -->   VirtualAllocEx takes in 4 parameters. 
+The third parameter -->  is the `dwSize` parameter, 
+                     _<span style="color:#00b050">which is the size of the buffer in bytes</span>_
+=>
+If we locate the `VirtualAllocEx` call:     (which is right before WriteProcessMemory)
+- set a breakpoint on the 3°  parameter that is moved into the registers before it is called
+	- we see that it moves a value from `RDX` into `R8` -->  to set up for that call
+	- If we look at RDX when the move takes place -->   it's the hex value `0x01D1`, 
+		- which corresponds to the decimal value -->  465
+		  =>
+		  _<span style="color:#00b050">the  shellcode is 465 bytes</span>_
+		  
+		  
+Then, do some memory address hex math and you know where to start and where to end
+
+=>
+#### Save shellcode into file
+- highlight the entire shellcode![[Pasted image 20240318112206.png]]
+  
+- right click on it > Binary > Save to file > `dump.bin`
+
+#### Analyze shellcode - scdgb
+[[cheat#scdbg]]
+`scdbg /f dump.bin -s -1`
+![[Pasted image 20240318112548.png]]
+
