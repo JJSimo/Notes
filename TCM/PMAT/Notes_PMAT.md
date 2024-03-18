@@ -2947,7 +2947,8 @@ Then, do some memory address hex math and you know where to start and where to e
 `scdbg /f dump.bin -s -1`
 ![[Pasted image 20240318112548.png]]
 
-## PowerShell: Analyzing Obfuscated Scripts
+##  Scripted Malware Delivery Mechanisms
+### PowerShell: Analyzing Obfuscated Scripts
 LAB:
 `PMAT-labs/labs/3-3.OffScript-ScriptMalware/PowerShell/Malware.PSObfusc.ps1.malz.7z`
 
@@ -3000,8 +3001,128 @@ by deleting the `iex(` expression -->  we are <span style="color:#ff9900">DISARM
 <span style="background:#fff88f">the right term is:</span>
 <span style="color:#ff9900">DEFANGED</span> -->   process that modifies malware, making them non-functional and safe to share
 
+#### Defanged a malware
 =>
 - delete the `iex(`expression  (and also the last `)`)
 - inside the powershell -->  `$variable = nEW-ObJECt ...` ![[Pasted image 20240318120611.png]]
 
-- 
+- `write-host $variable`  -->  to print the value of the powershell script![[Pasted image 20240318121017.png]]
+
+=>
+- it's a reverse TCP shell
+- that binds to `10.10.115.13` at `1433` port
+
+###  VBScript: Analyzing a Multi-Stage MSBuild Dropper
+LAB:
+`PMAT-labs/labs/3-3.OffScript-ScriptMalware/VBScript/Dropper.VBScript.vbs.malz.7z`
+
+we have 3 files:
+![[Pasted image 20240318121407.png]]
+=>
+open the Visual Basic script with an editor
+![[Pasted image 20240318121437.png]]
+
+<span style="background:#fff88f">VB is used for malware scripting:</span>
+bc it allows to <span style="color:#00b050">use</span> -->  <span style="color:#00b050">deep primitive </span> (to interact with the system)
+
+=>
+<span style="background:#fff88f">what the code does:</span>
+- it creates a shell object
+- 2 calls to certutil:
+	- 1 to decode -->  `one.crt` and sending it back to `C:\Users\Public\Documents\one.vbs`
+	- 1 to decode -->  `two.crt` and sending it back to `C:\Users\Public\Documents\xml.xml`
+
+- it executes the `one.vbs` file
+
+<span style="background:#fff88f">If we execute the script and we go to the location of the file:</span>
+![[Pasted image 20240318122209.png]]
+
+We can see that -->  the 2 files are been created
+
+=>
+- open both with an editor
+- `one.vbs`:![[Pasted image 20240318122319.png]]
+
+	- we have 2 strings (`a` and `aa`)
+	- both of them -->  - being modified using the `update()` function
+	                   - assigned to `aaa` and `aaaa`
+
+	- we create an object 
+	- we use that object to <span style="color:#00b050">shell execute</span> -->   - the content of `aaa`, `aaaa`
+	                                     - passing as parameter `runas`
+	- the `update` function:
+		- replace "vVv" with nothing
+		  =>
+		  it's a <span style="color:#ff9900">deobfuscation method</span> =>  it tries to build a string 
+		=>
+	- <span style="background:#fff88f"> if we execute only the update function:</span>
+	  we can find the the 2 real strings are:
+	  ![[Pasted image 20240318123112.png]]
+
+	- on VSCode to do that: (find the real strings)
+		- you can press `CTRL+F` ![[Pasted image 20240318123252.png]]
+	=>	
+	- we are passing these 2 strings to the object that executes the shell
+	  
+	- last thing we need to understand is what is this string:![[Pasted image 20240318123506.png]]
+	  =>
+	- search it on google
+	- it's a class that spawn a -->  <span style="color:#00b050">shell browser window</span> 
+	  =>
+	- we create an object as this class shell browser window
+	- we pass in -->  the shell execute method
+
+<span style="background:#fff88f">Let's see the ShellExecute documentation:</span>
+- it takes 5 parameters
+1) is the path to the file that will be executed 
+   =>  `C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe`
+
+2) arguments for the program executed  (=> argument for `MSBuild.exe`)
+   => `C:\Users\Public\Documents\xml.xml`
+
+3) is a directory (optional) -->  indeed we have `NULL`
+4) operation to be performed =>   `runas`     (probably run as admin)
+5) vShow and `0` means -->  open app with an hidden window
+
+<span style="background:#fff88f">what MSBuild does:</span>
+if we google it -->  utility for building an app with visual basic
+=>
+you need to pass to it -->  a <span style="color:#00b050">XML file</span>
+
+<span style="background:#fff88f">that XML file:</span>
+<span style="color:#00b050">contains</span> -->  the<span style="color:#00b050"> info that you want to build</span> 
+
+<span style="background:#fff88f">if we open our XML file:</span>
+![[Pasted image 20240318125022.png]]
+=>
+we are passing -->  a<span style="color:#00b050"> C# code</span> 
+that executes this shellcode:
+![[Pasted image 20240318125151.png]]
+
+=>
+we can analyze the shellcode or:
+<span style="background:#fff88f">try to run the MSBuild utility with the XML file:</span>
+=>
+- open cmder
+- `C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe C:\Users\Public\Documents\xml.xml`
+  ![[Pasted image 20240318125354.png]]
+  =>
+- retry as admin![[Pasted image 20240318125446.png]]
+
+<span style="background:#fff88f">what the C# does:</span>
+- invoke the shellcode
+	- adds a user to the remote desktop group
+	- adds that user to the administrator group
+	- open a port into the firewall to open RTP
+
+=>
+- restore the VM pre detonation
+- open cmder and look at the user -->  `net user`![[Pasted image 20240318125753.png]]
+
+- open new cmder as admin
+- invoke the crtupdate.vbs -->  `crtupdate.vbs`
+- retype `net user`![[Pasted image 20240318130047.png]]
+  =>
+  _<span style="color:#00b050">we have a new user</span>_
+
+- that user is also added to the administrator group -->  net localgroup Administrators![[Pasted image 20240318130155.png]]
