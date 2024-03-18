@@ -3121,10 +3121,14 @@ we can analyze the shellcode or:
 
 - open new cmder as admin
 - invoke the crtupdate.vbs -->  `crtupdate.vbs`
-- retype `net user`![[Pasted image 20240318130047.png]]
+- retype `net user`![[Pasted image 20240318130644.png]]
   =>
   _<span style="color:#00b050">we have a new user</span>_
 
-- that<span style="color:#00b050"> user is also added to the administrator group</span> -->  `net localgroup Administrators`![[Pasted image 20240318130155.png]]
+- that<span style="color:#00b050"> user is also added to the administrator group</span> -->  `net localgroup Administrators`![[Pasted image 20240318130814.png]]
 
-- the user is added as remote user -->  `net localgroup "Remote Desktop Users"`![[Pasted image 20240318130331.png]]
+- the user is added as remote user -->  `net localgroup "Remote Desktop Users"`
+
+###  HTML Applications (HTA)
+LAB:
+`PMAT-labs/labs/3-3.OffScript-ScriptMalware/HTA/Dropper.hta.7z`
