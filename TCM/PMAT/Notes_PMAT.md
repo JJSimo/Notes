@@ -3344,6 +3344,7 @@ this a <span style="color:#00b050">common thing</span> used to:
 - be able to <span style="color:#ff9900">load in a program </span>
 - <span style="color:#ff9900">write into memory byte per byte</span>
 
+## Analyzing Go Malware
 
 
  
