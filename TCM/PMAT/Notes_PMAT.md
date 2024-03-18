@@ -2829,10 +2829,49 @@ Now:
 we need to find where this injection takes place
 
 ### Cutter
-no debug symbols for this malware -->  it will be harder find the main
+<span style="color:#ff9900">no debug symbols</span> for this malware -->  it will be harder find the main
 #### Find main function with no Debug Symbols
 we need to:
 - start at the -->  <span style="color:#00b050">end of the program</span>
 - work backwards
 - <span style="color:#00b050">find the last place</span> where a function -->  <span style="color:#00b050">return</span> something into the `EAX` register 
 
+<span style="background:#fff88f">why:</span>
+when a binary is executed:
+- the first thing that happen is -->  the <span style="color:#00b050">entrypoint</span>
+- entrypoint -->    - is not the main function
+                 - is the <span style="color:#00b050">CRT</span>  (C RunTime)
+	                 - the last thing that happen in the CRT -->  is the call to <span style="color:#00b050">main</span>
+
+<span style="background:#fff88f">if we want to find the main function:</span>
+we need to look at --> <span style="color:#00b050"> last possible</span> time that something is <span style="color:#00b050">called</span> <span style="color:#00b050">inside the CRT</span>
+
+=>
+- Open Cutter 
+- it will display the entry point
+- click on the last call inside the CRT
+- open the graph view![[Pasted image 20240318103054.png]]
+- resize it
+- go to the bottom of the graph![[Pasted image 20240318103135.png]]
+
+<span style="background:#fff88f">NOW:</span>
+>[!warning]
+>WHAT EVER THE MAIN FUNCTION RETURNS:   (integer value, boolean, void)
+><span style="color:#00b050">it will always return something into</span> -->  `EAX`
+
+=>
+- in the last function we have -->  `mov  eax,  dword [...]`![[Pasted image 20240318103538.png]]
+	=>
+- click on the address and look where this value is assigned
+![[Pasted image 20240318103741.png]]
+
+- <span style="background:#fff88f">we can assume that:</span>
+	- since in this function in the last CALL:
+		- move `EAX` into the `dword[...]`
+	- and in the last function: (first img)
+		- `EAX` is returned to the OS
+=>
+<span style="color:#00b050">Probably the last img</span> -->  is the <span style="color:#00b050">main function</span>
+=>
+- double click on this function
+- right click > Edit function > <span style="color:#00b050">rename it as main</span> 
