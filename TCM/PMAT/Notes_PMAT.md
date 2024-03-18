@@ -3282,4 +3282,9 @@ use the -->       <span style="color:#00b050">Common Language Runtime</span> (CL
 Why Intermediate Language is useful in this subject?
 bc it's <span style="color:#00b050">easy</span> -->  to <span style="color:#00b050">reverse engineering</span> it
 
+### Reverse C# binary into IL
+- open dnSpy tool as admin on FlareVM
+- open the malware 
+- 
+
  
