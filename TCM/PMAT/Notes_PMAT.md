@@ -3132,3 +3132,127 @@ we can analyze the shellcode or:
 ###  HTML Applications (HTA)
 LAB:
 `PMAT-labs/labs/3-3.OffScript-ScriptMalware/HTA/Dropper.hta.7z`
+
+<span style="color:#00b050">HTAs</span> -->  are commonly used as the<span style="color:#00b050"> payload of phishing attacks</span> 
+<span style="background:#fff88f">HTAs are:</span>
+- Windows-executable,
+- packaged HTML files that run:
+	- HTML
+	- CSS
+	- <span style="color:#00b050">Windows native scripting languages</span> --> - from a single file 
+	                                    - <span style="color:#00b050">outside of the context</span> of the web browser. 
+<span style="background:#fff88f">This is scary bc:</span>
+- HTAs do not run in the context of the Windows web browser, 
+- <span style="color:#00b050">HTAs run  as a trusted application on the OS</span>
+
+An HTML app -->  is not much different from a normal HTML page   (in terms of construction)
+
+### Example
+A simple HTA in which -->  if you click a button => it will spawn an alert
+![[Pasted image 20240318151246.png]]
+This alert is --> <span style="color:#ff0000"> a windows alert </span>(is not inside the browser)
+### Analyzing HTAs
+Remove the extra extension to the file
+#### Static Analysis
+open the script with an editor
+![[Pasted image 20240318151544.png]]
+=>
+- `document.write()` -->  method that writes directly to an open HTML document stream
+- `unescape()` -->     function that <span style="color:#00b050">computes a new string </span>
+                 in which:
+                    - <span style="color:#00b050">hexadecimal escape sequences</span> 
+                    - are <span style="color:#00b050">replaced</span> with -->  the <span style="color:#00b050">characters that they represent</span> 
+=>
+the interpreted characters -->  are written to the document of the page
+
+##### Decode Hex
+- Open [[cheat#CyberChef]]
+- Copy the data
+- Select `From Hex` decoder and change the delimiter to `Percent`
+=>
+this is the output:
+![[Pasted image 20240318152357.png]]
+
+This is a Visual Basic script:
+What it does:
+- set up the required parameters -->  to invoke <span style="color:#00b050">Windows Management Instrumentation (WMI)</span> 
+                                 to execute a process
+`WMI`:
+- is a part of the Windows OS -->  that acts as an interface for management purposes 
+- can start and run processes through the `Win32_Process` namespace.
+  =>
+  this means that -->  <span style="color:#00b050">anything that can access WMI can execute a process</span>
+
+In our sample, the VBScript code is setting `WMI` up to be able to execute a process:
+![[Pasted image 20240318152742.png]]
+
+Then the VB script:
+![[Pasted image 20240318152813.png]]
+-  executes a process through the `WMI` service
+- returns the results to the `Error` variable
+
+![[Pasted image 20240318152859.png]]
+- The process argument here runs a command shell 
+- this shell runs PowerShell in a hidden window
+- When PowerShell is executed, it performs the commands in the img
+
+The VBScript then calls `window.close()` to close out of the HTA window
+
+=>
+The script:
+- HTA is opened and runs the embedded JavaScript
+- The JS decodes the hex bytes of an inner HTML document and writes it into the HTA
+- The inner HTML document invokes VBScript to execute WMI
+- WMI runs a process to call a command shell
+- The command shell, in turn, runs PowerShell in a hidden window
+- PowerShell runs a download cradle command to reach out to http://tailofawhale.local/TellAndSentFor.exe 
+	- write it to the `%temp%` directory as `jLoader.exe` 
+	- then execute `jLoader.exe`
+
+#### Dynamic Analysis
+When we open the malware:
+- without INetSim -->  nothing
+- with INetSim -->  we see the default INetSim binary spawn
+                 =>
+                 _<span style="color:#00b050">copy location where the binary is running from</span> _
+                 ![[Pasted image 20240318153401.png]]
+
+`Dropper.hta` has clearly succeeded in -->   <span style="color:#00b050">downloading and executing something</span>
+
+Let’s examine the network signatures
+
+##### Wireshark
+We found a DNS request to -->  t`ailofawhale.local`    (and then the HTTP request)
+![[Pasted image 20240318153549.png]]
+
+##### Host indicators
+There is no process called `Dropper.hta` anywhere in the list of running processes on the host
+=>
+- HTAs do not execute directly
+  =>
+- when double-clicked on the malware:
+	- it is passed to the native Windows binary `mshta.exe` 
+	- `mshta.exe`:
+		- executes it on its behalf
+		- acts as an HTML interpreter
+		- loads the HTML from the HTA along with any DLLs that deal with script execution
+		- executes the program all at once
+
+If we look in the Procmon process tree after detonation:
+we see an invocation of `mshta.exe` -->  that takes the path to our HTA sample
+
+<span style="background:#fff88f">Where is the call to PowerShell and the command shell?</span>
+In the process list, -->    - there is an instance of `svchost.exe` 
+                    - that is executing a process called `wmiprvse.exe`
+                      =>
+                      this is the way that <span style="color:#00b050">Windows invokes WMI</span> -->  to execute processes
+            
+
+We can follow the `wmiprvse.exe` process:
+-  all the way down through the call to PowerShell 
+- and, eventually, the execution of the `jLoader.exe` program
+
+In this case,:
+- this was our INetSim default binary that spawned the message box,
+- but in real life this is likely a second stage payload.
+

@@ -927,6 +927,11 @@ you can use it to ask him if it has ever seen our malware
 - click on search and paste the [[cheat#Find SHA256sum and MD5sum|sha256sum or md5sum]]  (without the name of the malware)
 
 #### MAlAPI.io
+[MAIAPI](https://malapi.io/)
 - it catalogs Windows API -->  that can be user maliciously
 - it identifies sample of malwares that -->  those APIs are used maliciously in
 
+#### Cyberchef
+[CyberChef](https://gchq.github.io/CyberChef/)
+CyberChef is a web app for carrying out all manner of "cyber" operations within a web browser. These operations include:
+simple encoding like XOR and Base64, encryption like AES, DES and Blowfish, creating binary and hexdumps, compression and decompression of data, calculating hashes and checksums, IPv6 and X.509 parsing, changing character encodings, and much more
