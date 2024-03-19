@@ -3470,7 +3470,32 @@ There is an URL:
 And some IPs:
 ![[Pasted image 20240319113841.png]]
 ![[Pasted image 20240319113822.png]]
-### Import address table - PEStudio
+
+<span style="background:#fff88f">Is a portable executable:</span>
+![[Pasted image 20240319122429.png]]
+
+This string appears -->  multiple time
+=>
+probably there are -->  <span style="color:#00b050">mutiple packed executables inside the initial .exe</span>
+
+<span style="background:#fff88f">2 paths with token replacement:</span>
+![[Pasted image 20240319122733.png]]
+
+<span style="background:#fff88f">Also an .exe</span>
+
+<span style="background:#fff88f">Grant access to everyone in the current directory:</span>
+![[Pasted image 20240319122937.png]]
+
+<span style="background:#fff88f">Hide files in the local diretory:</span>
+![[Pasted image 20240319123049.png]]
+### PEStudio
+finds 3 other exe file inside the main one:
+![[Pasted image 20240319123140.png]]
+#### Import address table
+There are:
+- Internet use
+- use of Cryptographic API
+- API for service creation =>   this is a correlation to the 3 other .exe found
 ![[Pasted image 20240319113548.png]]
 
 ### Conditions necessary to get this sample to detonate
@@ -3484,10 +3509,24 @@ If a connection is:
 =>
 <span style="color:#00b050">INetSim must be turned off</span> in order to detonate the sample
 
-## Advance Analysis
+<span style="background:#fff88f">this can be found with wireshark:</span>
+if run INetSim, open wireshark and run the malware:
+![[Pasted image 20240319123730.png]]
+
+you'll see:
+- the request to the URL
+- the response
+- and the malware stops its execution
+
+## Dynamic Analysis
 ### Identify the network indicators of this malware
 #### TCPView
 connection to a bunch of SMB
+SMB port = 445
+=>
+<span style="color:#00b050">we found how the malware propagates itself</span>
+=>
+it uses SMB connection to connect to other clients and detonate the malware
 ![[Pasted image 20240319114739.png]]
 
 #### Wireshark
@@ -3495,11 +3534,15 @@ First DNS request to resolve:
 `www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com`: type A, class IN
 ![[Pasted image 20240319115320.png]]
 
-then other 3 DNS requests:
-2) `config.edge.skype.com`: type A, class IN![[Pasted image 20240319115010.png]]
-
-3) `update.googleapis.com`: type A, class IN![[Pasted image 20240319115111.png]]
-
-4) `dns.msftncsi.com`: type PTR, class IN![[Pasted image 20240319115217.png]]
-
 ### Identify the host indicators of this malware
+#### Procmon
+Sub-process:
+![[Pasted image 20240319120348.png]]
+
+[[Notes_PMAT#Filter By Parent PID]]
+Sub-process creates a folder:
+![[Pasted image 20240319121012.png]]
+
+The Folder is -->  `C:\ProgramData\wwoxareq596`
+contains:
+![[Pasted image 20240319121125.png]]
