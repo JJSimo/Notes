@@ -3467,5 +3467,39 @@ There is an URL:
 ![[Pasted image 20240319113223.png]]
 `http://www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com`
 
+And some IPs:
+![[Pasted image 20240319113841.png]]
+![[Pasted image 20240319113822.png]]
 ### Import address table - PEStudio
 ![[Pasted image 20240319113548.png]]
+
+### Conditions necessary to get this sample to detonate
+The binary attempts to initiate a connection with the weird URL
+`http://www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com`
+
+
+If a connection is:
+- not established =>   the rest of the ransomware payload is executed
+- is established =>  the program exits without executing the rest of the ransomware payload
+=>
+<span style="color:#00b050">INetSim must be turned off</span> in order to detonate the sample
+
+## Advance Analysis
+### Identify the network indicators of this malware
+#### TCPView
+connection to a bunch of SMB
+![[Pasted image 20240319114739.png]]
+
+#### Wireshark
+First DNS request to resolve:
+`www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com`: type A, class IN
+![[Pasted image 20240319115320.png]]
+
+then other 3 DNS requests:
+2) `config.edge.skype.com`: type A, class IN![[Pasted image 20240319115010.png]]
+
+3) `update.googleapis.com`: type A, class IN![[Pasted image 20240319115111.png]]
+
+4) `dns.msftncsi.com`: type PTR, class IN![[Pasted image 20240319115217.png]]
+
+### Identify the host indicators of this malware

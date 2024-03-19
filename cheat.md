@@ -881,6 +881,13 @@ advanced monitoring tool for Windows that shows:
 - registry
 - process/thread activity
 
+[[Notes_PMAT#Filter by process name]]
+[[Notes_PMAT#Filter by everything related to File]]
+[[Notes_PMAT#Filter by command]]
+[[Notes_PMAT#Filter by Path]]
+[[Notes_PMAT#Filter by TCP]]
+[[Notes_PMAT#Filter By Parent PID]]
+
 ### TCPView
 Windows program that will show you detailed listings of all TCP and UDP endpoints on your system, including the local and remote addresses and state of TCP connections.
 
