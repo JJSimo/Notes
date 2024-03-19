@@ -3546,3 +3546,9 @@ Sub-process creates a folder:
 The Folder is -->  `C:\ProgramData\wwoxareq596`
 contains:
 ![[Pasted image 20240319121125.png]]
+
+#### Services
+If we open task manager > go to Services:
+We can find a service called as our folder
+![[Pasted image 20240319124917.png]]
+
