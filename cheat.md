@@ -851,10 +851,15 @@ it also tries to -->    - decode
                    
 `FLOSS.exe Malware.Unknown.exe.malz` -->  it will print any strings that has at least 4 characters
 `FLOSS.exe -n 6 Malware.Unknown.exe.malz` -->  to print only strings with >= 6 ch
+`FLOSS.exe -n 7 malware.bin | grep -i go` -->  identify if the malware is written in Go
+
+`grep -i` -->  no case sensitive
 
 #### PEview
 tools for basic initial static malware analysis 
 [[Notes_PMAT#Peview|how to use it]]
+
+For 64 bit -->  it's better [PE-Bear](https://github.com/hasherezade/pe-bear)
 
 #### PEstudio
 tools that automate all the info that you can find manually with PEview

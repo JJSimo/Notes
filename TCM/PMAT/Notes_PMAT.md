@@ -3347,4 +3347,60 @@ this a <span style="color:#00b050">common thing</span> used to:
 ## Analyzing Go Malware
 LAB:
 `PMAT-labs/labs/3-5.GoTime-GoMalware/Backdoor.srvupdat.exe.malz.7z`
- 
+
+In the last years Go is commonly used for malware development:
+bc -->  with a <span style="color:#00b050">single code you can use the program on different OSs
+</span>
+
+we'll only see how to understand -->  if a malware is written in Go
+### Understand if a malware is written in Go
+<span style="background:#fff88f">How to identify if a malware is written in Go:</span>
+- the binaries are heavy (in term of megabytes)
+- strings contain:
+	- `.symtab` -->  symbol table section name
+		- can find it with floss or:
+		- with [[cheat#PEview|Pe-Bear]]:    (better tool than PEView for 64bit malware analysis)![[Pasted image 20240319101015.png]]
+	  
+- try [[cheat#FLOSS]] with -->  `floss malware.bin -n 7 | grep -i go`
+	- if you see hundred of lines as output =>  it's Go :)
+
+- for the default import of the HTTP library:
+	- the <span style="color:#00b050">default user agent</span> -->    <span style="color:#00b050">tells you everything you need to know </span>
+	                         about the language that this malware is being written
+	                         
+	- this can be changed -->  but if left as default => you'll find these info
+	- ALSO true for nim language
+	  
+	 example:![[Pasted image 20240319100346.png]]
+	  
+### Compiled binary Pattern Recognition for other languages
+You can use the same approach -->  for other languages
+Example:
+- nim
+- C#
+
+## Mobile Malware Analysis
+### Installing MobSF
+we need to install this tool on REMnux =>  we need to switch back to real internet
+=>
+- Click on VM top bar "Machine" > Settings > Network > <span style="color:#00b050">switch from Host only Adapter to NAT</span>
+- `sudo reboot`
+- [guide reference](https://mobsf.github.io/docs/#/docker)
+- `docker pull opensecurity/mobile-security-framework-mobsf` 
+- `docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest`
+- open the link![[Pasted image 20240319102338.png]]
+- if you find this =>  everything worked![[Pasted image 20240319102411.png]]
+  
+- Click on VM top bar "Machine" > Settings > Network > <span style="color:#00b050">switch from NAT to Host only Adapter </span>
+- `CTRL+C`
+- `sudo reboot`
+- `docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest`
+
+### Intro to MobSF
+we can only do -->  static analysis  (since we are inside docker)
+
+we need to copy the malware from FlareVm to REMnux:
+=>
+- extract the malware inside the Desktop > cd into Desktop and the folder of the malware
+- `python -m http.server 8080`
+- on REMnux
