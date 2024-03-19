@@ -3403,4 +3403,28 @@ we need to copy the malware from FlareVm to REMnux:
 =>
 - extract the malware inside the Desktop > cd into Desktop and the folder of the malware
 - `python -m http.server 8080`
-- on REMnux
+- on REMnux -->  `wget http://10.0.0.3:8080/Malware.android.apk.malz`
+- `mv Malware.android.apk.malz Malware.android.apk`
+- Upload the malware into MobSF
+
+#### Basic info
+in the main page:
+![[Pasted image 20240319103915.png]]
+
+#### Source Code
+<span style="background:#fff88f">You can see the source code: </span>  (if the program is written in Java)
+![[Pasted image 20240319104116.png]]
+
+![[Pasted image 20240319104146.png]]
+
+#### Permission Section
+If you scroll down to the main page:
+you can see the -->  <span style="color:#00b050">Permission section</span>
+                  that describes <span style="color:#00b050">what the malware can do</span> on a smartphone
+![[Pasted image 20240319104520.png]]
+
+#### Android API
+What are the APIs used by the malware and WHERE they are
+![[Pasted image 20240319104828.png]]
+
+# Analyzing Real-World Malware Samples - Wannacry
