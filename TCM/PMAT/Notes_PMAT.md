@@ -3627,5 +3627,7 @@ let's try to open it in debugger:
 
 =>
 <span style="color:#00b050">we execute the malware even with INetSim</span>![[Pasted image 20240319180825.png]]
- 
- 
+
+To continue the Advance analysis watch -->  [this](https://www.youtube.com/watch?v=Sv8yu12y5zM&ab_channel=stacksmashing)
+
+# Automation: Sandboxes & Pipelines
