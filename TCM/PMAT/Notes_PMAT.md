@@ -3554,5 +3554,78 @@ We can find a service called as our folder
 
 ### Advance Analysis
 #### Cutter
-- open the main function
-- 
+- open the `main` function and open the `graph view` mode
+![[Pasted image 20240319171338.png]]
+=>
+- the weird URL is loaded in -->  `esi`
+- there are 2 API calls:
+	- `InternetOpenA` -->  setup thing to open a handle to a given web resource
+	- `InternetOpenUrlA` -->   takes as one of the parameter `esi`  (=> the URL)
+- if we open the decompiler section:![[Pasted image 20240319172110.png]]
+	- we can see that:
+		- return value of InternetOpenUrlA -->  is loaded into `eax`
+		- `eax` is copied into `edi`
+		- the if represents -->  the other 2 graphs in the first img![[Pasted image 20240319172331.png]]
+=>
+- there is the -->  `test  edi, edi`
+	- if `test` result is:
+		- <span style="color:#00b050">0 =>  Zero Flag set to 1</span>      (right graph)
+		  =>
+		  clean the argument on the stack
+		  _<font color="#2DC26B">call a function</font>_
+		  if you open it =>   <span style="background:#fff88f">it's the function that ENCRYPT the data</span>
+		  =>
+		  _<span style="background:#fff88f">we found the part the manage the encryption</span>_
+		  
+		- <span style="color:#ff0000">1 =>  Zero Flag set to 0</span>      (left graph)
+		  =>
+		  the API call succeded (=> it reached the URL and received a reply)
+			  =>
+			   clean the arguments on the stack and exit
+
+=>
+let's try to open it in debugger:
+ and see if we can execute the malware -->  even if it received a reply from the URL
+
+### x32dgb
+- enable INetSim on REMnux
+- on FlareVM clear the DNS cache -->  `ipconfig /flushdns`
+- remove the extra extension to the binary
+- open x32dbg as admin
+  
+=>
+- load the binary
+- press `F9` (start)
+- right click in the main tab > Search For >  All modules > String references
+- paste the weird URL `iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea`
+- set a breakpoint here (`F2`)
+- return to the CPU tab
+- press `F9` to reach the breakpoint
+- we are in the same point as in cutter
+- bc we can see the API call:![[Pasted image 20240319174846.png]]
+  =>
+- press `F8` -->  until the Zero Flag is evaluated (to see if we want to run the rest of the program)
+  =>
+  reach the `test  edi, edi` instruction:![[Pasted image 20240319175139.png]]
+  
+- Currently the `edi` value is -->  `00CC000C`   ![[Pasted image 20240319175304.png]]
+  =>
+  it's not 0 =>    the jump will end the program  
+             _<span style="color:#00b050">bc the API call succeeded in being answered by the URL</span>_
+  =>
+- press `F8` -->  to see how the Zero Flag is setted![[Pasted image 20240319175355.png]]
+  
+  ZF = 0 =>  with the jump the program will finish  
+
+=>
+- <span style="color:#00b050">double click to ZF flag</span> -->  <span style="color:#00b050">to change its value</span> 
+- in this way:
+ _<span style="background:#fff88f"> even with INetSim enabled the malware will execute:</span>_
+ =>
+- press `F8` until you reach the API call to the method that encrypt everything![[Pasted image 20240319180205.png]]
+- press `F8` to run API call
+
+=>
+<span style="color:#00b050">we execute the malware even with INetSim</span>![[Pasted image 20240319180825.png]]
+ 
+ 
