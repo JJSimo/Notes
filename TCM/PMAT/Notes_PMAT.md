@@ -3631,3 +3631,4 @@ let's try to open it in debugger:
 To continue the Advance analysis watch -->  [this](https://www.youtube.com/watch?v=Sv8yu12y5zM&ab_channel=stacksmashing)
 
 # Automation: Sandboxes & Pipelines
+## BlueJupyter: Automating Triage with Jupyter Notebooks
