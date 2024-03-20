@@ -3631,4 +3631,96 @@ let's try to open it in debugger:
 To continue the Advance analysis watch -->  [this](https://www.youtube.com/watch?v=Sv8yu12y5zM&ab_channel=stacksmashing)
 
 # Automation: Sandboxes & Pipelines
+Automation is fundamental for Malware analysis
+Most of all for -->  the first part 
 ## BlueJupyter: Automating Triage with Jupyter Notebooks
+LAB:
+`PMAT-labs/labs/5-1.Automation-BlueJupyter/FORTRIAGE.7z`
+
+Jupyter -->  way to <span style="color:#00b050">package your documentation and code together</span>
+
+### Installing Blue-Jupyter in Docker
+- Enable internet on REMnux (switch to NAT in the network settings)
+- `git clone --branch PMAT-lab https://github.com/HuskyHacks/blue-jupyter.git && cd blue-jupyter`
+- `sudo docker build -t bluejupyter .`
+- When the image is finished building:
+  `sudo docker run -it -p 8888:8888 -v /home/remnux/blue-jupyter:/src bluejupyter`
+
+- if you want to add malware do the dropbox
+  =>
+	- copy the malware from the PMAT-labs repository 
+	- into the `/home/remnux/blue-jupyter/malware-analysis/dropbox/`
+	  =>
+	  in this way -->  it will also copy into the container
+
+- open the URL into the container to check if it works
+- TURN OFF INTERNET
+
+### Copy the LAB malware into REMnux
+- extract the folder of the malware into Desktop 
+  `PMAT-labs/labs/5-1.Automation-BlueJupyter/FORTRIAGE.7z`
+- `cd Desktop`
+- `python -m http.server 80`
+- on Remnux -->  `wget -r --no-parent http://10.0.0.3/FORTRIAGE`
+
+In this folder:
+we have like -->  20 malwares
+=>
+we'll analyze them with Blue Jupyter
+
+### Using Blue-Jupyter
+- `cd` into `blue-jupyter` folder
+- `sudo docker run -it -p 8888:8888 -v /home/remnux/blue-jupyter:/src bluejupyter`
+  click on the last URL to open the notebook:![[Pasted image 20240320102910.png]]
+	
+- go to the malware-analysis folder > Open the `Malware-Analysis.ipynb`  (that is the notebook)![[Pasted image 20240320103034.png]]
+
+=>
+Copy the malwares into the dropbox folder:
+- `cd ~/blue-jupyter/malware-analysis/dropbox`
+- `rm *`
+- `cp -r ~/Desktop/10.0.0.3/FORTRIAGE/* .`
+
+Go the browser:
+<span style="color:#00b050">click run on each block of code</span> -->  to execute it
+![[Pasted image 20240320105058.png]]
+
+=>
+Each python block of code -->  it will execute
+
+in this way:
+<span style="color:#00b050">it will automate a lot of initial analysis for us</span>
+
+then:
+![[Pasted image 20240320105333.png]]
+
+1) it will create a folder for each malware (to save the result for each of them)
+	   - inside the `/blue-jupyter/malware-analysis`:
+	   - it will create a folder -->  `saved-specimens`
+	   - inside that it will create a folder -->  for each malware
+2) it will <span style="color:#00b050">defang</span> each malware =>  it will <span style="color:#00b050">a</span><span style="color:#00b050">dd an extra "malz" extension</span> to the malware
+                             so that it's safe to do don't execute it
+                             __
+	   - it will add the extension to each malware inside its own folder
+	     
+=>
+<span style="background:#fff88f">Continue pressing Run button:</span>
+=>
+- <span style="color:#00b050">Calculate HASH of the malwares</span>![[Pasted image 20240320105925.png]]
+  
+- <span style="color:#00b050">Extract Strings</span>
+  using a tool called `StringSitter` -->   <span style="color:#ff9900">that uses AI to extract the strings</span>
+  =>
+  to run it we need to specify the n° of characters =>  insert 8
+  ![[Pasted image 20240320110230.png]]
+  ![[Pasted image 20240320110245.png]]
+	
+	=>
+	for now in each Folder we have:
+	- malware with extra extension
+	- the hash
+	- the extracted strings
+	![[Pasted image 20240320110359.png]]
+	
+	
+- 
