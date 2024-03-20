@@ -4039,8 +4039,23 @@ Report template -->  [[ReportTemplate.pdf|here]]
 	- use breakpoint
 	- work in // with cutter
 	- CTRL+G to jump directly to memory address or find string
-	- 
+	- find the main triggers of the malware
+	- how to [[Notes_PMAT#Patching x86 Binaries|patch binaries]]
+	- how to work with [[Notes_PMAT#Anti-analysis Techniques|anti-analysis blocker]]
 
-
-
+- [[Notes_PMAT#Automation Sandboxes & Pipelines|Automate the analysis]]
+- Help with [[Notes_PMAT#Advanced Script Analysis with ChatGPT|ChatGPT]]
+- Learn how to write [[Notes_PMAT#What are YARA rules and Structure|YARA rules]]
+- Write a [[Notes_PMAT#Rule Writing & Report Publishing|report]]
+  
+- Special type of malware:
+	- [[Notes_PMAT#Analyzing Excel Maldocs OLEdump|Excel malware]]
+	- [[Notes_PMAT#Analyzing Word Maldocs Remote Template Macro Injection|word malware]]
+	- analyze [[Notes_PMAT#Shellcode Analysis|shellcode]]
+	- analyze [[Notes_PMAT#Scripted Malware Delivery Mechanisms|obfuscated malware]]
+	- [[Notes_PMAT#HTML Applications (HTA)|HTML Applications]]
+	- why it's easy analyze [[Notes_PMAT#Reversing C Malware|C# malware]]
+	- how to understand in [[Notes_PMAT#Understand if a malware is written in Go|which languages is written the malware]]
+	- [[Notes_PMAT#Mobile Malware Analysis|Mobile Malware Analysis]]
+# Extra Resources to work with 
 [[Notes_PMAT#Safe Malware Sourcing & Additional Resources|Extra malware sample]]
