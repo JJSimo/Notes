@@ -3962,5 +3962,85 @@ Let's copy this text and paste it inside the FlareVM yara files
 this last command -->     is super powerful
                      bc <span style="color:#00b050">you can scan an entire file system </span>
 
-## 
- 
+## Writing & Publishing a Malware Analysis Report
+Report template -->  [[ReportTemplate.pdf|here]]
+
+<span style="background:#fff88f">tips:</span>
+- start with an <span style="color:#00b050">Executive Summary</span>
+	- first insert the -->  SHA256sum
+	- summarize what the malware does
+	- when it has identified for the first time and on which OS
+	  
+- <span style="color:#00b050">High Level Technical Summary</span>
+	- summarize the technical part of the malware (how many parts, what they do...)
+	- keep it a high level
+	- create diagrams that represent the flow of the malware -->  so it's easier to understand
+	- defang the malicious URL -->      common way is to replace t with x in http:
+	                             `hxxps://...`
+	  
+- <span style="color:#00b050">Malware Composition</span>
+	- here you write the details 
+	- how the malware functions and what is made of
+	- use screenshot
+	  
+- <span style="color:#00b050">Basic Static Analysis</span>
+- <span style="color:#00b050">Basic Dynamic Analysis</span>                                   keep them as long as you want
+- <span style="color:#00b050">Advance Static Analysis</span>                                  write everything you found
+- <span style="color:#00b050">Advance Dynamic Analysis</span> 
+
+- <span style="color:#00b050">Indicators of Compromise</span>
+	- Network Indicators
+	- Host Indicators
+
+- <span style="color:#00b050">Rules and Signatures</span>
+	- yara rules
+	  
+- <span style="color:#00b050">Appendices</span> 
+	- screenshots, tables, diagrams
+
+### Paste in Word code and maintain same format and indentation
+- Copy the code
+- Right click on word And:![[Pasted image 20240320153151.png]]
+
+# Malware Analysis Methodology 
+- Build a [[Notes_PMAT#Build Malware Analysis Lab|LAB]] to analyze safely malware
+	- Use [[Notes_PMAT#PMAT-FlareVM|PMAT-FlareVM]]
+	- setup [[Notes_PMAT#INetSim Setup|INetSim]]
+- use snapshots to go back before detonations
+- try detonation with or without INetSim
+- Use a [[Notes_PMAT#Standard convention to handle malware|convention]] to save malware
+- Basic Static Analysis:
+	- find [[Notes_PMAT#Find Hashes of the malware|hashes]]
+	- control them using [[Notes_PMAT#Check if the hashes are well known as malware sample|VIRUSTOTAL]]
+	- analyze string with [[Notes_PMAT#FLOSS|FLOSS]], [[Notes_PMAT#PEStudio|PEStudio]]
+	- examine [[Notes_PMAT#IMPORT Address Table|IMPORT Address Table]] with [[Notes_PMAT#Peview|PEView]]
+	- analyze API also with [[Notes_PMAT#libraries|PEStudio]]
+	- understand if the malware is [[Notes_PMAT#Packed Malware Analysis|packed]]
+	- find more info with [[Notes_PMAT#Capa|Capa]] to find [[Notes_PMAT#MITRE Adversary Tactics, Techniques & Common Knowledge (ATT&CK)|MITRE indication]] and [[Notes_PMAT#MBC]]
+	  
+- Basic Dynamic Analysis:
+	- find [[Notes_PMAT#Network Indicators|Network Indicators]] with [[Notes_PMAT#Wireshark|Wireshark]]
+	- find [[Notes_PMAT#Host indicators|Host indicators]]:
+		- analyze processes and file creation with [[Notes_PMAT#Procmon|Procmon]]
+		- analyze connections with [[Notes_PMAT#TCPView|TCPView]]
+		- In case of reverse shell:
+			- setup a [[Notes_PMAT#Fake DNS reply|Fake DNS reply]]
+			- listen with [[Notes_PMAT#Listen for DNS with netcat|netcat]]  (also check this type of [[Notes_PMAT#Netcat|netcat]])
+			  
+- Advanced Static Analysis:
+	- use [[Notes_PMAT#Cutter|cutter]] to analyze assembly
+	- find [[Notes_PMAT#Find main function with no Debug Symbols|main function]] (even with no Debug Symbols)
+	- watch with the graph view
+	- focus on API call
+	- COMBINE DIFFERENT TOOLs -->  Procmon, TCPView
+	  
+- Advanced Dynamic Analysis:
+	- use [[Notes_PMAT#x32dbg - Basic commands|x32dgb]] or x64dbg (based on 32/64 bit)
+	- use breakpoint
+	- work in // with cutter
+	- CTRL+G to jump directly to memory address or find string
+	- 
+
+
+
+[[Notes_PMAT#Safe Malware Sourcing & Additional Resources|Extra malware sample]]
