@@ -3840,3 +3840,41 @@ Can you write again the code and using a more comprehensive variables that expla
 
 # Rule Writing & Report Publishing
 ## Writing YARA Rules
+LAB:
+`PMAT-labs/labs/5-2.RuleWriting/Malware.yara1.exe.malz.7z`
+
+<span style="background:#fff88f">YARA Rules:</span>
+are used to:
+- <span style="color:#00b050">classify</span> and 
+- <span style="color:#00b050">identify malware samples</span>
+  
+by creating descriptions of malware families based on:
+- <span style="color:#00b050">textual</span> or 
+- <span style="color:#00b050">binary patterns</span> 
+
+To do that we'll use the tool -->  `yara32`
+<span style="background:#fff88f">it takes 2 argument:</span>
+1) <span style="color:#00b050">rule file</span> 
+   in which you write -->  custom rules
+                     to be able to detect malware  (based on contents of a file)
+
+2) <span style="color:#00b050">file/directory</span> 
+   yara will find if this file/directory -->  contains some of the rules defined in the rule file
+
+<span style="background:#fff88f">yara rules are easy to write:</span>
+=>
+- open with an editor the yara_template.yara file
+- copy it on your physical HOST with VS Code
+- install the `YARA` extension
+- paste the file inside VS CODE
+  => <span style="color:#00b050">This is a template for yara rules:</span>![[Pasted image 20240320123239.png]]
+  
+<span style="background:#fff88f">Now we are going to write yara rules:</span>
+- let's assume we did the static analysis for the malware inside the LAB
+- <font color="#2DC26B">we identified a string</font> inside the binary that can be -->  a good detection criteria
+	- `floss -n 7 Malware.yara1.exe.malz | grep "YOURETHEMANNOWDOG"`![[Pasted image 20240320123701.png]]
+	  =>
+	  we can <span style="color:#00b050">assume</span> that this <span style="color:#00b050">string</span> -->  <span style="color:#00b050">will be present in other malware that are similar to this</span>
+	  =>
+- 
+
