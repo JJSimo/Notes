@@ -3840,6 +3840,7 @@ Can you write again the code and using a more comprehensive variables that expla
 
 # Rule Writing & Report Publishing
 ## Writing YARA Rules
+### What are YARA rules and Structure
 LAB:
 `PMAT-labs/labs/5-2.RuleWriting/Malware.yara1.exe.malz.7z`
 
@@ -3852,7 +3853,7 @@ by creating descriptions of malware families based on:
 - <span style="color:#00b050">textual</span> or 
 - <span style="color:#00b050">binary patterns</span> 
 
-To do that we'll use the tool -->  `yara32`
+To do that we'll use the tool -->  `yara64`
 <span style="background:#fff88f">it takes 2 argument:</span>
 1) <span style="color:#00b050">rule file</span> 
    in which you write -->  custom rules
@@ -3868,7 +3869,23 @@ To do that we'll use the tool -->  `yara32`
 - install the `YARA` extension
 - paste the file inside VS CODE
   => <span style="color:#00b050">This is a template for yara rules:</span>![[Pasted image 20240320123239.png]]
-  
+
+There are 3 sections:
+- `meta` -->  are the metadata of the yara rules
+  =>
+  it describes -->  when the rule is been written, WHO written it and a description
+
+- `strings` --> contains variables (that them value is a string/hex bytes/...)
+  =>
+  yara will do <span style="color:#ff9900">pattern matching</span> -->  to <span style="color:#00b050">i</span><span style="color:#00b050">dentify if a malware contains those strings</span>
+
+- `condition` -->  specifies the <span style="color:#00b050">c</span><span style="color:#00b050">onditions on our variables that the malware must meet</span>
+                =>
+                if yara does pattern recognition with our strings and find one of them inside a malware:
+                =>
+                also the conditions on this string (if exist) -->  must be satisfied
+
+### Writing strings section
 <span style="background:#fff88f">Now we are going to write yara rules:</span>
 - let's assume we did the static analysis for the malware inside the LAB
 - <font color="#2DC26B">we identified a string</font> inside the binary that can be -->  a good detection criteria
@@ -3876,5 +3893,53 @@ To do that we'll use the tool -->  `yara32`
 	  =>
 	  we can <span style="color:#00b050">assume</span> that this <span style="color:#00b050">string</span> -->  <span style="color:#00b050">will be present in other malware that are similar to this</span>
 	  =>
-- 
+- inside the `strings` section of the yara rules <span style="color:#6666ff">we can add a new criteria</span>:
+  `$string1 = "YOURETHEMANNOWDOG" ascii`      ascii -->  is the string type![[Pasted image 20240320124502.png]]
+  
+- From our hypothetical analysis we found that the malware is written in nim
+  =>
+  `floss -n 7 Malware.yara1.exe.malz | grep "nim"`
+  =>
+- <span style="color:#6666ff">let's add a new criteria in the yara file</span>:
+   `$string2 = "nim"` 
 
+- we know that the file is a -->  portable executable
+  `file Malware.yara1.exe.malz`![[Pasted image 20240320124700.png]]
+  =>
+	we know that for portable executable file:
+	the magic byte is -->  `MZ`
+	
+- <span style="color:#6666ff">add new criteria for magic bytes:</span>
+  `$PE_magic_byte = "MZ"`
+
+- we hypothetical identify a string of bytes that something bad is happening
+  =>
+
+- <span style="color:#6666ff">add new criteria for HEX bytes:</span>
+  `$sus_hex_string = { FF E4 ?? 00 FF}`
+  as you can see --> we can specify the bytes and also a <span style="color:#00b050">WILDCARD</span> 
+  
+### Writing condition section
+First condition:
+`$Pe_magic_bytes at 0 and`
+if a malware contain our string `Pe_magic_bytes`
+=>
+to satisfied the pattern recognition =>   <span style="color:#00b050">this string must be at position 0</span>  (so as first Ch in the file)
+                                  `AND`
+`$Pe_magic_bytes at 0 and`
+`($string1 and $string2) or`
+=>
+                                  `AND` <span style="color:#00b050">must contains both string1 and string2</span> `OR`
+`$Pe_magic_bytes at 0 and`
+`($string1 and $string2) or
+`
+`$sus_hex_string`                                    `OR` <span style="color:#00b050">find everything that contains the</span> <span style="color:#00b050">sus_hex_string</span>
+
+### Final YARA rules file
+=>
+<span style="background:#fff88f">these are our YARA rules:</span>
+![[Pasted image 20240320130513.png]]
+
+Let's copy this text and paste it inside the FlareVM yara files
+
+### Use our YARA rules with yara64
