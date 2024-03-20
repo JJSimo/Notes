@@ -3950,5 +3950,17 @@ Let's copy this text and paste it inside the FlareVM yara files
 <span style="color:#00b050">It found detection for this malware</span> 
 
 `yara64 yara_template.yara Malware.yara1.exe.malz -s -w -p 32`
-`-s` -->  print which and where you detected a rule
+`-s` -->  print which and which location you detected a rule
 ![[Pasted image 20240320150519.png]]
+
+`yara64 yara_template.yara . -w -p 32`    -->  scan entire current working directory
+
+`yara64 yara_template.yara -r C:\Users\ -w -p 32`    
+ <span style="background:#fff88f">scan RECURSIVELY from this directory to every directories that you find</span>
+ 
+=>
+this last command -->     is super powerful
+                     bc <span style="color:#00b050">you can scan an entire file system </span>
+
+## 
+ 

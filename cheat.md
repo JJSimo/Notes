@@ -940,7 +940,12 @@ YARA is a tool aimed at helping malware researchers to identify and classify mal
 if it returns the name of the malware =>  it found detection
 
 `yara64 yara_template.yara Malware.yara1.exe.malz -s -w -p 32`
-`-s` -->  print which and where you detected a rule
+`-s` -->  print which and which location  where you detected a rule
+
+`yara64 yara_template.yara . -w -p 32`    -->  scan entire current working directory
+
+`yara64 yara_template.yara -r C:\Users\ -w -p 32`    
+ <span style="background:#fff88f">scan RECURSIVELY from this directory to every directories that you find</span>
 
 -----
 ### Sites
