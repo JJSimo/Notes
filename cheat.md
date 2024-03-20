@@ -855,6 +855,8 @@ it also tries to -->    - decode
 
 `grep -i` -->  no case sensitive
 
+#### StringSitter
+powerful tool for extracting Strings that uses AI to extract them and classify them with an index of danger
 #### PEview
 tools for basic initial static malware analysis 
 [[Notes_PMAT#Peview|how to use it]]

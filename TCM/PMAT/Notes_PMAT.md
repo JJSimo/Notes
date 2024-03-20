@@ -3722,5 +3722,20 @@ then:
 	- the extracted strings
 	![[Pasted image 20240320110359.png]]
 	
+	=>
+	open the String output:
+	each string has a value -->  <span style="color:#00b050">higher value means the can be potentially a malicious string</span>![[Pasted image 20240320110602.png]]
 	
-- 
+	
+- <span style="color:#00b050">Virus Total analysis</span>:
+  to use it:
+	  - you need to be connected to the internet
+	  - must use a valid VirusTotal API key to get the API results
+	  - VirusTotal Public API keys are free and you can sign up for one here: [https://www.virustotal.com/gui/join-us](https://www.virustotal.com/gui/join-us)![[Pasted image 20240320111020.png]]
+
+- <span style="color:#00b050">Create A zip for each folder and protect it with a password</span>![[Pasted image 20240320111056.png]]
+
+=>
+<span style="background:#fff88f">The Jupyter notebook can be useful to:</span>
+- create your own workflow -->  to automate the malware analysis
+- also add documentation to the code
