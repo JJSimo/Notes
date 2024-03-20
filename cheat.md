@@ -930,6 +930,18 @@ if you write `-1` -->   n° of steps are unlimited
 =>
 `scdbg /f file.bin -s -1`
 
+#### yara64
+YARA is a tool aimed at helping malware researchers to identify and classify malware samples
+[[Notes_PMAT#What are YARA rules and Structure|understand better]]
+
+`yara64 file_yara_rules.yara Malware.exe.malz -w -p 32`  
+`-w` -->  clean warning output
+`-p` -->  to use threads
+if it returns the name of the malware =>  it found detection
+
+`yara64 yara_template.yara Malware.yara1.exe.malz -s -w -p 32`
+`-s` -->  print which and where you detected a rule
+
 -----
 ### Sites
 #### VIRUSTOTAL

@@ -3921,16 +3921,16 @@ There are 3 sections:
   
 ### Writing condition section
 First condition:
-`$Pe_magic_bytes at 0 and`
-if a malware contain our string `Pe_magic_bytes`
+`$PE_magic_byte at 0 and`
+if a malware contain our string `PE_magic_byte`
 =>
 to satisfied the pattern recognition =>   <span style="color:#00b050">this string must be at position 0</span>  (so as first Ch in the file)
                                   `AND`
-`$Pe_magic_bytes at 0 and`
+`$PE_magic_byte at 0 and`
 `($string1 and $string2) or`
 =>
                                   `AND` <span style="color:#00b050">must contains both string1 and string2</span> `OR`
-`$Pe_magic_bytes at 0 and`
+`$PE_magic_byte at 0 and`
 `($string1 and $string2) or
 `
 `$sus_hex_string`                                    `OR` <span style="color:#00b050">find everything that contains the</span> <span style="color:#00b050">sus_hex_string</span>
@@ -3938,8 +3938,17 @@ to satisfied the pattern recognition =>   <span style="color:#00b050">this strin
 ### Final YARA rules file
 =>
 <span style="background:#fff88f">these are our YARA rules:</span>
-![[Pasted image 20240320130513.png]]
+![[Pasted image 20240320145938.png]]
 
 Let's copy this text and paste it inside the FlareVM yara files
 
 ### Use our YARA rules with yara64
+`yara64 yara_template.yara Malware.yara1.exe.malz -w -p 32`
+`-w` -->  clean warning output
+`-p` -->  to use threads
+![[Pasted image 20240320150015.png]]
+<span style="color:#00b050">It found detection for this malware</span> 
+
+`yara64 yara_template.yara Malware.yara1.exe.malz -s -w -p 32`
+`-s` -->  print which and where you detected a rule
+![[Pasted image 20240320150519.png]]
