@@ -3739,3 +3739,27 @@ then:
 <span style="background:#fff88f">The Jupyter notebook can be useful to:</span>
 - create your own workflow -->  to automate the malware analysis
 - also add documentation to the code
+
+## Malware Sandboxing 
+malware sandbox -->     <span style="color:#00b050">virtual environment</span> where <span style="color:#00b050">malware</span> 
+                    can be <span style="color:#00b050">safely executed</span> and analyzed without causing harm to the host
+=>
+our FlareVM is -->  a malware sandbox
+
+In internet:
+exists websites -->  that allow you to create an online malware sandbox (to execute and analyze)
+
+<span style="background:#fff88f">example:</span>
+- <span style="color:#00b050">Any.Run</span> -->  but required a business email
+- <span style="color:#00b050">Hatching Triage</span>
+
+<span style="background:#fff88f">This example is Any.Run:</span>
+- you can see the <span style="color:#00b050">virtual environment</span> with the malware detonated inside Windows 7
+- a bottom bar where you can see -->  <span style="color:#00b050">HTTP/DNS/Connections</span> that the malware made
+- in the right side you can see -->  what <span style="color:#00b050">processes</span> the malware created
+![[Pasted image 20240320111813.png]]
+
+
+##  Advanced Script Analysis with ChatGPT
+LAB:
+`PMAT-labs/labs/5-1.Automation/chatGPT-script-analysis`
