@@ -20,7 +20,7 @@
 	       - execute it by accessing via browser
 
 
-## Cheet
+## Cheat
 [[cheat|cheat]]
 
 -------
