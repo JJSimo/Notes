@@ -59,7 +59,7 @@ AD is composed on:
 ![[Pasted image 20240217112645.png]]
 
 ### Physical AD Components
-#### AD Domain Controllers 
+#### AD Domain Controllers
 - Most important component
 - It controls everything
 - <span style="color:#00b050">Host the AD</span>
