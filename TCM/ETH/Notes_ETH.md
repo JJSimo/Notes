@@ -147,7 +147,7 @@ type of objects:
 ### Build up
 - Download from here:
 	- [Windows 10 enterprise 64](https://www.microsoft.com/en-us/evalcenter/download-windows-10-enterprise)
-	- [Windows Server 22 64](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
+	- [Windows Server 22 64](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022) 
 
 #### Windows Server Setup
 Open [[cheat#VM Ware|VM Ware]]
