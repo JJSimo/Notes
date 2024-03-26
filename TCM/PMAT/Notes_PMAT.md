@@ -15,7 +15,7 @@ to have a place where you can run a malware
 - this must be done in a safe environment 
 - malware usually work in windows
 =>
-we need to build up a safe LAB
+we need to build up a safe LAB 
 
 # Build Malware Analysis Lab
 Download windows 10 64 bit enterprise from -->  [here](https://www.microsoft.com/en-us/evalcenter/download-windows-10-enterprise)
