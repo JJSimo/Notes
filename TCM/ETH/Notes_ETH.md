@@ -4,7 +4,7 @@
 
 -------
 ## ETH Notion
-[[Ethical Hacking d4cc19377a5d413ab305ac4695638e8e.pdf|Notion]]
+[[Ethical Hacking d4cc19377a5d413ab305ac4695638e8e.pdf|Notion]] 
 
 #### Enumerating SSH
 - If you find ssh open => try to bruteforce the login
