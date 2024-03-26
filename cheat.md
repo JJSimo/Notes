@@ -124,7 +124,7 @@ Altre possibili estensioni —> pdf, rar, zip, docx … (+ ne metti e + è lunga
 
 ##### dirb
 finds hidden file/subdirectories website
-`dirb http://10.0.2.152`
+`dirb http://10.0.2.152` 
 > [!INFO] 
 > For each subdomains it finds =>  check inside that subdomains if there are others  
 > =>
