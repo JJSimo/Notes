@@ -44,11 +44,16 @@ tools for scanning the entire net to find hosts ip (using arp)
 tools for scanning ports to identify open ports
 `nmap -T4 -p- -A 10.0.2.152`
 `nmap -Pn --script smb-vuln* -p 139,445 10.0.2.152`
+`nmap -sV -sC -p- 10.129.42.253`
+
 
 `-T4` —> set scan velocity from 1 to 5 (1 slow but complete - 5 fast but)
 `-p-` —> scan all ports (without scann only 1000 most known) 
 `-A` —> show me all that you found
 `-Pn` --> treat all hosts as online -- skip host discovery
+
+`-sV` -->  fingerprint services on the target and identify the service protocol, app name, version
+`-sC` -->   Nmap scripts should be used to try and obtain more detailed information.
 
 ##### dnsrecon
 tools for gathering DNS information
