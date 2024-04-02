@@ -12,7 +12,7 @@ Paragrafo
 [External Link](https://help.obsidian.md/Editing+and+formatting/Basic+formatting+syntax) 
 
 - List
-%% Visibile solo in edit mode (per creare una lista usa il trattino -) %%   
+%% Visibile solo in edit mode (per creare una lista usa il trattino -) %%    
 
 ---
 
