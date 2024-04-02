@@ -1,6 +1,6 @@
 Introduction to:
 - Malware analysis 
-- reverse engineering
+- reverse engineering 
 - triage
 
 GOAL malware analysis -->  deeply understand what the malware does
