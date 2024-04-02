@@ -150,7 +150,7 @@ for each word inside the wordlist => try to find if it exists the webiste + word
 - send some random credentials
 - open the req into Burp > Copy it > Save it inside a txt file
 - change the password value as -->  your fuzz variable
-- we need a not huge wordlist:
+- we need a not huge wordlist: 
   =>
   `git clone --depth 1 \
   https://github.com/danielmiessler/SecLists.git`
@@ -171,6 +171,7 @@ for each word inside the wordlist => try to find if it exists the webiste + word
 `-fs 3376` -->  length of the response that we captured
 =>
 now in the output find an attempts that have a different size value as what we specified
+
 -----
 #### Enumerating SMB
 ##### Metasploit
