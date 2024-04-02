@@ -8,4 +8,4 @@
 	   =>
 	   we successfully connected to the VPN
 
-- by typing `ifconfig` we can see the new interface `tun0`
+- by typing `ifconfig` we can see the new interface `tun0` 
