@@ -85,7 +85,7 @@ Go to Settings > Hotkeys > Colored Text
 [Guida](https://forum.obsidian.md/t/the-easiest-way-to-setup-obsidian-git-to-backup-notes/51429) 
 Per commit ->    CTRL + P
 			   cerca "backup"
-![[Pasted image 20240506125625.png]]
+![[Pasted image 20240506125744.png]]
 
 ---
 
