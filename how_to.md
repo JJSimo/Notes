@@ -87,6 +87,27 @@ Per commit ->    CTRL + P
 			   cerca "backup"
 ![[Pasted image 20240506125744.png]]
 
+# BACKUP Linux
+- Open git and run the `Bash/Installer/install.sh`
+- To edit the shell:
+	- `sudo apt install zsh -y`
+	- `chsh -s $(which zsh)`
+	- `sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+	- install in VSCODE the `WSL` extension
+	- `git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions`
+	- `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`
+	- code .zshrc
+	- Search -->   `plugins=...`
+	- Edit with:
+	  `plugins=(`
+          `zsh-autosuggestions`
+          `zsh-syntax-highlighting`
+      `)`   
+	- Logout and re-enter 
+
+  - Shell theme --> https://github.com/romkatv/powerlevel10k?tab=readme-ov-file
+
+
 ---
 
 ## Possibili Callouts 
