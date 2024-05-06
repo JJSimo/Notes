@@ -37,9 +37,9 @@ pub enum Error {
 |       |        |     |
 
 ### Change Heading Color
-- Right click on the project folder > Show in System Explorel
-- Create "snippets" folder
-- Create file .css (es Simo-Colored Headings.css)
+- Right click on the Obisidian Vault folder > Show in System Explorel
+- open .obsidian > snippets
+- Create file .css (es Simo-Colored-Headings.css)
 ```css
 .cm-header-1 {color: #00aaf6; }
 .cm-header-2 {color: #00aaf6; }
@@ -49,6 +49,20 @@ pub enum Error {
 .cm-header-6 {color: #00aaf6; }
 ```
 - Open Settings > Appearance > CSS snippets > enable Simo-Colored Headingss
+
+==Code color:==
+```css
+.cm-header-1 {color: #00aaf6; }
+.cm-header-2 {color: #00aaf6; }
+.cm-header-3 {color: #00aaf6; }
+.cm-header-4 {color: #00aaf6; }
+.cm-header-5 {color: #00aaf6; }
+.cm-header-6 {color: #00aaf6; }
+
+.cm-s-obsidian span.cm-inline-code {
+    color: #e55957;
+}
+```
 -----
 ## Plugins
 Settings > Community Plugins > Browse
