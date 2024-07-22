@@ -68,15 +68,15 @@ pub enum Error {
 Settings > Community Plugins > Browse
 Then enable the plugin
 Restart the application when you changed something
-![[Pasted image 20240216135015.png]]
+![[Pasted image 20240722114220.png]]
 ### Colored Text
 #### Colors
-![[Pasted image 20240214113010.png]]   
-![[Pasted image 20240214113051.png]]
-![[Pasted image 20240214113110.png]]
-![[Pasted image 20240214113120.png]]
-![[Pasted image 20240214113129.png]]
-![[Pasted image 20240214113138.png]]
+![[Pasted image 20240214113010.png|300]]   
+![[Pasted image 20240214113051.png|300]]
+![[Pasted image 20240214113110.png|300]]
+![[Pasted image 20240214113120.png|300]]
+![[Pasted image 20240214113129.png|300]]
+![[Pasted image 20240214113138.png|300]]
 
 Go to Settings > Hotkeys > Colored Text
 ![[Pasted image 20240214113604.png]]
