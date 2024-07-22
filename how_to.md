@@ -36,7 +36,7 @@ pub enum Error {
 | aaa   | bbbb   |     |
 |       |        |     |
 
-### Change Heading Color
+### Change Heading Color 
 - Right click on the Obisidian Vault folder > Show in System Explorel
 - open .obsidian > snippets
 - Create file .css (es Simo-Colored-Headings.css)
