@@ -25,12 +25,12 @@
 
 ## Optional Learning
 - Prototype pollution
-- GraphQL API vulnerabilities
-- HTTP Host header attacks
-- HTTP request smuggling
+- GraphQL API vulnerabilities 
+- HTTP Host header attacks 
+- HTTP request smuggling -
 - Web cache deception
-- Web cache poisoning
-- Clickjacking
+- Web cache poisoning -
+- Clickjacking -
 - API testing
-- Essential skills
+- Essential skills -
 - Web LLM attacks

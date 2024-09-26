@@ -73,7 +73,7 @@ Below a list of common examples of places were you can look to see if sensitive 
 
 these files:
 often list specific directories that -->  the crawlers should skip, 
-                                 _<span style="color:rgb(255, 0, 0)">for example, bc they may contain sensitive info</span> _
+                                 _<span style="color:rgb(255, 0, 0)">for example, bc they may contain sensitive info</span>_
                                  
  
 ### Directory Listings

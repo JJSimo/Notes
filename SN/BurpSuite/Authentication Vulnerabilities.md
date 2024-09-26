@@ -189,7 +189,6 @@ now:
 ![[Pasted image 20240905110333.png]]
 
 #### User rate limiting
-
 Another way websites try to prevent brute-force attacks is through:
 user rate limiting -->  making too many login requests within a short period of time causes
 				   your IP address to be blocked. 

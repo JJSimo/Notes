@@ -96,7 +96,7 @@ The easiest way to construct a CSRF exploit is using the -->   [CSRF PoC generat
 
 ## How to deliver a CSRF exploit
 The delivery mechanisms for cross-site request forgery attacks:
- are essentially the same as for --> [[XSS#Reflected XSS]]
+ are essentially the same as for --> [[Edubadges#Reflected XSS]]
  =>
  the attacker will:
  - place the malicious HTML onto a website that they control
