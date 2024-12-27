@@ -18,13 +18,12 @@ Windows:
 - Open a terminal and test with `rustc --version`
 
 ## Update
-rustup update
-
+`rustup update`
 # Create, build and run a project
-`cargo new <project_name>` -->  create a project called "project_name"
-`cargo build` -->  build the project
-`cargo run` -->  compile and run the project
-`cargo check` -->  compile without execute
+- `cargo new <project_name>` -->  create a project called "project_name"
+- `cargo build` -->  build the project
+- `cargo run` -->  compile and run the project
+- `cargo check` -->  compile without execute
 
 
 
