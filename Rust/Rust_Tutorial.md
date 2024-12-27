@@ -1,5 +1,7 @@
 # Installation
 [link](https://doc.rust-lang.org/book/ch01-01-installation.html)
+
+-----
 Linux:
 ```bash
 sudo apt install gcc
