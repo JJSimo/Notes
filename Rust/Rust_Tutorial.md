@@ -1,3 +1,17 @@
+- [[#Update|Update]]
+- [[#Examples|Examples]]
+- [[#More modules|More modules]]
+	- [[#More modules#Example|Example]]
+- [[#Workspaces|Workspaces]]
+	- [[#Workspaces#Example|Example]]
+	- [[#Workspaces#Importing name abbreviation|Importing name abbreviation]]
+- [[#Importing Crates|Importing Crates]]
+	- [[#Importing Crates#Manually import|Manually import]]
+	- [[#Importing Crates#Using cargo|Using cargo]]
+	- [[#Importing Crates#Importing from git|Importing from git]]
+	- [[#Importing Crates#Importing only some features|Importing only some features]]
+
+
 # Installation
 [link](https://doc.rust-lang.org/book/ch01-01-installation.html)
 
@@ -120,6 +134,111 @@ pub mod project;
 
 In `src/main.rs` you'll have:
 ```rust
+use crate::database::person::Person; 
+use crate::database::project::Project; 
 
+mod database;
+
+fn main() {
+
+}
 ```
 
+## Workspaces
+set of packages that share the same _Cargo.lock_ and output directory
+
+### Example
+We split `database` so that will be a <span style="color:rgb(24, 175, 40)">reusable</span> library
+=>
+structure:
+```
+|- Cargo.toml
+|- database_lib
+|   |- Cargo.toml
+|   |- src
+|       |- lib.rs
+|       |- person.rs
+|       |- project.rs
+|- my_project
+    |- Cargo.toml
+    |- src
+        |- main.rs
+```
+
+ Top-level `Cargo.toml`:
+```rust
+[workspace]
+members = [
+    "database_lib",         // database library
+    "my_project",
+]
+resolver = "2"
+```
+
+`Cargo.toml` in the `database_lib`:
+```rust
+[package]
+name = "database_lib"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+```
+
+`Cargo.toml` in the `my_project`:
+```rust
+[package]
+name = "my_project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+database_lib = { path = "../database_lib" }
+```
+
+The `lib.rs` would not include a `main` functio:
+but instead a -->  `pub mod` statement for each module:
+```rust
+pub mod person;
+pub mod project;
+```
+
+### Importing name abbreviation
+In the main function you can:
+- assign a name to a module:
+```rust
+use crate::database::person as prs;
+```
+
+- assign a name to a specific type:
+```rust
+use crate::database::person::Person as Someone;
+```
+
+## Importing Crates
+To import 3rd party creates into your app:
+- edit the `Cargo.toml` file under `[dependencies]` section
+=>
+### Manually import
+```rust
+[dependencies] 
+rand = "0.7.3"
+```
+
+### Using cargo
+```rust
+cargo add rand
+```
+
+### Importing from git
+```rust
+[dependencies]
+kp-lib-rs = { git = "https://bitbucket.forge.somewhere.com/scm/someservice/rust_common.git", tag = "v0.0.555" }
+```
+
+### Importing only some features
+```rust
+[dependencies]
+serde = { version = "1.0.106", features = ["derive", "limit
+"] }
+```
