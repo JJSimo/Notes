@@ -1,16 +1,18 @@
-- [[#Update|Update]]
-- [[#Examples|Examples]]
-- [[#More modules|More modules]]
-	- [[#More modules#Example|Example]]
-- [[#Workspaces|Workspaces]]
-	- [[#Workspaces#Example|Example]]
-	- [[#Workspaces#Importing name abbreviation|Importing name abbreviation]]
-- [[#Importing Crates|Importing Crates]]
-	- [[#Importing Crates#Manually import|Manually import]]
-	- [[#Importing Crates#Using cargo|Using cargo]]
-	- [[#Importing Crates#Importing from git|Importing from git]]
-	- [[#Importing Crates#Importing only some features|Importing only some features]]
-
+- [Installation](#Installation)
+	- [Update](#Update)
+- [Create, build and run a project](#Create,%20build%20and%20run%20a%20project)
+- [Organize Code](#Organize%20Code)
+	- [Examples](#Examples)
+	- [More modules](#More%20modules)
+		- [Example](#Example)
+	- [Workspaces](#Workspaces)
+		- [Example](#Example)
+		- [Importing name abbreviation](#Importing%20name%20abbreviation)
+	- [Importing Crates](#Importing%20Crates)
+		- [Manually import](#Manually%20import)
+		- [Using cargo](#Using%20cargo)
+		- [Importing from git](#Importing%20from%20git)
+		- [Importing only some features](#Importing%20only%20some%20features)
 
 # Installation
 [link](https://doc.rust-lang.org/book/ch01-01-installation.html)
