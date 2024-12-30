@@ -43,6 +43,23 @@ Windows:
 - `cargo run` -->  compile and run the project
 - `cargo check` -->  compile without execute
 
+# Data types
+`i8` -->  <span style="color:rgb(24, 175, 40)">signed</span> n° of 8 bits
+       => 
+       it goes from -128 to 127 
+
+`u8` -->  <span style="color:rgb(24, 175, 40)">unsigned</span> n° of 8 bits => 0 to 255
+
+Then:
+- `i16` or `u16`
+- `i32` or `u32`
+- `i64` or `u64`
+- `i128` or `u128`
+
+- `f32` and `f64` -->  n° with digital points
+- `str` -->  strings
+- `bool`
+
 # Organize Code
 Rust code can be split into multiple `.rs` files:
 each of them is called --> module
