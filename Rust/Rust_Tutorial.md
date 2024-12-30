@@ -1,6 +1,7 @@
 - [Installation](#Installation)
 	- [Update](#Update)
 - [Create, build and run a project](#Create,%20build%20and%20run%20a%20project)
+- [Data types](#Data%20types)
 - [Organize Code](#Organize%20Code)
 	- [Examples](#Examples)
 	- [More modules](#More%20modules)
