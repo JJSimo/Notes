@@ -641,7 +641,6 @@ follow these [[cheat#bloodhound|steps]]
 follow these [[cheat#plumHound|steps]]
 
 
-
 ### Post-Compromise Attacks
 We'll see what can we do after having compromised an account
 Things we can do:
@@ -707,10 +706,9 @@ What happen when we want to request access to a Service:
 in order to do that:
 - we need to request some stuff from -->  <span style="color:#00b050">Key Distribution Center (KDC)</span> 
 - in a legitimate request:
-	- we make a -->  TGT request (bc we are providing our username and pass to the Domain
-																	    Controller)
+	- we make a -->  TGT request (bc we are providing our username and pass to the  Domain Controller)
 	- we receive a TGT back  (Ticket Granting Ticket)
-	=>
+	=> 
 	any user inside the domain -->  can request this TGT
 	=>
     <span style="color:#00b050">if we have compromised an account</span> -->  we can ask this TGT
@@ -724,7 +722,7 @@ once we do that:
 
 in a normal scenario:
 - we will present this TGS to -->  the service that we want to access (Application Server)
-- the service: will:
+- the service will:
 	- decrypt the TGS
 	- determine if we can access
 
