@@ -86,6 +86,11 @@ Go to Settings > Hotkeys > Colored Text
 Per commit ->    CTRL + P
 			   cerca "backup"
 ![[Pasted image 20240506125744.png]]
+> [!warning] 
+> Now you have to use `Commit-and-sync` instead of `backup`:
+> 
+> ![[Pasted image 20250310093545.png]]
+
 
 # BACKUP Linux
 - Open git and run the `Bash/Installer/install.sh`
