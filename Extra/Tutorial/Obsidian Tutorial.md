@@ -18,7 +18,7 @@ Paragrafo
 
 > [!NOTE] Esempio Callout
 > Guarda in fondo per vedere tutti i possibili collout
-> [[how_to#Possibili Callouts]]
+> [[Obsidian Tutorial#Possibili Callouts]]
 
 ---
 ```rust
@@ -83,14 +83,12 @@ Go to Settings > Hotkeys > Colored Text
 ---- 
 ### Git
 [Guida](https://forum.obsidian.md/t/the-easiest-way-to-setup-obsidian-git-to-backup-notes/51429) 
-Per commit ->    CTRL + P
-			   cerca "backup"
-![[Pasted image 20240506125744.png]]
+Repo must be public -->  (only after cloning it you can change the visibility)
+
 > [!warning] 
 > Now you have to use `Commit-and-sync` instead of `backup`:
 > 
 > ![[Pasted image 20250310093545.png]]
-
 
 # BACKUP Linux
 - Open git and run the `Bash/Installer/install.sh`
