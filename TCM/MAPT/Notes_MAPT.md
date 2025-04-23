@@ -287,3 +287,20 @@ Examples:
 - API Key 
 - Firebase URLs
 
+=>
+- Open jadx
+- Go to Resources > resources.arsc > values
+- Open `strings.xml` to see -->  hardcoded strings
+
+Check also the `xmls.xml` file in the same 
+
+Use ctrl+f to search for:
+- password/pin
+- user
+- API
+- firebase.io
+- SQL
+- key
+
+Then:
+do the same thing with the global search in jadx
