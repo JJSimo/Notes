@@ -276,3 +276,14 @@ Example:
 4) Intent-filters
 
 ## Manual Static Analysis
+```shell
+apktool d app.apk
+```
+
+## Find Hardcoded Strings
+Examples:
+- Credentials
+- URL Exposed
+- API Key 
+- Firebase URLs
+
