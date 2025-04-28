@@ -716,3 +716,59 @@ sudo zypper install sqlitebrowser
 - Search for database [[Notes_MAPT#Database]]
 
 
+# iOS Architecture
+## Core Security Features
+iOS security is structured around six major pillars:
+1. **Hardware Security**  
+    Each device integrates unique cryptographic keys (UIDs and GIDs) fused into hardware, inaccessible via software or debugging. A dedicated AES engine uses these keys to handle encryption and decryption tasks securely. Devices also support **Effaceable Storage** to securely erase sensitive data.
+    
+2. **Secure Boot**  
+    At startup, the device executes a secure boot chain beginning with Boot ROM, verifying each subsequent software component's signature (LLB, iBoot, kernel). Any failure leads to recovery or DFU modes, ensuring only Apple-signed code runs at boot.
+    
+3. **Code Signing**  
+    All executable code must be signed by Apple. Developers must enroll in the Apple Developer Program to sign and distribute apps.  
+    A code signature includes a seal (hashes of code), a digital signature (encrypted seal), and code requirements (verification rules).
+    
+4. **Encryption and Data Protection**  
+    iOS devices implement encryption at hardware and software levels.  
+    Apps downloaded from the App Store use **FairPlay** DRM encryption, tied to the user’s Apple ID and device.  
+    Data protection uses multiple keys (UID, passcode, file system keys) to secure user data, classifying files into protection classes that determine accessibility based on device state (e.g., locked or unlocked).
+    
+5. **Sandbox**  
+    Apps are confined to isolated containers, limiting access to their own data and approved system resources.  
+    System calls are modified to prevent execution of self-modified code, enhancing control over code execution.  
+    Direct hardware access is prohibited; interaction must happen through public APIs and frameworks.
+    
+6. **General Exploit Mitigations**  
+    iOS incorporates **Address Space Layout Randomization (ASLR)** to randomize memory locations at runtime and uses the **eXecute Never (XN)** bit to prevent execution of injected code in memory regions like stack and heap.
+
+## iOS Software Development Overview
+Apple offers a **Software Development Kit (SDK)** for iOS, enabling developers to create, test, and distribute iOS apps. Development is primarily done using **Xcode**, the official Integrated Development Environment (IDE), and apps are built with **Objective-C** or **Swift**. Swift, introduced in 2014, is the modern successor to Objective-C, offering better interoperability with existing code.
+
+**App Installation Outside the App Store**  
+On non-jailbroken devices, apps can be installed via **Enterprise Mobile Device Management** (MDM) with an Apple-signed company certificate, or **sideloading** through Xcode with a developer’s certificate, though the number of devices is limited.
+
+### iOS App Distribution and Structure
+iOS apps are distributed in **IPA** files (iOS App Store Package), which are **ZIP-compressed** archives containing all the app's code and resources. These IPA files include:
+
+1. **/Payload/** - Contains all app data, including the executable and resources.
+2. **/Payload/Application.app/** - Holds the compiled code and static resources.
+3. **/iTunesArtwork** - 512x512 pixel image used as the app's icon.
+4. **/iTunesMetadata.plist** - Contains developer information, bundle identifier, and app-related data.
+5. **/WatchKitSupport/WK/** - Example of an extension for Apple Watch integration.
+    
+#### IPA Structure
+The **top-level bundle directory** includes the **executable file**, icons, configuration files, **launch images**, **interface files (e.g., MainWindow.nib)**, **Settings.bundle** (for app settings), and resources (images, sound files, etc.). It also contains language-specific subdirectories (e.g., **en.lproj**) with **storyboards** and **strings files**.
+
+On jailbroken devices, developers may decrypt and install IPA files using various tools.
+
+### App Permissions in iOS
+Unlike Android, iOS apps request permissions **at runtime** when accessing sensitive data or hardware (e.g., contacts, camera, location). Users can **grant or deny** permissions, and the app can only proceed after explicit approval. Permissions are listed in **Settings > Privacy**. Since iOS 10, apps must provide **usage descriptions** for requested permissions (e.g., NSContactsUsageDescription).
+
+Common permissions include access to **Contacts**, **Microphone**, **Camera**, **Location**, and more.
+
+### DeviceCheck and App Attest Frameworks
+- **DeviceCheck** helps prevent fraud by storing information about a device on both the device and Apple’s servers. It is useful for limiting resources per device (e.g., one promotion per device) but cannot prevent all forms of fraud.
+    
+- **App Attest**, a part of **DeviceCheck**, ensures the app's legitimacy by verifying that it is running on a genuine Apple device. It uses **cryptographic keys** to authenticate requests and verify app integrity, helping prevent modified or fraudulent apps from interacting with servers. However, it does not guarantee complete protection from all fraud types.
+    
