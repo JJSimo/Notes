@@ -251,7 +251,7 @@ Some activities need to be protected:
 
 Often performed through -->  <font color="#00b050">intent-filters</font>
 
-An `exported="True"` activity:
+An `exported="true"` activity:
 can be accessed from outside the app
 
 ### Content Providers
@@ -274,6 +274,12 @@ Example:
 2) App Permissions
 3) Activities
 4) Intent-filters
+
+Check if you find:
+activities or Content Providers -->  with `exported=true`
+=>
+- in the Manifest to ctrl+f and search for it
+- check if these activities/content providers contain sensitive info
 
 ## Manual Static Analysis
 ```shell
@@ -304,3 +310,350 @@ Use ctrl+f to search for:
 
 Then:
 do the same thing with the global search in jadx
+
+## Enumerating AWS Storage Bucket
+[https://github.com/initstring/cloud_enum](https://github.com/initstring/cloud_enum)
+
+## Enumerating Firebase Databases
+[https://github.com/Sambal0x/firebaseEnum](https://github.com/Sambal0x/firebaseEnum)
+
+```shell
+git clone https://github.com/Sambal0x/firebaseEnum
+cd firebaseEnum
+mkvirtualenv/workon firebase-enum
+pip3 install -r requirements.txt
+```
+
+## Automate Analysis
+### MobSF
+[https://github.com/MobSF/Mobile-Security-Framework-MobSF](https://github.com/MobSF/Mobile-Security-Framework-MobSF)
+
+# Android Dynamic Analysis
+## SSL Pinning
+Methodology utilized to -->  ensure that app traffic is not being intercepted
+
+Some apps:
+- verify that the received traffic is <font color="#00b050">coming from a known cert</font>
+  =>
+  we can import a certificate
+  (but it still might not be trusted by the app)
+
+<span style="background:#fff88f">Traffic Intercept Process:</span>
+- Start proxy SW (Burp Suite)
+- Configure proxy SW
+- Set proxy on the phone/emulator
+- Intercept HTTP traffic (to check if the proxy works)
+- Import CA burp certificate into the phone
+- Trust the CA cert in the phone
+- Try to intercept HTTPS traffic
+	- If you can't:
+		- App does SSL Pinning
+		- Try to bypass it by using Frida or Objection
+
+## MOBSF
+To perform dynamic analysis with MOBSF:
+- you need an emulator without Google Play Store
+
+Follow this guide:
+https://mobsf.github.io/docs/#/dynamic_analyzer_docker?id=android-studio-emulator
+
+It allows to:
+- Bypass SSL Pinning
+- Monitor APIs
+- "Capture" https traffic (more or less)
+- Instrument the app through frida
+- Use Logcat
+
+## Burp
+In burp setup a Proxy listener on all the interfaces
+### Download and Edit the Burp Certificate
+#### Download the Burp certificate
+- Open burp and go to Settings > Proxy > Import / export CA certificate
+- Select under Export `Certificate in DER format` and save it as `cacert.der`
+
+#### Convert der in pem format
+Now we need to convert the certificate to `pem` format:
+```shell
+openssl x509 -inform DER -in cacert.der -out cacert.pem
+openssl x509 -inform PEM -subject_hash_old -in cacert.pem | head -1
+mv cacert.pem <value_returned>.0
+```
+
+### Setup BurpSuite Proxy
+Same steps described here (more or less) -->  [Configuring Burp Suite with Android and iOS](https://wikolo.securenetwork.it/en/tech/mobile/Configuring_BurpSuite_with_Android_iOS)
+=>
+
+Run the emulator:
+```shell
+ Android/Sdk/emulator/./emulator -avd Pixel_6_Pro_API_34 -writable-system
+```
+where `Pixel_6_Pro_API_34` is the Android emulator name
+
+Now:
+follow the correct steps (based on your Android Version)
+
+>[!danger]
+> For opensuse, <font color="#ff0000">DISABLE FIREWALLD</font>
+> `sudo systemctl stop firewall`
+
+#### Before Android 10
+```shell
+adb root
+adb remount
+adb push <cert>.0 /sdcard/
+adb shell
+
+# for devices with android prior to 10; otherwise, "read only file system" error is returned
+mv /sdcard/<cert>.0 /system/etc/security/cacerts/
+chown root:root /system/etc/security/cacerts/<cert>.0
+chmod 644 /system/etc/security/cacerts/<cert>.0
+reboot
+```
+
+```shell
+adb shell
+settings put global http_proxy 10.220.106.87:8080
+```
+
+>[!danger]
+> Setup Burp Proxy with the same IP specified in the previous command
+> <font color="#ff0000">Can't be localhost:</font>
+> Set it to one of your local interface
+
+Set BurpSuite proxy with the same IP (in the examle 10.220.106.87)
+
+#### Android 10+
+##### First time
+Save this script locally:
+```shell
+mount -t tmpfs tmpfs /system/etc/security/cacerts
+cp /sdcard/certificates/* /system/etc/security/cacerts/
+
+chown root:root /system/etc/security/cacerts/*
+chmod 644 /system/etc/security/cacerts/*
+chcon u:object_r:system_file:s0 /system/etc/security/cacerts/*
+```
+
+Then:
+```shell
+adb root
+adb push <cert>.0 /sdcard/
+adb push /home/simone/Desktop/PT/Unicredit/mobile/add_cacert_android10avd.sh /sdcard/add_cacert_android10avd.sh
+adb shell
+
+# we need to prepare the directory for the tmpfs
+mkdir /sdcard/certificates
+cp /system/etc/security/cacerts/* /sdcard/certificates/
+cp /sdcard/*.0 /sdcard/certificates/
+```
+
+Run the lines in the `add_cacert_android10avd.sh` script:
+```shell
+mount -t tmpfs tmpfs /system/etc/security/cacerts
+cp /sdcard/certificates/* /system/etc/security/cacerts/
+
+chown root:root /system/etc/security/cacerts/*
+chmod 644 /system/etc/security/cacerts/*
+chcon u:object_r:system_file:s0 /system/etc/security/cacerts/*
+```
+
+After each reboot:
+```shell
+adb root && adb shell sh /sdcard/add_cacert_android10avd.sh && adb shell settings put global http_proxy 10.220.106.104:8082 && echo Done!
+```
+
+>[!danger]
+> Setup Burp Proxy with the same IP specified in the previous command
+> <font color="#ff0000">Can't be localhost:</font>
+> Set it to one of your local interface
+
+#### Android 14
+[Configuring Burp Suite with Android and iOS](https://httptoolkit.com/blog/android-14-install-system-ca-certificate/)
+
+Save locally this script as `injectCA.sh`:
+change `$CERTIFICATE_PATH` with `/data/local/tmp/$CERT_HASH.0`
+
+```bash
+# Create a separate temp directory, to hold the current certificates
+# Otherwise, when we add the mount we cannott read the current certs anymore.
+mkdir -p -m 700 /data/local/tmp/tmp-ca-copy
+
+# Copy out the existing certificates
+cp /apex/com.android.conscrypt/cacerts/* /data/local/tmp/tmp-ca-copy/
+
+# Create the in-memory mount on top of the system certs folder
+mount -t tmpfs tmpfs /system/etc/security/cacerts
+
+# Copy the existing certs back into the tmpfs, so we keep trusting them
+mv /data/local/tmp/tmp-ca-copy/* /system/etc/security/cacerts/
+
+# Copy our new cert in, so we trust that too
+mv $CERTIFICATE_PATH /system/etc/security/cacerts/
+
+# Update the perms & selinux context labels
+chown root:root /system/etc/security/cacerts/*
+chmod 644 /system/etc/security/cacerts/*
+chcon u:object_r:system_file:s0 /system/etc/security/cacerts/*
+
+# Deal with the APEX overrides, which need injecting into each namespace:
+
+# First we get the Zygote process(es), which launch each app
+ZYGOTE_PID=$(pidof zygote || true)
+ZYGOTE64_PID=$(pidof zygote64 || true)
+# N.b. some devices appear to have both!
+
+# Apps inherit the Zygote's mounts at startup, so we inject here to ensure
+# all newly started apps will see these certs straight away:
+for Z_PID in "$ZYGOTE_PID" "$ZYGOTE64_PID"; do
+    if [ -n "$Z_PID" ]; then
+        nsenter --mount=/proc/$Z_PID/ns/mnt -- \
+            /bin/mount --bind /system/etc/security/cacerts /apex/com.android.conscrypt/cacerts
+    fi
+done
+
+# Then we inject the mount into all already running apps, so they
+# too see these CA certs immediately:
+
+# Get the PID of every process whose parent is one of the Zygotes:
+APP_PIDS=$(
+    echo "$ZYGOTE_PID $ZYGOTE64_PID" | \
+    xargs -n1 ps -o 'PID' -P | \
+    grep -v PID
+)
+
+# Inject into the mount namespace of each of those apps:
+for PID in $APP_PIDS; do
+    nsenter --mount=/proc/$PID/ns/mnt -- \
+        /bin/mount --bind /system/etc/security/cacerts /apex/com.android.conscrypt/cacerts &
+done
+wait # Launched in parallel - wait for completion here
+
+echo "System certificate injected"
+```
+
+Now:
+```bash
+adb push $YOUR_CERT_FILE /data/local/tmp/$CERT_HASH.0
+adb push injectCA.sh /sdcard/
+
+adb root
+adb shell
+cd /sdcard/
+sh injectCA.sh
+
+settings put global http_proxy <yourIP>:8080
+```
+
+>[!danger]
+> Setup Burp Proxy with the same IP specified in the previous command
+> <font color="#ff0000">Can't be localhost:</font>
+> Set it to one of your local interface
+
+After each reboot:
+```shell
+adb root && adb push 9a5ba575.0 /data/local/tmp/ && adb shell sh /sdcard/injectCA.sh && echo Done!
+```
+
+### Disable Proxy
+```shell
+adb shell
+settings put global http_proxy :0000
+```
+
+## Proxyman
+Intercept traffic on Mac easily 
+https://proxyman.com/
+
+Documentation -->  https://docs.proxyman.com/
+
+## Patch apps automatically using Objection
+Installing objection:
+```shell
+pip3 install frida-tools
+pip3 install objection
+```
+
+<span style="background:#fff88f">Patch apk:</span>
+```shell
+objection patchapk --source app.apk
+```
+This will:
+- Unpack the app
+- Inject Frida gadget
+- Rebuild the apk
+
+## Patch manually
+Follow this article -->  https://koz.io/using-frida-on-android-without-root/
+### Decompile the app
+- Decompile the apk
+```shell
+apktool d -r app.apk
+```
+- It will create a folder with the unpack apk
+- We will inject in `lib/arch` the frida-gadget library
+- The `arch` depends on your emulator/phone
+- In this case is an emulator with `x86-64`
+  ![[Pasted image 20250428105622.png]]
+
+### Inject Frida Gadget
+- Download from here the frida-gadget with the correct arch and version 
+  (same version as frida installed on phone and pc)
+  (https://github.com/frida/frida/releases?page=2)
+	- In this case `frida-gadget-16.7.0-android-x86_64.so`
+	  
+- `unxz frida-gadget-16.7.0-android-x86_64.so`
+- Change its name in `libfrida-gadget.so`
+- Copy it in `lib/x86_64/`
+
+### Update `smali` code
+- Open the smali folder
+- Find the smali related to the app 
+  (try to search the app name in the folder to see if you can find it)
+- In this case the folder is -->  `hu/cardinal/vica/`
+- Open an activity that you know will used -->  for example `MainActivity.smali`
+- Insert after the red rectangular the code![[Pasted image 20250428111342.png]]
+```smali
+const-string v0, "frida-gadget"
+invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
+```
+
+
+### Internet Permission
+- Check in the [[Notes_MAPT#Read Android Manifest]] if there is the INTERNET permission
+
+If not add it:
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+### Rebuild the app
+```
+apktool b app_decrypted_folder -o app-patched.apk
+```
+
+### Sign the app
+```shell
+# Create a keystore to sign the app with
+keytool -genkey -v \
+  -keystore sn.keystore \
+  -alias snkeystore \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000 \
+  -sigalg SHA256withRSA0
+# Password -->  testsn1
+
+# Fill the field and type yes
+
+# sign the APK
+jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore sn.keystore -storepass testsn1 app-patched.apk snkeystore
+
+# verify the signature you just created
+jarsigner -verify app-patched.apk
+
+# zipalign the APK
+/home/simone/Android/Sdk/build-tools/35.0.0/zipalign 4 ViCA-patched.apk ViCA-final-patched.apk
+```
+
+Now you can install it 
+
