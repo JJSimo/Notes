@@ -126,6 +126,17 @@ If an app is not signed =>  it won't run on any android device
 - frida
 - objection
 
+
+<span style="background:#fff88f">To use all the android studio integrated tools:</span> (example `zipalign`, `jarsigner`, `aapt` )
+- add in your `.zshrc`:
+  `export PATH=$HOME/Android/Sdk/build-tools/35.0.0:$PATH`
+
+## Upgrade
+- pip3 install --upgrade objection
+- pip3 install --upgrade frida
+- pip3 install --upgrade frida-tools
+- apktool --version (always make sure you are on the latest version as shown here: [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool))
+
 ## Android Studio
 ### Create a new Virtual Device
 - Open Android Studio
@@ -305,6 +316,10 @@ Use ctrl+f to search for:
 - user
 - API
 - firebase.io
+  if you find a firebase.io URL:
+	- copy the link and add to it `/.json`
+	- paste it in a browser
+	- if the response is `permission denied` => it's secure
 - SQL
 - key
 
@@ -566,7 +581,9 @@ https://proxyman.com/
 
 Documentation -->  https://docs.proxyman.com/
 
-## Patch apps automatically using Objection
+## Patch app using Objection automatically 
+https://github.com/sensepost/objection/wiki/Patching-Android-Applications
+
 Installing objection:
 ```shell
 pip3 install frida-tools
@@ -581,6 +598,14 @@ This will:
 - Unpack the app
 - Inject Frida gadget
 - Rebuild the apk
+
+<span style="background:#fff88f">If you got errors try:</span>
+To use all the android studio integrated tools:
+- add in your `.zshrc`:
+  `export PATH=$HOME/Android/Sdk/build-tools/35.0.0:$PATH`
+
+try also:
+to use -->  `--use-aapt2`
 
 ## Patch manually
 Follow this article -->  https://koz.io/using-frida-on-android-without-root/
@@ -616,7 +641,6 @@ apktool d -r app.apk
 const-string v0, "frida-gadget"
 invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
 ```
-
 
 ### Internet Permission
 - Check in the [[Notes_MAPT#Read Android Manifest]] if there is the INTERNET permission
@@ -656,4 +680,39 @@ jarsigner -verify app-patched.apk
 ```
 
 Now you can install it 
+
+## Frida CodeShare
+https://codeshare.frida.re/
+
+Ready to use script to use with frida
+
+## Database
+```shell
+adb shell
+cd /data/data/
+ls | grep appname
+cd apppackage name
+
+# Search for database files or a folder
+# Outside adb:
+adb pull /data/data/apppackage/database/dbnamr.db
+
+# Install sqlite
+sudo zypper install sqlitebrowser
+
+# Open the db with sqlite
+```
+
+# Android Recap
+- Check the Manifest using jadx [[Notes_MAPT#Read Android Manifest]]
+	- check the app permissions and all the `exported=true`
+- Check the strings and hardcoded things [[Notes_MAPT#Find Hardcoded Strings]]
+- Run MobSF [[Notes_MAPT#MobSF]]
+- Setup Burp and Proxy [[Notes_MAPT#Burp]]
+- Intercept traffic
+- Patch the app if SSL Pinning:
+	- Automatically -->  [[Notes_MAPT#Patch apps automatically using Objection]]
+	- Manually -->  [[Notes_MAPT#Patch manually]]
+- Search for database [[Notes_MAPT#Database]]
+
 
